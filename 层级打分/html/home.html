@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>首页</title>
+    
+    <link type="text/css" rel="stylesheet" href="../css/styles.css"/>
+    <script type="text/javascript" src="../js/cordova.js"></script>
+    <script type="text/javascript" src="../js/db.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript">
+    	document.addEventListener('deviceready', onDeviceReady, false);
+		
+		function onDeviceReady() {
+			document.addEventListener("backbutton", back, false);
+			$(function() {
+				clearCache();
+				showMenu();
+			});
+		}
+		
+		function clearCache() {
+			removeStore("SAMELOGINUSER");
+			removeStore("LASTSYNCDATE");
+			removeStore("USERLOGINTIME");
+			
+			removeStore("SAMEUSERDEALER");
+			removeStore("FIRSTLOGIN");
+			removeStore("CANSYNC");
+			removeStore("SYNC_code");
+			removeStore("SYNC_brand");
+			removeStore("SYNC_product");
+			removeStore("SYNC_model");
+			removeStore("SYNC_area");
+			removeStore("SYNC_template");
+			
+			removeStore("CURR_PROMPT_ID");
+			removeStore("CURR_USEDMACHINE_ID");
+			
+			removeStore("CURR_IN_MODE");
+		}
+		
+		function showMenu() {
+			ap.dbFindAll("Phone_Comm_User_Func", function(result) {
+				var bizMap = {};
+				for (var i = 0; i < result.rows.length; i++) {
+					var func = result.rows.item(i);
+					bizMap[func.bussinessNo] = 1;
+				}
+				
+				$("#menu_list li[bizno]").each(function() {
+					if (!!bizMap[this.getAttribute("bizno")] && bizMap[this.getAttribute("bizno")] == 1)
+						$(this).show();
+				});
+				
+				if (loginMode()) {
+					$("#prompt").show();
+                    $("#recordQuery").show();
+                    $("#registQuery").show();
+					setTimeout(getPromptCount(), 200);
+				} else {
+					$("#prompt, #used,#recordQuery,#registQuery").hide();
+				}
+			}, "*", "userId=" + getStore("USERID"));
+		}
+		
+		function getPromptCount() {
+			getDataFromServer("other/promptCountJson.action", null, function(json) {
+				json = eval("(" + json + ")");
+				if (!!json.promptTotal && json.promptTotal > 0) {
+					$("#prompt_total").empty().html(json.promptTotal).show();
+				} else {
+					$("#prompt_total").hide();
+				}
+			});
+		}
+    </script>
+	<div class="ui-page" id="home">
+    	<div class="ui-header ui-bar-t">
+        	<h1>首&nbsp;&nbsp;页</h1>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">退出登录</span>
+                    <span class="ui-icon ui-icon-gear ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content" style="bottom: 0;">
+        	<ul id="menu_list">
+            	<li id="apply" class="ui-li ui-hidden" bizno="1101071" onclick="window.location.href='apply/applylist.html';">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<img src="../img/apply.png" class="ui-li-img"/>
+                    	<span class="ui-li-txt no-margin">评估申请</span>
+                    </div>
+                </li>
+                <li id="report" class="ui-li ui-hidden" bizno="1101081" onclick="window.location.href='report/reportlist.html';">
+					<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<img src="../img/report.png" class="ui-li-img"/>
+                    	<span class="ui-li-txt no-margin">评估报告</span>
+                    </div>
+                </li>
+                <li id="customer" class="ui-li ui-hidden" bizno="1101061" onclick="window.location.href='customer/customerlist.html';">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<img src="../img/customer.png" class="ui-li-img"/>
+                    	<span class="ui-li-txt no-margin">客户管理</span>
+                    </div>
+                </li>
+                <li id="regist" class="ui-li ui-hidden" bizno="1102051" onclick="window.location.href='machineregist/machineregistlist.html';">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<img src="../img/regist.png" class="ui-li-img"/>
+                    	<span class="ui-li-txt no-margin">设备登记</span>
+                    </div>
+                </li>
+                <li id="used" class="ui-li ui-hidden" bizno="1109004" onclick="window.location.href='usedmachine/usedmachinelist.html';">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<img src="../img/search.png" class="ui-li-img"/>
+                    	<span class="ui-li-txt no-margin">二手机查询</span>
+                    </div>
+                </li>
+                <li id="prompt" class="ui-li ui-hidden" onclick="window.location.href='prompt/promptlist.html';">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<img src="../img/prompt.png" class="ui-li-img"/>
+                    	<span class="ui-li-txt no-margin">消息提醒</span>
+                        <span id="prompt_total" class="ui-li-count ui-corner-all ui-hidden"></span>
+                    </div>
+                </li>
+                <li id="registQuery" class="ui-li ui-hidden" bizno="1109004" onclick="window.location.href='machineResignQuery/machineregistqueryadd.html';">
+                    <div class="ui-li-wrapper-a ui-txt-inner">
+                        <img src="../img/icon_machine_resign_query.png" class="ui-li-img"/>
+                        <span class="ui-li-txt no-margin">设备验证查询</span>
+                    </div>
+                </li>
+                <li id="recordQuery" class="ui-li ui-hidden" bizno="1109004" onclick="window.location.href='machineRecordQuery/machinerecordqueryadd.html';">
+                    <div class="ui-li-wrapper-a ui-txt-inner">
+                        <img src="../img/icon_machine_record_query.png" class="ui-li-img"/>
+                        <span class="ui-li-txt no-margin">设备销售履历查询</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</body>
+</html>

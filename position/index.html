@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+		body{
+			width: 1000px;
+			margin: 0 auto;
+		}
+		.left,.right{
+			position: relative;/*相对定位*/
+			height: 200px;
+		}
+		.left{
+			float: left;
+			width: 50%;
+			border-right:solid 3px #f20;
+		}
+		.right{
+			float: right;
+			width: 50%;
+			border-left:solid 3px #f20;
+		}
+		.img{
+			position: absolute;/*绝对定位*/
+			top: 53px;
+			width: 100px;
+			height: 100px;
+			border: solid 3px #02f;
+		}
+		.left .img{
+			right: -53px;
+		}
+		.right .img{
+			left: -53px;
+		}
+		.content{
+			width: 300px;
+			height: 180px;
+			border: solid 3px #2f0;
+		}
+	</style>
+	<body>
+		<div class="left">
+			<div class="img">
+				
+			</div>
+			<div class="content">
+				
+			</div>
+		</div>
+		<div class="right">
+			<div class="img">
+				
+			</div>
+		</div>
+		<script>
+		/**
+		 * 这是个奇葩的方法，没卵用
+		 * @param {Number} a 啥啥数
+		 * @param {Number} b 啥啥数
+		 * @param {Number} c 啥啥数
+		 * @param {Number} d 啥啥数
+		 * @return {Number} 返回两数
+		 */
+			function test(a,b,c,d){
+				return a + b,c + d;
+			}
+		</script>
+	</body>
+</html>

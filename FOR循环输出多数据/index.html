@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var data=[
+				{
+					name:"型号",
+					value:"1"
+				},{
+					name:"型号",
+					value:"2"
+				},{
+					name:"型号",
+					value:"3"
+				},{
+					name:"型号",
+					value:"4"
+				},{
+					name:"颜色",
+					value:"5"
+				},{
+					name:"颜色",
+					value:"6"
+				}			,{
+					name:"颜色",
+					value:"7"
+				},{
+					name:"颜色",
+					value:"8"
+				}
+			]
+				
+			
+		</script>
+	</head>
+	<body>
+	<div class="data">
+	<h1>型号</h1>
+		<ul>
+			<li>1</li><li>2</li><li>3</li>
+		</ul>
+	</div>
+	
+	<div class="data">
+	<h1>颜色</h1>
+		<ul>
+			<li>1</li>
+		</ul>
+	</div>
+	<a href="http://www.baidu.com/">aaa</a>
+<script type="text/javascript">
+	var nowName = "",html="";
+	
+	for (var i = 0; i < data.length; i++) {
+		if(data[i].name != nowName){
+			if( i != 0){
+				html+='</ul></div>'
+			}
+			nowName = data[i].name;
+			html += '<div class="data"><h1>'+ data[i].name +'</h1><ul>';
+			
+		}
+		html+='<li>'+data[i].value+'</li>';
+	}
+	//$("body").html(html);
+	$("a").click(function(e){
+		console.log(e);
+		e.preventDefault();
+	})
+</script>
+	</body>
+</html>

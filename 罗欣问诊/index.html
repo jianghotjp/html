@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/pure/base-min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/pure/grids-min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body class="index">
+		<!--头部-->
+		<div class="header">
+			<div class="pure-g wrap b-center">
+				<div class="pure-u-1-2 logo clearfix">
+					<a href="#">
+						<img src="images/logo.png" alt="" />
+						<img class="ml-5" src="images/logo_slogan.png"/>
+					</a>
+				</div>
+				<div class="pure-u-1-2">
+					<ul class="link-list clearfix">
+						<li class="pure-u-1-6 med-icon ml-5 fr"><a href="#">药师登陆</a></li>
+						<li class="pure-u-1-6 doc-icon ml-5 fr"><a href="#">医师登陆</a></li>
+						<li class="pure-u-1-6 log-icon ml-5 fr"><a href="#">登陆</a>/<a href="#">注册</a></li>
+						<li class="pure-u-1-6 sch-icon ml-5 fr"><a href="#">药品查询</a></li>
+						<li class="pure-u-1-6 near-icon ml-5 fr"><a href="#">附近药店</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!--main-->
+		<div class="main">
+			<ul id="scene" class="scene">
+				<li class="layer" style="background: url(images/index_banner.jpg) center bottom no-repeat;" data-depth="0.00">
+				</li>
+				<li class="layer" data-depth="0.80">
+					<div class="pure-g index-banner-slider">
+						<div class="pure-u-1-2">
+							<a href="#">
+								<div class="font-content pure-u-2-3 dis-block link0-icon fr">
+									<h2>药品咨询</h2>
+									<p>在线医生为您答疑解惑，帮您实现在线诊疗。</p>
+								</div>
+							</a>
+						</div>
+						<div class="pure-u-1-2">
+							<a href="#">
+								<div class="font-content pure-u-2-3 dis-block link1-icon fl">
+									<h2>求医问药</h2>
+									<p>高级、专业的药师为您提供药品咨询服务。</p>
+								</div>
+							</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+			
+		</div>
+		<div class="footer">
+			<div class="wrap b-center">
+				 Copyright&copy;2006-2016   山东罗欣药业集团股份有限公司　|　版权所有　　[鲁ICP备13016487号-1]  互联网药品信息服务资格证编号：（鲁）-非经营性-2011-0033　　　　　　　　　　　　　　　<a href="http://www.jerei.com">捷瑞数字</a> 　　制作维护
+				
+			</div>
+
+		</div>
+		<script src="js/jquery.parallax.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$('#scene').parallax({
+				calibrateX: false,
+				calibrateY: false,
+				invertX: true,
+				invertY: true,
+				limitX: false,
+				limitY: false,
+				scalarX: 5,
+				scalarY: 0,
+				frictionX: 0.1,
+				frictionY: 0
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>合作社信息发布</title>
+		<script type="text/javascript" src="../resources/js/muiInit_server.js"></script>
+		<link href="../resources/css/mui/mui.picker.css" rel="stylesheet" />
+		<link href="../resources/css/mui/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../resources/css/mui/mui.picker.min.css" />
+		<script src="../resources/js/mui/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../resources/js/mui/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="work-form">
+		<header id="header" class="mui-bar mui-bar-nav trans">
+			<a class="mui-pull-left c-fff" href="user_msg.html"><i class="iconfont icon-left c-fff fs-20"></i></a>
+			<h1 class="mui-title c-fff">合作社信息发布</h1>
+			<a class="mui-pull-right c-fff" href="user_msg.html"><span class="fs-10 c-fff">保存</span></a>
+		</header>
+		<div class="machine-content">
+			<div class="work-slide">
+				<div id="segmentedControl" class="mui-segmented-control">
+					<a class="mui-control-item mui-active" href="#item1">
+				合作社信息
+			</a>
+					<a class="mui-control-item" href="#item2">
+				设备信息
+			</a>
+				</div>
+			</div>
+			<div id="item1" class="mui-control-content mui-active">
+				<ul class="mui-table-view fs-13">
+					<li class="mui-table-view-cell edit">
+						<span class="js-name">合作社名称（必填）</span>
+						<span class="js-value fr c-3b97f1" style="margin-right: 15px;"></span>
+					</li>
+					<li class="mui-table-view-cell" id="showCityPicker3">
+						<span class="js-name">所在地</span>
+						<span class="fr c-3b97f1" id="cityResult3" style="margin-right: 15px;"></span>
+					</li>
+					<li class="mui-table-view-cell js_pickDateBtn" data-options='{"type":"date","beginYear":2014,"endYear":2016}'>
+						<span class="js-name">成立时间</span>
+						<span class="js-time fr c-3b97f1" style="margin-right: 15px;"></span>
+					</li>
+					<li class="mui-table-view-cell edit">
+						<span class="js-name">成员数量</span>
+						<span class="js-value fr c-3b97f1" style="margin-right: 15px;"></span>
+					</li>
+					<li class="mui-table-view-cell edit">
+						<span class="js-name">设备数量</span>
+						<span class="js-value fr c-3b97f1" style="margin-right: 15px;"></span>
+					</li>
+				</ul>
+				<ul class="mui-table-view fs-13" style="margin-top: 8px;">
+					<li class="mui-table-view-cell edit">
+						<span class="js-name">联系人（必填）</span>
+						<span class="js-value fr c-3b97f1" style="margin-right: 15px;"></span>
+					</li>
+					<li class="mui-table-view-cell edit">
+						<span class="js-name">联系电话（必填）</span>
+						<span class="js-value fr c-3b97f1" style="margin-right: 15px;"></span>
+					</li>
+				</ul>
+			</div>
+			<div id="item2" class="mui-control-content">
+				
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			$(".edit").bind("tap",function () {
+				var name = $(this).find(".js-name").html();
+				var btnArray = ['取消', '确定'];
+				var value = $(this).find(".js-value")
+				mui.prompt("请输入"+name+"：", name, "填写信息", btnArray, function(e) {
+					if (e.index == 1 && !e.value=="") {
+						value.html(e.value);
+					}
+				});
+			});
+			(function($,jQuery) {
+				$.init();
+				var btns = $(".js_pickDateBtn");
+				btns.each(function(i, btn) {
+					var result = jQuery(this).find(".js-time");
+					btn.addEventListener('tap', function() {
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						/*
+						 * 首次显示时实例化组件
+						 * 示例为了简洁，将 options 放在了按钮的 dom 上
+						 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+						 */
+						var picker = new $.DtPicker(options);
+						picker.show(function(rs) {
+							/*
+							 * rs.value 拼合后的 value
+							 * rs.text 拼合后的 text
+							 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+							 * rs.m 月，用法同年
+							 * rs.d 日，用法同年
+							 * rs.h 时，用法同年
+							 * rs.i 分（minutes 的第二个字母），用法同年
+							 */
+							result.html(rs.text);
+							/* 
+							 * 返回 false 可以阻止选择框的关闭
+							 * return false;
+							 */
+							/*
+							 * 释放组件资源，释放后将将不能再操作组件
+							 * 通常情况下，不需要释放组件，new DtPicker(options) 后，可以一直使用。
+							 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+							 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+							 */
+							picker.dispose();
+						});
+					}, false);
+				});
+			})(mui,jQuery);
+			$(function(){
+				var cityPicker3 = new mui.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = document.getElementById('showCityPicker3');
+					var cityResult3 = document.getElementById('cityResult3');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker3.show(function(items) {
+							cityResult3.innerText = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+			});
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../resources/css/mui/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../resources/css/mui/iconfont.css"/>
+    <link href="../resources/css/ec/tmpl1.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../resources/js/muiInit.js"></script>
+    <script type="text/javascript" src="js/sort.js"></script>
+</head>
+<body class="sort">
+	<header id="header" class="mui-bar mui-bar-nav trans">
+		<h1 class="mui-title"><input type="search" name="" id="" value="" placeholder="搜索商品/店铺关键词" /></h1>
+		<a class="mui-pull-right c-fff" href="#"><i class="iconfont icon-msg c-fff fs-20"></i></a>
+	</header>
+		<div class="sort-list">
+			<div class="sort-left fl">
+				<ul>
+        		<li class="on"><a href="#">推荐分类</a></li>
+        		<li><a href="#">整机</a></li>
+        		<li><a href="#">二手机</a></li>
+        		<li><a href="#">服务</a></li>
+        		<li><a href="#">租赁</a></li>
+				<li><a href="#">再制造</a></li>
+				<li><a href="#">整机</a></li>
+        		<li><a href="#">二手机</a></li>
+        		<li><a href="#">服务</a></li>
+        		<li><a href="#">租赁</a></li>
+				<li><a href="#">再制造</a></li>
+				<li><a href="#">整机</a></li>
+        		<li><a href="#">二手机</a></li>
+        		<li><a href="#">服务</a></li>
+        		<li><a href="#">租赁</a></li>
+				<li><a href="#">再制造</a></li>
+				<li><a href="#">整机</a></li>
+        		<li><a href="#">二手机</a></li>
+        		<li><a href="#">服务</a></li>
+        		<li><a href="#">租赁</a></li>
+				<li><a href="#">再制造</a></li>
+				<li><a href="#">整机</a></li>
+        		<li><a href="#">二手机</a></li>
+        		<li><a href="#">服务</a></li>
+        		<li><a href="#">租赁</a></li>
+				<li><a href="#">再制造</a></li>
+        	</ul>
+			</div>
+			<div class="sort-right clearfix fr">
+				<ul>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+	        		<li><a href="goods_list.html"><img src="../resources/img/ec/tmpl1/product_img.png"/><h1>分类名</h1></a></li>
+        		</ul>
+			</div>
+		</div>
+	<!--底部-->
+	<footer class="bottom-nav">
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" href="index.html">
+				<span class="mui-icon iconfont icon-shouye"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item mui-active" href="sort.html">
+				<span class="mui-icon iconfont icon-fenlei"></span>
+				<span class="mui-tab-label">分类</span>
+			</a>
+			<a class="mui-tab-item" href="goods_cart.html">
+				<span class="mui-icon iconfont icon-cart"><span class="mui-badge">9</span></span>
+				<span class="mui-tab-label">购物车</span>
+			</a>
+			<a class="mui-tab-item" href="user_center.html">
+				<span class="mui-icon iconfont icon-wode"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+	</footer>
+</body>
+</html>

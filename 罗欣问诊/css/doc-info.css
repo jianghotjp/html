@@ -1,0 +1,104 @@
+@charset "utf-8";
+/*内容*/
+.main{
+	position: relative;
+	background: #fff;
+}
+._main-bg{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 50%;
+	height: 100%;
+	background: #daf9e4;
+	z-index: 1;
+}
+.main > .wrap{
+	position: relative;
+	z-index: 2;
+}
+.doc-doctor-info{
+	width: 345px;
+	padding-top: 66px;
+	padding-bottom:20px;
+	background-color: transparent;
+	text-align: center;
+}
+.doc-doctor-info .doctor-img{
+	display: block;
+	margin: 0 auto;
+	width: 195px;
+	height: 195px;
+	border-radius: 50%;
+	overflow: hidden;
+	border:solid 2px #0cb95f
+}
+.doc-doctor-info h3{
+	display: inline-block;
+	font-size: 26px;
+	line-height: 80px;
+	color: #03942d;
+	font-weight: normal;
+}
+.doc-doctor-info .info-list{
+	width: 220px;
+	margin: 0 auto;
+}
+.doc-doctor-info .info-list dl{
+	font-size: 16px;
+	color: 545555;
+}
+.doc-doctor-info .info-list dl.cutline{
+	padding-top: 10px;
+	padding-bottom: 20px;
+	margin-top: 10px;
+	border-top: solid 1px #ceebd7;
+}
+.doc-doctor-info .info-list dl dt{
+	color: #f76d08;
+}
+.doc-doctor-info .info-list dl dd{
+	text-align: left;
+}
+.doc-doctor-info .ask-btn{
+	display: block;
+	margin: 0 auto;
+	width: 183px;
+	height: 48px;
+	line-height: 48px;
+	background: #11cb68;
+	border: solid 1px #11cb68;
+	color: #fff;
+	font-size: 18px;
+}
+.doc-doctor-info .ask-btn:hover{
+	background: #16b05e;
+	box-shadow: 0 0 1px #16b05e;
+}
+.doc-doctor-info .more-option{
+	width: 185px;
+	margin: 0 auto;
+}
+.doc-doctor-info .more-option div{
+	line-height: 35px;
+	text-align: center;
+}
+.doc-doctor-info .more-option div img{
+	vertical-align: middle;
+}
+.doc-doctor-mation{
+	width: 855px;
+	min-height: 650px;
+	padding-top: 66px;
+	padding-bottom:20px;
+	background: #fff;
+	height: 100%;
+}
+.doc-doctor-mation .breadcrumb{
+	text-align: right;
+}
+.doc-doctor-mation .doc-doctor-mation-content{
+	position: relative;
+	padding: 35px 0 80px 50px;
+	background: url(../images/seal_icon.png) right bottom no-repeat;
+}

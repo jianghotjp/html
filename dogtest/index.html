@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="author" content=""/>
+		<meta name="keywords" content=""/>
+		<meta name="description" content=""/>
+		<script src = "https://cdn.wilddog.com/js/client/current/wilddog.js" ></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function login(href){
+				var username = $("form").find("[name=username]").val(),
+					password = $("form").find("[name=password]").val(),
+					testuser = false;
+					//TODO:现有的user数据全取前台不安全
+				for(var i in user){
+					if (user[i].name == username) {
+						testuser = true;
+						if (user[i].password == password) {
+							ref.child("user/" + i + "/isonline").set("1");
+							window.location.href = href + "?user=" + i + "&username=" + user[i].name;
+						} else{
+							alert("密码好像不对，再猜猜？");
+							return;
+						}
+					}
+				}
+				if(!testuser){
+					alert("用户名都不记得了？")
+				}
+			}
+			function dataReady(){
+				$("#login").bind("click",function(){
+					var href = "http://" + location.hostname + ":" + location.port + vars.root + "/chart.html";
+					login(href);
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<h1></h1>
+		<form onsubmit="return false;">
+			<input type="text" name="username" id="" value="" />
+			<input type="password" name="password" id="" value="" />
+			<button id="login">登陆</button>
+		</form>
+		
+		
+	</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>内容编辑demo</title>
+	</head>
+	<script type="text/javascript" charset="utf-8" src="../editor/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../editor/ueditor/ueditor.all.js"></script>
+	<link rel="stylesheet" type="text/css" href="../editor/ueditor/themes/default/ueditor.css" />
+
+	<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+
+	<body style="height: 2000px">
+		<div style="margin-top: 1000px;">
+			
+		</div>
+		<div class="bulabula" style="width: 500px;">
+			
+			<div class="help-body" id="help-body" style="width:100%">
+
+				<div class="contxt">
+					<!--<div class="help-tit1 flk06">货到付款区域</div>-->
+					<p style="margin-left: 24px;">
+						<span style="font-family: 宋体; font-size: 12px;"></span>
+					</p>
+					<div style="margin: 0px; padding: 10px 10px 10px 20px; color: rgb(102, 102, 102); line-height: 18px; font-family: Arial, Verdana, 宋体; font-size: 12px; white-space: normal; background-color: rgb(255, 255, 255);" class="help_box">
+						<div style="margin: 0px 0px 10px; padding: 10px; border: 1px solid rgb(229, 229, 229);" class="help_zybox">
+							<p><span style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">
+	<strong><span style="color: rgb(0, 0, 0); font-size: 16px;">服务说明</span></strong>
+								</span>
+							</p>
+							<p><span style="color: rgb(0, 0, 0);">由于业务发展变化、行政区域更名等因素，货到付款区域，可能会不时有扩大、变更或调整，具体区域请以最新确认为准</span></p>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<div class="editor" style="display: none;">
+			<script type="text/plain" id="content" name="content" ></script>
+			<a href="javascript:void(0);" onclick="doneedit();">编辑完成</a>
+		</div>
+		
+		<script>
+					
+			var ue = new UE.ui.Editor();
+			  ue.render("content");
+			  ue.addListener("selectionchange",function(){
+			 });
+		/**
+		* 创建接口对象
+		* @param codeName 标签ID
+		* @result editedCode 输出数据
+		*/
+			codeName="#help-body"
+
+			//console.log($(codeName).html());
+				function editorBlock() {
+					UEwidth=$(codeName).parent().width();
+					UEheight=$(codeName).parent().height();
+					UEoffset=$(codeName).parent().offset();
+					console.log(UEwidth,UEheight,UEoffset.top)
+					if($("body").find(".blockwarp").length){
+						$(".blockwarp").remove();
+						$("body").append("<div class='blockwarp' style='width: 1px; height: 1px; position: absolute; left: 0;top: 0;'><div class='editing' style='width:"+UEwidth+"px;height:"+UEheight+"px;position:absolute;top:"+UEoffset.top+"px;left:"+UEoffset.left+"px;box-sizing:border-box;border:solid 2px #fc0;'><a onclick='editing();' href='javacsript:void(0)'>修改内容</a></div></div>")
+					}else{
+					$("body").append("<div class='blockwarp' style='width: 1px; height: 1px; position: absolute; left: 0;top: 0;'><div class='editing' style='width:"+UEwidth+"px;height:"+UEheight+"px;position:absolute;top:"+UEoffset.top+"px;left:"+UEoffset.left+"px;box-sizing:border-box;border:solid 2px #fc0;'><a onclick='editing();' href='javacsript:void(0)'>修改内容</a></div></div>")
+					}
+				}
+
+				function editing(){
+					codeContent=$(codeName).html();
+					$(codeName).html("").slideUp();
+					ue.setContent(ue.getContent()+codeContent);
+					$(".editor").width(UEwidth).slideDown();
+
+							
+				}
+				function doneedit(){
+					editContent=ue.getContent();
+					//console.log(editContent);
+					$(".editor").hide(ue.setContent(""));
+					$(codeName).html(editContent).show();
+					setTimeout(editorBlock(),1000,0)
+					
+				}
+
+				$(document).ready(function () {
+					UEwidth=$(codeName).parent().width();
+					UEheight=$(codeName).parent().height();
+					UEoffset=$(codeName).parent().offset();
+					console.log(UEwidth,UEheight,UEoffset.top)
+					$("body").append("<div class='blockwarp' style='width: 1px; height: 1px; position: absolute; left: 0;top: 0;'><div class='editing' style='width:"+UEwidth+"px;height:"+UEheight+"px;position:absolute;top:"+UEoffset.top+"px;left:"+UEoffset.left+"px;box-sizing:border-box;border:solid 2px #fc0;'><a onclick='editing();' href='javacsript:void(0)'>修改内容</a></div></div>")
+				})
+		</script>
+	</body>
+
+</html>

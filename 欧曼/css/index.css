@@ -1,0 +1,405 @@
+@charset "utf-8";
+/*首页*/
+.banner{
+	height: 400px;
+}
+.banner .content{
+	position:relative;
+	height: 0;
+	z-index:9999;
+}
+.banner .content ul.banner-btn{
+	position: absolute;
+	top: 40px;
+	width: 233px;
+	height: 272px;
+	background: #323737;
+}
+.banner .content ul.banner-btn li{
+	width: 233px;
+	height: 68px;
+	background: url(../images/banner_arr.png) 196px center no-repeat;
+}
+
+.banner .content ul.banner-btn a{
+	display: block;
+	width: 233px;
+	height: 68px;
+	line-height: 68px;
+	text-align: center;
+	text-indent: 40px;
+	color: #fff;
+	font-size: 20px;
+	border-top: solid 1px #525555;
+}
+.banner .content ul.banner-btn a:hover{
+	background-color: #111;
+}
+.banner .content ul.banner-btn a.banner-buy{
+	background-image: url(../images/banner_buy.png);
+	background-position: 50px center;
+	background-repeat:no-repeat;
+}
+.banner .content ul.banner-btn a.banner-sell{
+	background-image: url(../images/banner_sell.png);
+	background-position: 50px center;
+	background-repeat:no-repeat;
+}
+.banner .content ul.banner-btn a.banner-change{
+	background-image: url(../images/banner_change.png);
+	background-position: 50px center;
+	background-repeat:no-repeat;
+}
+.banner .content ul.banner-btn a.banner-assess{
+	background-image: url(../images/banner_assess.png);
+	background-position: 50px center;
+	background-repeat:no-repeat;
+}
+.banner .content ul.banner-btn li:first-child{
+	border: 0 none;
+}
+#full-screen-slider {
+	width: 100%;
+	height: 400px;
+	float: left;
+	position: relative
+}
+#slides {
+	display: block;
+	width: 100%;
+	height: 400px;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: relative
+}
+#slides li {
+	display: block;
+	width: 100%;
+	height: 100%;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute
+}
+#slides li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-indent: -9999px
+}
+#pagination {
+	display: block;
+	list-style: none;
+	position: absolute;
+	left: 50%;
+	bottom: 10px;
+	z-index: 9900;
+	padding: 5px 15px 5px 0;
+	margin: 0
+}
+#pagination li {
+	display: block;
+	list-style: none;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	float: left;
+	margin-left: 7px;
+	border-radius: 10px;
+	background: #222;
+}
+#pagination li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	color: #7f7f7f;
+}
+#pagination li.current {
+	background: #0062a8
+}
+#pagination li.current a {
+	color: #fff;
+}
+.hot-link{
+	margin-top: 12px;
+}
+.hot-link ul li{
+	float: left;
+	_display:inline;
+	width: 274px;
+	height: 152px;
+	margin-left: 10px;
+	
+}
+.hot-link ul li:first-child{
+	margin: 0;
+}
+
+/*hot-link_end*/
+
+.used-car,.activity,.service{
+	margin-top: 36px;
+} 
+.used-car .used-car-left{
+	width: 764px;
+	height: 310px;
+}
+.used-car .used-car-left .title,.used-car .used-car-right .title,.activity .title,.buy-info .title,.service .title{
+	height: 52px;
+	line-height: 52px;
+	font-size: 24px;
+	font-weight: bold;
+}
+.title a.more{
+	font-size: 14px;
+	color: #555;
+	font-weight: normal;
+}
+.title a.more:hover{
+	color: #333;
+}
+.used-search{
+	position: relative;
+	width: 762px;
+	border: solid 1px #f4f4f4;
+}
+.used-search .subform{
+	position: absolute;
+	right: 16px;
+	bottom: 10px;
+	display: block;
+	color: #fff;
+	width: 92px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	
+	background: #2c383a;
+	
+}
+.used-search .subform:hover{
+	background: #74878a;
+}
+.used-search dl{
+	height: 51px;
+	line-height: 50px;
+}
+.used-search dl dt{
+	float: left;
+	width: 163px;
+	height: 50px;
+	line-height: 50px;
+	text-indent: 20px;
+	color: #fff;
+	background: #2c383a;
+	overflow: hidden;
+	border-top: solid 1px #545e5f;
+}
+.used-search dl dt:first-child{
+	border-top: 0 none;
+}
+.used-search dl dd{
+	float: left;
+	width: 558px;
+	padding: 0 20px;
+	border-top: solid 1px #f4f4f4;
+	border-left: solid 1px #f4f4f4;
+}
+.used-search dl dd select.auman-ipt-slt-large{
+	display: block;
+	float: left;
+	margin-top: 11px;
+	margin-right: 15px;
+}
+.used-search dl dd ul li{
+	cursor:pointer;
+	float: left;
+	padding: 0 10px;
+	margin-top: 15px;
+	min-width:26px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	border: solid 1px #fff;
+}
+.used-search dl dd ul li:hover{
+	border: solid 1px #0062a8;
+}
+.used-search dl dd ul li.on{
+	color: #fff;
+	background: #0062a8;
+}
+/*used-car-left_end*/
+.used-car-right{
+	width: 316px;
+	height: 310px;
+}
+.used-car-right .used-assess{
+	padding: 10px 20px;
+	width: 276px;
+	height: 240px;
+	background: #f4f4f4;
+}
+.used-car-right .used-assess ul.assess-control li{
+	float: left;
+	width: 86px;
+	height: 23px;
+	font-size: 16px;
+	line-height: 23px;
+	text-align: center;
+	margin-left: 6px;
+	padding-bottom: 10px;
+}
+.used-car-right .used-assess ul.assess-control li:first-child{
+	margin: 0;
+}
+.used-car-right .used-assess ul.assess-control li.on{
+	color: #0062a8;
+	background: url(../images/used_assess_li_bg.gif) center bottom no-repeat;
+}
+.used-car-right .used-assess .assess-content select{
+	margin-top:10px ;
+}
+.used-car-right .used-assess .assess-content dl dt,.used-car-right .used-assess .assess-content dl dd{
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+}
+.used-car-right .used-assess .assess-content dl dt{
+	width: 65px;
+}
+.used-car-right .used-assess .assess-content dl dd{
+	width: 210px;
+	font-size: 12px;
+	background: #fff;
+}
+.used-car-right .used-assess .assess-content dl dd input{
+	width: 160px;
+	height: 30px;
+	line-height: 30px;
+	border: 0 none;
+	padding-left: 10px;
+}
+.used-car-right .used-assess .assess-content .used-assess-sub{
+	width: 276px;
+	height: 42px;
+	margin-top: 10px;
+	background: #0062a8;
+	border: 0 none;
+	color: #fff;
+	font-family: "微软雅黑";
+}
+.used-car-right .used-assess .assess-content .used-assess-sub:hover{
+	background: #5fa0cd;
+}
+
+/*活动专区*/
+.activity .activity-content ul li{
+	float: left;
+	width: 240px;
+	height: 355px;
+	margin-left: 55px;
+}
+.activity .activity-content ul li:first-child{
+	margin: 0;
+}
+.activity .activity-content ul li img{
+	width: 240px;
+	height: 240px;
+}
+.activity .activity-content ul li h3{
+	margin-top: 10px;
+	line-height: 24px;
+}
+.activity .activity-content ul li p{
+	color: #555;
+	line-height: 24px;
+}
+.activity .activity-content ul li span{
+	line-height: 40px;
+}
+
+/*求购信息*/
+.buy-info .buy-info-left{
+	width: 765px;
+}
+.buy-info table{
+	width: 763px;
+	border: solid 1px #f4f4f4;
+}
+.buy-info table tr{
+	border-bottom: solid 1px #f4f4f4;
+}
+.buy-info table tr th{
+	background: #2c383a;
+	color: #fff;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+.buy-info table tr th.th1{
+	width:225px;
+	
+}
+.buy-info table tr th.th2{
+	width:170px;
+	
+}
+.buy-info table tr th.th3{
+	width: 150px;
+}
+.buy-info table tr th.th4{
+	width: 180px;
+}
+.buy-info table tr td{
+	cursor: pointer;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+}
+.buy-info .buy-info-right{
+	width: 316px;
+}
+.buy-info .buy-info-right .buy-info-right-content{
+	width: 276px;
+	height: 275px;
+	padding: 10px 20px;
+	background: #f4f4f4;
+}
+.buy-info .buy-info-right .buy-info-right-content input.auman-ipt-text{
+	display: block;
+	margin: 25px auto 0;
+	width: 195px;
+	height: 50px;
+	line-height: 50px;
+	border: 0 none;
+	padding:0 20px;
+	color: #777;
+}
+.buy-info .buy-info-right .buy-info-right-content input.auman-ipt-text:focus{
+	color: #333;
+}
+.buy-info .buy-info-right .buy-info-right-content input.auman-ipt-sub-assess{
+	display: block;
+	color: #fff;
+	margin: 30px auto 0;
+	font-family: "微软雅黑";
+}
+
+/*增值服务*/
+.service .service-content ul li{
+	float: left;
+	width: 175px;
+	height: 120px;
+	margin-left: 14px;
+}
+.service .service-content ul li img{
+	width: 175px;
+	height: 120px;
+}
+

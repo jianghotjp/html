@@ -1,0 +1,129 @@
+@charset "utf-8";
+/*css reset code */
+
+/*body {
+	font: 12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+} 
+html>body {
+	font: 12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+}*/
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+img, object, video, embed{
+	display:block;
+	/*max-width:100%*/
+}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,input,ol,ul {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+}
+ol,ul {
+	list-style: none;
+}
+blockquote,q {
+	quotes: none;
+}
+blockquote:before,blockquote:after,q:before,q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* start editing from here */
+
+a {
+	text-decoration: none;
+}
+.txt-rt {
+	text-align: right;
+}
+/* text align right */
+
+.txt-lt {
+	text-align: left;
+}
+/* text align left */
+
+.txt-center {
+	text-align: center;
+}
+/* text align center */
+
+.fr {
+	float: right;
+	_display:inline;
+}
+/* float right */
+
+.fl {
+	float: left;
+	_display:inline;
+}
+/* float left */
+
+.clr {
+	clear: both;
+}
+/* clear float */
+.clearfix {
+	*zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	line-height: 0;
+	content: "";
+}
+.clearfix:after {
+	clear: both;
+}
+.pos-relative {
+	position: relative;
+}
+/* Position Relative */
+
+.pos-absolute {
+	position: absolute;
+}
+/* Position Absolute */
+
+.vertical-base {
+	vertical-align: baseline;
+}
+/* vertical align baseline */
+
+.vertical-top {
+	vertical-align: top;
+}
+/* vertical align top */
+a{
+	transition: all .3s;
+}
+a{blr:expression(this.onFocus=this.blur())}
+:focus{outline:0;}
+/* Add 5px bottom padding and a underline */
+/*app mobile
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+	color: #f1f9fa;
+}
+html,body {
+	max-width: 640px;
+	margin: 0 auto;
+	box-shadow: 0 -15px 18px #8B8B8B;
+}
+*/
+/* reset */

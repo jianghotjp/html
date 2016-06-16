@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+.phar-title{
+	padding-top: 20px;
+}
+.more-option{
+	width: 185px;
+	margin: 0 auto;
+}
+.more-option div{
+	line-height: 35px;
+	text-align: center;
+}
+.more-option div img{
+	vertical-align: middle;
+}
+.phar-title .tit{
+	font-size: 24px;
+	color: #3c3c3c;
+}
+.phar-title .more-option{
+	margin-top: 8px;
+	color: #bdbdbd;
+}
+.phar-title .more-option a{
+	color: #bdbdbd;
+}
+.phar-title .ask-btn{
+	display: block;
+	margin-left: 20px;
+	width: 160px;
+	height: 43px;
+	line-height: 43px;
+	border-radius: 5px;
+	text-indent: 60px;
+	color: #0cb95f;
+	font-size: 18px;
+	border: solid 1px #0cb95f;
+	background: transparent url(../images/green_ask_btn.png) 25px center no-repeat;
+}
+.phar-title .ask-btn:hover{
+	background-color: #e3faee
+}
+.breadcrumb{
+	margin-top: 8px;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="font/jdb-icon.css"/>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			ul{
+				width: 100%;
+				height: auto;
+			}
+			ul li{
+				float: left;
+				width: 60px;
+				height: 60px;
+				margin: 5px 0 0 5px;
+			}
+			a.jdb-icon{
+				display: block;
+				float: left;
+				width: 50px;
+				height: 50px;
+				margin: 5px;
+				line-height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				border: solid 1px #e3e3e3;
+				color: #737383;
+				font-size: 32px;
+				transition: all .2s;
+			}
+			a.jdb-icon:hover{
+				background: #d7e9fd;
+				color: #333;
+				border-color: #d7e9fd;
+				box-shadow: 0 0 4px #5FA9FC;
+			}
+			a.jdb-icon.on{
+				background: #fff;
+				color: #5fa9fc;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="" method="post">
+			<input type="hidden" name="" id="" value="" />
+		</form>
+		<ul>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe600;" href="#">&#xe600;</a></li>
+			<li><a class="jdb-icon" data-icon="&#xe601;" href="#">&#xe601;</a></li>
+		</ul>
+		<a class="todo jdb-icon" href="#"></a>
+		<script type="text/javascript">
+		
+			$(function(){
+				var inp = $("input");
+				$("a.jdb-icon").click(function(){
+					$("a.jdb-icon").removeClass("on");
+					$(this).hasClass("on") || $(this).addClass("on");
+					inp.val($(this).attr("data-icon"));
+					$("a.todo").text($(this).attr("data-icon"));
+				})
+			})
+		</script>
+	</body>
+</html>

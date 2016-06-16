@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>新建联系人</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/datepicker.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="../../js/app/customer.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    <script type="text/javascript">
+	document.addEventListener('deviceready', function() {
+    	$(function(){
+	    	$("#birthday").Zebra_DatePicker();
+	    	$("#custId").val(getStore("CURR_CUST_ID"));
+	    	loadContactCode();
+	    	loadContactEditData();
+	    	applyScroll(".scroll-wrapper", false);
+	    });
+	});
+		
+		function submitServer() {
+			var mode = getStore("CURR_IN_MODE");
+			if(!!mode && mode == 0) {
+				dismissSavePop();
+				alertMsg("提交联系人到服务器前，请先提交客户信息!");
+				return;
+			}
+			if (validateContact()) {
+				showPageLoading();
+				checkboxHandler();
+				var paramObj = form2Obj();
+				paramObj["en.sex"] == 1 ? paramObj["en.sex"] = true : paramObj["en.sex"] = false;
+				blockedPostData('customer/relationSubmit.action', paramObj, function(json) {
+					if (!!getStore("CURR_CUST_CONTACT_ID")) {
+						ap.dbDelete("Phone_Co_Cust_Contact", { "_id" : getStore("CURR_CUST_CONTACT_ID") }, function() {
+							toast("保存成功", 3000);
+							hidePageLoading();
+							backFromSave();
+						});
+					} else {
+						toast("保存成功", 3000);
+						hidePageLoading();
+						backFromSave();
+					}
+				});
+			}
+		}
+		
+		function saveDraft() {
+			if (validateContact()) {
+				showPageLoading();
+				checkboxHandler2();
+				var obj = translateDraft(getParameterDraft4Contact(), false);
+				var contactHandPhone = obj.handPhone;// 保存数据后最好不要使用，在保存之前COPY一份出来
+				if (!!getStore("CURR_CUST_CONTACT_ID")) {
+					// 编辑联系人，如果是主联系人跳过，如果是非主联系人，更改为主联系人，原先的主联系人修改为非主联系人
+					if (obj.isMainContactor == 1) {
+						ap.dbUpdate("Phone_Co_Cust_Contact", { isMainContactor : 0 }, { isMainContactor : 1, custId : getStore("CURR_CUST_ID") }, function(res1) {
+							ap.dbUpdate("Phone_Co_Cust_Contact", obj, { _id : getStore("CURR_CUST_CONTACT_ID") }, function(res2) {
+								// 修改客户联系电话
+								ap.dbUpdate("Phone_Co_Cust", { handPhone : contactHandPhone }, { _id : getStore("CURR_CUST_ID") }, function(res3) {
+									toast("保存成功", 3000);
+									hidePageLoading();
+									backFromSave();
+								});
+							});
+						});
+					} else {
+						ap.dbUpdate("Phone_Co_Cust_Contact", obj, { _id : getStore("CURR_CUST_CONTACT_ID") }, function(result) {
+							toast("保存成功", 3000);
+							hidePageLoading();
+							backFromSave();
+						});
+					}
+				} else {
+					// 新建主联系人，更改原先主联系人
+					if (obj.isMainContactor == 1) {
+						// 将联系人全部修改为非主联系人
+						ap.dbUpdate("Phone_Co_Cust_Contact", { isMainContactor : 0 }, { isMainContactor : 1, custId : getStore("CURR_CUST_ID") }, function(res1) {
+							// 新建主联系人
+							ap.dbInsert("Phone_Co_Cust_Contact", obj, function(res2) {
+								// 修改客户联系电话
+								ap.dbUpdate("Phone_Co_Cust", { handPhone : contactHandPhone }, { _id : getStore("CURR_CUST_ID") }, function(res3) {
+									toast("保存成功", 3000);
+									hidePageLoading();
+									backFromSave();
+								});
+							});
+						});
+					} else {
+						ap.dbInsert("Phone_Co_Cust_Contact", obj, function(result) {
+							toast("保存成功", 3000);
+							hidePageLoading();
+							backFromSave();
+						});
+					}
+				}
+			}
+		}
+		
+		function getParameterDraft4Contact() {
+			var paramstr = '';
+			for (var i = 0; i < $(":input").length; i++) {
+				if ($(":input").eq(i).attr("id")) {
+					var id = $(":input").eq(i).attr("id");
+					paramstr += id + '=';
+					paramstr += $(":input").eq(i).val() == null ? '' : $(":input").eq(i).val();
+					if (i < $(":input").length - 1) {
+						paramstr += '&';
+					}
+				}
+			}
+			console.log(paramstr);
+			return paramstr;
+		}
+		
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="customercontactadd">
+		<div class="ui-header ui-bar-t">
+        	<h1 id="header_title"></h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="showSavePop();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">保存</span>
+                    <span class="ui-icon ui-icon-check ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content scroll-wrapper" style="bottom: 0; padding-top: .8em;">
+        	<form id="theform">
+        		<div class="ui-field-contain">
+                    <label for="contactName" class="ui-input-text">联系人<font color="red">*</font></label>
+                    <div class="ui-body">
+                    	<input type="text" id="contactName" name="en.contactName" required="required" placeholder="请输入联系人名称" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="handPhone" class="ui-input-text">联系电话<font color="red">*</font></label>
+                    <div class="ui-body">
+                    	<input type="number" id="handPhone" name="en.handPhone" required="required" placeholder="请输入有效手机号码" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <label for="bussiness" class="ui-input-text">与客户关系</label>
+                    <div class="ui-select">
+                        <a class="ui-btn ui-select-a" onclick="openSelectList('bussiness');">
+                        	<span class="ui-select-txt" id="bussiness-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="bussiness" name="en.bussiness"/>
+                        <input type="hidden" id="bussinessName" name="bussinessName"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <div class="ui-body ui-checkbox-body">
+                    	<input type="checkbox" id="isMainContactor" name="en.isMainContactor" class="ui-checkbox"/>
+                    	<label for="isMainContactor" class="ui-input-text">主联系人</label>
+                    </div>
+				</div>
+				<div class="ui-field-contain">
+                    <label for="sex" class="ui-input-text">性别<font color="red">*</font></label>
+                    <div class="ui-select" id="sex-validate">
+                        <a class="ui-btn ui-select-a" onclick="openSelectList('sex');">
+                        	<span class="ui-select-txt" id="sex-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="sex" name="en.sex"/>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="identityCard" class="ui-input-text">身份证号</label>
+                    <div class="ui-body">
+                    	<input type="text" id="identityCard" name="en.identityCard" placeholder="请输入身份证号" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="postCode" class="ui-input-text">邮编</label>
+                    <div class="ui-body">
+                    	<input type="number" id="postCode" name="en.postCode" placeholder="请输入邮编" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="birthday" class="ui-input-text">出生日期</label>
+                    <div class="ui-body">
+                    	<input type="text" id="birthday" name="en.birthday" placeholder="请输入出生日期" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="address" class="ui-input-text">详细地址</label>
+                    <div class="ui-body">
+                    	<input type="text" id="postAddress" name="en.postAddress" placeholder="请输入详细地址" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+                <input type="hidden" id="custId" name="en.custId"/>
+                <input type="hidden" id="custContactId" name="en.custContactId"/>
+        	</form>
+        </div>
+        <div id="bussiness-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="bussiness-list" class="ui-select-container ui-hidden">
+        </div>
+        <div id="sex-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="sex-list" class="ui-select-container ui-hidden">
+        	<p class="ui-select-option" onclick="optionSelected('sex', 0, 1);">男</p>
+            <p class="ui-select-option" onclick="optionSelected('sex', 1, 0);">女</p>
+        </div>
+        <div id="saveDataShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="saveDataPop" class="ui-popup-savedata ui-hidden">
+			<a id="submit" class="ui-btn ui-corners ui-btn-block ui-btn-save-server" onclick="submitServer();">保存并提交</a> 
+			<a id="draft" class="ui-btn ui-corners ui-btn-block ui-btn-save-draft" onclick="saveDraft();">保存本地草稿</a> 
+			<a class="ui-btn ui-corners ui-btn-block ui-btn-save-cancel" onclick="dismissSavePop();">取消</a>
+		</div>
+		<div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</html>

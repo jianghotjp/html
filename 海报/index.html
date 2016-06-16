@@ -1,0 +1,475 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>逆风而上的有为青年</title>
+<meta http-equiv="cleartype" content="on">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="">
+<meta name="HandheldFriendly" content="True">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
+<script>
+//屏幕适配
+	var appIds="";
+	var timestamps="";
+	var nonceStrs="";
+	var signatures="";
+(function(){
+	var url=location.href.split('#')[0];
+	$.post('/magezine/weixinJsConfig.jsp',{"url":url},function(data){
+			appIds=$.trim(data.split('@@')[0]);
+			timestamps=$.trim(data.split('@@')[1]);
+			nonceStrs=$.trim(data.split('@@')[2]);
+			signatures=$.trim(data.split('@@')[3]);
+	wx.config({
+	    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    appId:appIds, // 必填，公众号的唯一标识
+	    timestamp:timestamps, // 必填，生成签名的时间戳
+	    nonceStr:nonceStrs, // 必填，生成签名的随机串
+	    signature: signatures,// 必填，签名，见附录1
+	    jsApiList: [
+	        'checkJsApi',
+	        'onMenuShareTimeline',
+	        'onMenuShareAppMessage',
+	        'onMenuShareQQ',
+	        'onMenuShareWeibo',
+	        'hideMenuItems',
+	        'showMenuItems',
+	        'hideAllNonBaseMenuItem',
+	        'showAllNonBaseMenuItem',
+	        'translateVoice',
+	        'startRecord',
+	        'stopRecord',
+	        'onRecordEnd',
+	        'playVoice',
+	        'pauseVoice',
+	        'stopVoice',
+	        'uploadVoice',
+	        'downloadVoice',
+	        'chooseImage',
+	        'previewImage',
+	        'uploadImage',
+	        'downloadImage',
+	        'getNetworkType',
+	        'openLocation',
+	        'getLocation',
+	        'hideOptionMenu',
+	        'showOptionMenu',
+	        'closeWindow',
+	        'scanQRCode',
+	        'chooseWXPay',
+	        'openProductSpecificView',
+	        'addCard',
+	        'chooseCard',
+	        'openCard'
+	    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+	
+	wx.ready(function () {
+  // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+  wx.checkJsApi({
+    jsApiList: [
+      'onMenuShareTimeline'
+    ],
+    success: function (res) {
+      //alert(JSON.stringify(res));
+    }
+  });
+   var title= '逆风而上的有为青年';
+  var desc= ' 《铁腕儿》第56期：辛鹏：逆风而上的有为青年【21-sun出品】  ';
+  var link= 'http://xxlfront.jerei.com/magezine/tiewan_68.htm';
+  var imgUrl= 'http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328101947_630.jpg';
+  // 分享给朋友
+  wx.onMenuShareAppMessage({
+	    title: title,
+		desc: desc,
+	    link: link,
+	    imgUrl: imgUrl,
+	    trigger: function (res) {
+	    },
+	    success: function (res) {
+	        subShare();
+	        alert("分享成功！");
+	        hideShare()
+	        //setTimeout(function(){window.location.reload();}, 3000 )
+	    },
+	    cancel: function (res) {
+	         //alert('已取消');
+	         hideShare();
+	    },
+	    fail: function (res) {
+	      //alert(JSON.stringify(res));
+	    }
+  });
+
+  //分享朋友圈
+  wx.onMenuShareTimeline({
+      title: title,
+      desc: desc,
+      link: link,
+      imgUrl: imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+        subShare();
+        alert("分享成功！");
+        hideShare()
+        //setTimeout(function(){window.location.reload();}, 3000 )
+      },
+      cancel: function (res) {
+        hideShare()
+      },
+      fail: function (res) {
+        //alert(JSON.stringify(res));
+      }
+    });
+});
+wx.error(function (res) {
+  //alert(res.errMsg+"error");
+});
+		
+		});
+		
+    var phoneScale = parseInt(window.screen.width) / 640;
+    var ua = navigator.userAgent;
+    var meta;
+    if (/Android (\d+\.\d+)/.test(ua)) {
+        var version = parseFloat(RegExp.$1);
+        meta = (version > 2.3) ? '<meta name="viewport" content="width=640, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi">' : '<meta name="viewport" content="width=640, target-densitydpi=device-dpi">';
+    } else {
+        meta = '<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">';
+    }
+    document.write(meta);
+})();
+</script>
+<link rel="stylesheet" type="text/css" href="css/animate.css">
+<link rel="stylesheet" type="text/css" href="css/ui.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/style_new.css">
+</head>
+<body class="wei2_body">
+<div class="loading">
+    <div class="loading-wrap">
+        <img src="images/loading3.gif" class="loading-line">
+    </div>
+</div>
+<!-- 首屏擦除 -->
+<!-- <div class="cover-container">
+    <canvas id="clip-canvas" data-src="images/4.jpg"></canvas>
+</div> -->
+
+<div class="page-container" style="background-image: url(images/b.jpg);">
+    <!--判断是否发布所有内容-->
+    <!-- 默认样式 -->
+    <div class="page" style="background-image:url(images/20160328101947_241.jpg);">
+      <div class="page-content p1">
+        <div class="img02 animated fadeInLeft"><img src="images/p1_img02.png"></div>
+        <div class="img03 animated fadeInRight"><img src="images/p1_img03.png"></div>
+         <div class="img01 animated fadeInDown"><img src="images/20150428101145_788.gif"><span>第56期</span></div>
+        <div class="top_tip">
+          <h2 class="animated fadeInLeft delay500">逆风而上的有为青年</h2>
+          <p class="animated fadeInLeft delay1000">江苏泰信机械科技有限公司总经理</p>
+          <hr class="animated fadeInLeft delay1500">
+          <strong class="animated fadeInLeft delay2000">辛鹏</strong>
+        </div>
+        <div class="bottom_tip">
+          <p  class="animated fadeInRight delay3000" style="top:0.84rem;">出品：中国工程机械商贸网</p>
+          <p class="animated fadeInRight delay3500" style="top:1.22rem;">撰文：翟桃</p>
+        </div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+  <div class="page" style="background-image:url(images/20160328151003_768.jpg);">
+      <div class="page-content p75">
+        <div class="img01 animated rotationOne delay500">
+           <img src="images/20160406080827_841.jpg"> 
+        </div>
+        <div class="img02 animated zoomInUp delay1500"><p><p>　　泰信机械，一个专注于中小型桩工产品的企业，近几年在工程机械行业下滑的大背景下，泰信在截桩机和中小型旋挖钻机细分市场上开辟了自己的一片天地，并屡屡出口国际市场。逆风而上的发展令桩工同行们刮目相看，带领这个企业的拓路先锋正是看似年轻却多年从事桩工行业的辛鹏。</p></p></div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+    <div class="page m2_page_04" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328141112_376.jpg" >
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textfull animated zoomIn">
+            	<div class="p-pd" id="back_img">
+					<p>　　早先约好的采访，因频频到访的客户被推延，对此，辛鹏一再向笔者致歉。笔者则表示十分理解：一个快速成长、风头正劲的企业，加上一个思路清晰、目光长远的青年领导者，再加上若干个前景广阔的技术产品和项目，怎能不宾客如云！</p>	
+               </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+	<!-- p2 -->
+    <div class="page" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328151319_619.jpg">
+      <div class="page-content p2">
+        <div class="content2_bg">
+          <div class="img01 animated fadeInDown">
+               <img src="images/20160328141402_300.jpg">
+		  </div>
+          <div class="img02 animated fadeInUp">
+          <p><p>　　辛鹏，江苏泰信机械科技有限公司创办人。于他而言，这个身份最多算是一个工作岗位，他更愿意将自己定位成一个逐梦者，一个追求理想的人：“我和整个泰信团队就是为了共同的理想而打拼，一起打拼一个创造价值、实现自我价值、并可以共同为之奋斗的平台。”</p></p>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+  <div class="page" style="background-image:url(images/20160328154143_213.jpg);">
+      <div class="page-content p74">
+        <div class="img01 animated rotationOne delay500">
+           <img src="images/20160328152828_648.jpg"> 
+        </div>
+        <div class="img02 animated fadeInLeftBig delay1500"><img src="images/p21_img02.png"></div>
+        <div class="img03 animated fadeInRightBig delay1500"><h3>对于辛鹏，笔者早有耳闻。</h3></div>
+        <div class="img04 animated rotateIn delay3000"><p><p>　　他是工程机械行业里少有的从体制里跳出来的“不安定份子”，连硕士专业都是高深莫测的“兵器发射理论与技术”。从中国舰船研究院某军品研究所的重点岗位离职之后，历经北京三一、玉柴桩工，直到后来创办泰信机械（前平汉重工）。</p></p></div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+  <div class="page" style="background-image:url(images/25.jpg);">
+      <div class="page-content p78">
+        <div class="img01 animated bounceInDown delay500">
+            <img src="images/20160328154429_646.jpg"> 
+        </div>
+        <div class="img03 animated fadeInDown delay1000">
+          <div class="img02"></div>
+          <span class="animated circleAllTime delay2000"></span>
+        </div>
+        <div class="img04 animated fadeIn delay3000"><p class="animated rubberBand delay3500"><p>　　从外人看来待遇优厚、工作稳定的军品研制工程师，变身为一名普通工程师，重新起步，直到公司创办人，辛鹏的每一步都走得扎实而坚定，职业主线也始终围绕着桩工产品的研究和行业发展，直到专注于中小型桩工机械领域。他的个人奋斗史，更可以被看作是一个有为青年的成长史。</p><p><br /></p></p></div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+    <div class="page m2_page_08" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/31/20160331165615_51.jpg" >
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textfull animated zoomIn">
+            	<div class="p-pd" id="back_img">
+					<p style="white-space:normal;">　　提到辛鹏，不得不提行业的新产品——截桩机，他有着“中国截桩机第一人”的美名。从2010年在国外第一次见到截桩机，到自主研发国内首台KP系列截桩机，辛鹏和他的团队潜心研究了一千多个日夜，还首家开发了截桩机专用液压泵站。如今，泰信截桩机已经成为“一直被模仿未曾被超越”的国内截桩机领军者，“截桩机”这个产品也被越来越多的客户所熟知，而“截桩机”这个产品名字从无到有，也正是辛鹏和他的团队反复讨论决定的。“选择了这个产品，我们就要把它做好，保持专注，越做越专业。”截至目前，泰信机械生产的截桩机系列已经升级到第三代，成功出口至世界各地30多个国家。</p>	
+               </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+<div class="page" style="background-image: url(images/20160328160005_441.jpg);">
+  <div class="page-content p39">
+    <div class="img01 animated fadeIn delay200">
+      <div class="img02 animated zoomInUp delay1500">
+        <p>   
+          <p>　　在其他同行企业忙着做大的时候，辛鹏带领他的团队则在专注于研究“怎么才能做得更小？”
+            
+           </p>
+      </div>
+      <div class="img03 animated rubberBand delay500">   
+         <img src="images/20160328155831_586.jpg"> 
+         </div>
+      <div class="img04 animated zoomInDown delay2000">
+        <p>   
+            
+          　　这一群有理想、有激情、有实力的桩工技术达人们，在实践中，真真正正地“小”出了大名堂，旋挖钻机产品从中小型到小型，再到微型，获得了一系列的行业第一。</p>
+           </p>
+      </div>
+    </div>
+  </div>
+  <a href="javascript:;" class="ui-icon icon-up running"></a> </div>
+    <div class="page m2_page_010" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328160113_135.jpg" >
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textfull animated zoomIn">
+            	<div class="p-pd" id="back_img">
+					<p>　　2012年，首家推出破桩专用机械，取名为“截桩机”，实现了人工风镐破桩到液压机械截桩的飞跃；</p><p>　　2012年，首家推出80型小型旋挖钻机，服务于工民建、新城镇建设；</p><p>　　2013年，首家推出具备无线控制功能的截桩机专用液压泵站KPS系列；</p><p>　　2014年，首家推出新概念的模块式旋挖钻机，实现了挖机变旋挖钻机的快捷改制，成为当年上海宝马展桩工行业的亮点；</p>	
+               </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+    <div class="page m2_page_0011" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/31/20160331170140_465.jpg">
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textcontent animated flipInY">
+            	<div class="m2-p-pd">
+				     <p>　　2015年，首家推出中国最小旋挖钻机KR40，以其占地小、高度低，重量轻的优势，实现了隧道打桩的新工法；</p><p>　　2015年，首家推出小型多功能旋挖钻机KR125M,实现了旋挖和长螺旋的一机双用，获国外客户赞誉；</p><p>　　2015年，首家推出卡特彼勒底盘的小型旋挖钻机KR90C,填补高端小型旋挖钻机的空白；</p><p>　　2016年，首家全系列中小型桩工产品通过欧盟CE认证；</p>
+				</div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+	<!-- p2 -->
+    <div class="page" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328165047_343.jpg">
+      <div class="page-content p2">
+        <div class="content2_bg">
+          <div class="img01 animated fadeInDown">
+               <img src="images/20160331171402_973.jpg">
+		  </div>
+          <div class="img02 animated fadeInUp">
+          <p><p>　　泰信机械以截桩机和小型旋挖钻机起步，从2012年上海宝马展初露头角，到2014年上海宝马展展出的小型旋挖钻机系列引起行业关注，再到2015年法国INTEMAT展被选入央视新闻报道，泰信机械逐渐奠定了自身的发展基础。</p></p>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+<div class="page" style="background-image: url(images/2.jpg);">
+  <div class="page-content p35">
+    <div class="img01 animated zoomIn"><img src="images/20160328164109_223.jpg"></div>
+    <div class="img02 animated zoomInUp delay1000">
+      <p><p>　　KR系列小型旋挖钻机表现不俗，以其效率高、性能可靠等优点深受客户好评。在2014、2015两个年度中，实现了百分之七十以上的产品出口，澳大利亚、俄罗斯、泰国、阿根廷、特多、印尼、赞比亚等国家，都有了泰信旋挖钻机的身影。</p></p>
+    </div>
+  </div>
+  <a href="javascript:;" class="ui-icon icon-up running"></a> </div>
+	<!-- p7 -->
+    <div class="page" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328160813_942.jpg">
+      <div class="page-content p7">
+        <div class="cont_box">
+          <div class="img01 animated fadeInDown">
+               <img src="images/20160328160839_18.jpg">
+		  </div>
+          <div class="img02 animated fadeInUp delay500"></div>
+          <div class="text_detail animated fadeInUp delay1000">
+             <p><p>　　以一个个成绩为基础，泰信机械逐渐逆风而上，开辟细分市场，发展出了125/90/80/60/50/40全系列中小型旋挖钻机，已成为国内唯一一家专注于开发工民建适用的中小型旋挖钻机的高新技术企业，每年获得桩工类产品专利十余项。</p></p>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+    <div class="page m2_page_0015" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/04/06/20160406080827_767.jpg">
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textcontent animated flipInY">
+            	<div class="m2-p-pd">
+				     <p>　　在泰信机械的官网上，关于“泰信作风”用了3个关键词：&nbsp;关重细节、精益求精、快速执行。果然像辛鹏说的那样，他是一个追求完美的人：“泰信的产品务必做到精益求精，钻研每一个细节。都讲产品是企业的基础和核心，但要从口头落在实处，我认为必须保持全体员工对产品的思考和钻研，形成企业的内在的思考力和凝聚力，成为一个真正专注、专业的企业。”说到对高品质产品的执着，对打造国际知名品牌的愿景，他似有激动的情绪，恰恰反映出一个技术型管理者的务实和情怀。</p>
+				</div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+	<div class="page page_016" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328165735_704.jpg">
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textcontent p-textcontents animated slideInUp">
+            	<div class="p-pd"><p>　　泰信机械的企业愿景是“成为中小型桩工机械的领跑者”，如今看来，在辛鹏的带领下，泰信机械国内开花国外香，正一步步实现着打造“国内一流、国际知名”的专业中小型桩工品牌的目标。</p></div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+	<!-- p7 -->
+    <div class="page" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328165452_200.jpg">
+      <div class="page-content p7">
+        <div class="cont_box">
+          <div class="img01 animated fadeInDown">
+               <img src="images/20160328165428_610.jpg">
+		  </div>
+          <div class="img02 animated fadeInUp delay500"></div>
+          <div class="text_detail animated fadeInUp delay1000">
+             <p><p>　　辛鹏自己也已转身成为企业领导者，职业生涯坚实前行，成了很多同行眼里逆风而上的行业新生力量。但是他的“学生”角色却从未改变。</p></p>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+	 <div class="page page_018" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/31/20160331172643_418.jpg">
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textfull p-textfullss animated slideInDown">
+            	<div class="p-pd"><p>　　把自己定位为一名学生，是因为随着身份的变化、责任的增加，愈发觉得自己需要学习的太多。除了坚持阅读之外，“学生”辛鹏喜欢跟行业资深“大佬”聊天：“在我看来，每个“大佬”都是一本书，只要有机会，我会把遇到的每个‘大佬’认真‘读’一遍，倾听和提问让我汲取更多的经验与教训，失败或成功，都是人生智慧。”对辛鹏来说，聊天是一个不可或缺的学习过程。”<br /></p><p style="text-align:center"><img src="images/20160331172744_300.jpg" title="29.jpg" alt="29.jpg" border="0" hspace="0" vspace="0" /></p></div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+  <div class="page" style="background-image:url(images/23.jpg);">
+      <div class="page-content p76">
+        <div class="img01 animated bounceInDown delay500">
+            <img src="images/20160328170127_608.jpg"> 
+        </div>
+        <div class="img02 animated fadeIn delay1500"><h3 class="animated bounce delay2000">能学会玩的“大男孩”</h3></div>
+        <div class="img03 animated fadeIn delay3000"></div>
+        <div class="img04 animated zoomInUp delay4000"><p><p>　　会学习的辛鹏，更是一个会玩儿的人。辛鹏爱玩儿在朋友和同学中是出了名的，尤为难得是，就算玩儿起来，他也是那么认真、那么出色。</p></p></div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+	 <div class="page page_020" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328172343_104.jpg">
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textfull p-textfullss animated slideInDown">
+            	<div class="p-pd"><p>　　擅长游泳、骑行、滑雪的他，上大学时长途骑行就已达2300多公里，曾在松花江上漂流三天，还为了学单板滑雪摔得几天爬不了楼。</p><p style="text-align:center"><img src="images/20160328172255_354.jpg" title="24.jpg" alt="24.jpg" border="0" hspace="0" vspace="0" /></p></div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+    <div class="page m2_page_021" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328170415_656.jpg" >
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textfull animated zoomIn">
+            	<div class="p-pd" id="back_img">
+					<p><span style="white-space:normal;">　　近两年虽工作繁忙，还是在国外出差间隙抽身独闯巴西、土耳其、印度，所谓”工作休闲两不误”大概如此了。</span><br /></p>	
+               </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+	<!-- p2 -->
+    <div class="page" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328170701_880.jpg">
+      <div class="page-content p2">
+        <div class="content2_bg">
+          <div class="img01 animated fadeInDown">
+               <img src="images/20160328170915_430.jpg">
+		  </div>
+          <div class="img02 animated fadeInUp">
+          <p><p>　　在同事的眼中，他是一个眼光开阔，要求严格的带头人；在合作者的眼中，他是一个目光独到，值得信赖的好伙伴；在同行眼中，辛鹏是一个技术过硬、无所不能的技术达人；在朋友的眼中，他是一个内外兼修，精彩无限的好兄弟。<br /></p></p>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+    <div class="page m2_page_023" data-b="http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328170954_65.jpg" >
+        <div class="page-content page-link">
+            <div class="p-text p-link p-textfull animated zoomIn">
+            	<div class="p-pd" id="back_img">
+					<p><span style="white-space:normal;">　　而在自己看来，他只是一个行走在路上的人，执着努力，只为遇见前方更好的泰信和更好的自己。<br />　　正是这些迥然不同的形象，让辛鹏的人生更加饱满、丰富，让他带领的泰信机械成了逆风而上的行业新锐，让我们看到一个工程机械行业里别样精彩的样本。</span><br /></p>	
+               </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+    <div class="page page_share">
+        <div class="page-content">
+		   <img src="images/sharesd.jpg"/>
+		</div>
+        <a href="javascript:;" class="ui-icon icon-up running"></a>
+    </div>
+</div>
+<!-- 分享画面
+<div class="pop-wechat">
+    <a href="javascript:;"><img src="images/share.png"></a>
+</div> -->
+<!-- 背景音乐 -->
+<a href="javascript:;" class="ui-music"> <i class="ui-icon icon-music"></i>
+    <!-- <audio data-src="musics/music.mp3" autoplay="autoplay" loop="loop"></audio> -->
+    <audio data-src="http://resource.21-sun.com/internet/21sun_news/file/2016/04/01/20160401101422_986.mp3" autoplay="autoplay" loop="loop"></audio>
+</a>
+<input type="hidden" name="tiewan_id" id="tiewan_id" value="68"><!--点击量使用-->
+<!--cnzz统计-->
+<div style="display:none"><script src="js/z_stat.js" language="JavaScript"></script></div>
+<script src="js/modernizr.custom.js"></script>
+<script src="js/sea.js" id="seajsnode"></script>
+<script>
+//seajs配置
+seajs.config({
+    alias: {
+        "jquery"      : "jquery/2/jquery.min.js",
+        "validform"   : "validform/validform",
+        "webuploader" : "webuploader/webuploader",
+        "upload"      : "upload/upload",
+        "datepicker"  : "My97DatePicker/WdatePicker"
+    },
+    paths: {
+        "wei" : "/resourcess/wei/js"
+    }
+})
+//微画册配置
+var whc = {
+    launch: 0,              // 启动画面
+    launchType: 100,        // 启动画面类型 100：擦除 | 101：开门 | 102：kiss
+    bgMusic: 1,             // 背景音乐
+    pageSwitch: 0,          // 切换效果见animation.css， 0 ~ 69 | 可以在.page上单独添加pageSwitch属性
+    shareDesc: ' 《铁腕儿》第56期：辛鹏：逆风而上的有为青年【21-sun出品】  ',
+    shareTitle: '逆风而上的有为青年',
+    shareImage: "http://resource.21-sun.com/internet/21sun_news/image/2016/03/28/20160328101947_630.jpg"
+
+}
+</script>
+<script>
+seajs.use('wei/main2');
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" charset="utf-8" src="/editor/ueditor/ueditor.config.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/editor/ueditor/ueditor.all.js"></script>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/htmlparser.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="js/htmlparser_backup.js" type="text/javascript" charset="utf-8"></script>-->
+		<link rel="stylesheet" type="text/css" href="../editor/ueditor/themes/default/ueditor.css" />
+		<style>
+			.control {
+				width: 777px;
+				height: 35px;
+				margin: 0 auto;
+			}
+			.control a {
+				display: block;
+				float: left;
+				padding: 5px 10px;
+				margin: 5px;
+				line-height: 15px;
+				font-size: 12px;
+				background: #13c77e;
+				color: #fff;
+				text-decoration: none;
+				transition: .3s all;
+				border-radius: 4px;
+			}
+			.control a:hover {
+				background: #0db26f;
+				box-shadow: 0 0 5px 0px #ccc;
+			}
+			.control a.closeW {
+				margin-left: 0;
+				background: #fe7f17;
+			}
+			.control a.closeW:hover {
+				background: #df6b0b;
+			}
+			.control a.tips {
+				color: #666;
+				background: none;
+				cursor: default;
+			}
+			.control a.tips:hover {
+				color: #333;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="control">
+			<a class="closeW" href="javascript:window.opener=null;window.close();">关闭窗口</a>
+			<a href="javascript:void(0);" onclick="doneEdit();">编辑完成</a>
+			<a class="tips" href="javascript:void(0);">提示：编辑完成请点击左侧编辑完成按钮，请勿直接关闭页面。</a>
+		</div>
+		<script type="text/plain" id="content" name="content" style="max-width:777px;_width:777px;margin: 0 auto;"></script>
+
+
+		<script type="text/javascript">
+			var ue = new UE.ui.Editor();
+			var source='<div class="content"></div><div class="help-body"><div class="contxt"><p style="margin-left:24px"><span style="font-family:宋体;font-size:12px"></span></p><div style="margin:0;padding:10px 10px 10px 20px;color:#666;line-height:18px;font-family:Arial,Verdana,宋体;font-size:12px;white-space:normal;background-color:#fff" class="help_box"><div style="margin:0 0 10px;padding:10px;border:1px solid #e5e5e5" class="help_zybox"><p><span style="font-family:微软雅黑,&quot;Microsoft YaHei&quot;font-size:16px"><strong><span style="color:#000;font-size:16px">服务说明</span></strong><p><span style="color:#000">由于业务发展变化、行政区域更名等因素，货到付款区域，可能会不时有扩大、变更或调整，具体区域请以最新确认为准</span></p></span></p></div></div></div></div><div class="clear"></div>';
+
+			if (!Array.prototype.each) {
+				Array.prototype.each = function(func) {
+					for (var i = 0, j = this.length; i < j; ++i)
+						func.call(this[i], this, i);
+					return this;
+				}
+			}
+			function editCode() {
+						handler = new Tautologistics.NodeHtmlParser.HtmlBuilder(
+							function(error, dom) {
+								if (error) {
+									trace(error);
+									alert("无法解析文档 : " + error);
+								}
+							}, {
+								includeLocation: true,
+								enforceEmptyTags: false // 如果不设置enforceEmptyTags=false，会在解析标签时将空标签的属性加到上层标签 
+							}),
+					parser = new Tautologistics.NodeHtmlParser.Parser(handler);
+					parser.parseComplete(source);
+					//trace(JSON.stringify(handler.dom, null, 2));
+					//console.log(handler.dom);
+					//traverse(outline, root, { lines : lines, line : 0, col : 0, pos : 0 }, 0, treeStats);
+					var _idcounter = 0;
+					function makeId(nodes, parent) {
+						if (!nodes || !nodes.length)
+							return;
+						// 为每个节点记录id
+						if (parent && !parent.__id) {
+							parent.__id = ++_idcounter;
+							__NODE_MAP[parent.__id] = parent;
+						}
+						for (var i = 0; i < nodes.length; ++i) {
+							var node = nodes[i];
+							// 为每个节点记录id、父id和兄弟id
+							if (!node.__id) {
+								node.__id = ++_idcounter;
+								__NODE_MAP[node.__id] = node;
+							}
+							if (parent)
+								node.__parentid = parent.__id;
+							if (i > 0) {
+								var prev = nodes[i - 1];
+								node.__previd = prev.__id;
+								prev.__nextid = node.__id;
+							}
+							if (node.children)
+								makeId(node.children, node);
+						}
+					}
+					makeId(handler.dom);
+					window.source = source;
+					var lines = source.split("\n"),
+						chars = 0;
+					lines.each(function(arr, index) {
+						arr[index] = {
+							text: this,
+							length: this.length,
+							pos: chars,
+							lineIndex: index
+						};
+						chars += this.length + 1;
+					});
+					var root = {};
+					traverse(handler.dom, root, {lines: lines,line: 0,col: 0,pos: 0}, 0, []);
+					console.log(root);
+					
+						
+					function cutCode(r){
+						firstCut=r.indexNode.index;
+						secondCut=r.indexNode.nextIndex;
+						topCode=source.substring(0, firstCut);
+						editCode=source.substring(firstCut, secondCut);
+						bottomCode=source.substring(secondCut,source.length);
+					}
+					function t(obj, filter) {
+						if (!obj) 
+						return null;
+						if (filter(obj))
+							return obj;
+						if (obj.children) {
+							for (var i = 0, j = obj.children; i < j.length; ++i) {
+								var r = t(j[i], filter);
+								if (r){
+									cutCode(r);
+								}
+							}
+						}
+						return null;
+					}
+					t(root, function(i) {
+						if (i.data == 'div class="help-body"'){
+							console.log(i);
+						}
+					})
+					ue.setContent(editCode);
+				}
+
+			function HtmlBuilder(source) {
+					if (source) {
+						ue.render("content");
+						ue.addListener('ready', editCode())
+						} else {
+						alert("数据出错，模板文件不存在。")
+					}
+					
+				}
+			var __NODE_MAP = {};
+			function findParentNode(node) {
+				return __NODE_MAP[node.__parentid];
+			}
+			function findNextNode(node) {
+				return __NODE_MAP[node.__nextid];
+			}
+			function findPrevNode(node) {
+				return __NODE_MAP[node.__previd];
+			}
+			function createTreeNode(outlineNode) {
+				var child = {};
+				switch (outlineNode.type) {
+					case "tag":
+						child.name = outlineNode.name;
+						child.data = outlineNode.raw;
+						break;
+					case "comment":
+						child.name = "#comment";
+						child.data = outlineNode.data;
+						break;
+					case "cdata":
+						child.name = "#cdata";
+						child.data = outlineNode.data;
+						break;
+					case "jsp":
+						child.name = "jsp";
+						child.data = outlineNode.data;
+						break;
+					case "include":
+						child.name = "include";
+						child.data = outlineNode.data;
+						break;
+					case "text":
+						child.name = "#text";
+						child.data = outlineNode.data.trim();
+						// 隐藏空节点
+						if (!child.data.replace(/[\s]/g, "").length)
+							child.isHidden = true;
+						break;
+					case "doctype":
+						child.name = "#doctype";
+						child.data = outlineNode.data;
+						break;
+					default:
+						trace("!! INVALID OUTLINE NODE ->", outlineNode);
+						break;
+				}
+				return child;
+			}
+				// 恢复大纲的显示状态的辅助方法
+			var _childPrevStatMap = {},
+				_prevStatId = 0;
+
+			function matchNode(children, nodeStats) {
+				var child = children.shift(),
+					nodeStat = nodeStats.shift(),
+					n = 0;
+				while (child && nodeStat) {
+					while (child && child.indexNode.outlineNode.type != "tag")
+						child = children.shift();
+					while (nodeStat && nodeStat.node.type != "tag")
+						nodeStat = nodeStats.shift();
+					if (child && nodeStat) {
+						if (child.indexNode.outlineNode.name == nodeStat.node.name) {
+							child.open = nodeStat.open; // match and continue
+							++_prevStatId;
+							child.prevStatId = _prevStatId;
+							_childPrevStatMap[_prevStatId] = nodeStat;
+							child = children.shift();
+							nodeStat = nodeStats.shift();
+						} else {
+							trace("fail");
+							return; // match failed
+						}
+					}
+				}
+			}
+			// 遍历代码大纲
+
+			function traverse(nodes, dataParent, pos, depth, prevNodeStats) {
+				if (!nodes || !nodes.length)
+					return;
+				dataParent.children = [];
+				for (var i = 0; i < nodes.length; ++i) {
+					var node = nodes[i],
+						next = nodes[i + 1],
+						child = createTreeNode(node);
+					child.depth = depth;
+					dataParent.children.push(child);
+					var line = pos.lines[node.location.line - 1],
+						index = line ? line.pos + node.location.col - 1 : -1,
+						nextLine = next ? pos.lines[next.location.line - 1] : null,
+						nextIndex = nextLine ? nextLine.pos + next.location.col : -1,
+						nextLocation = next ? next.location : null;
+					// 如果当前节点是最后一个，则向上找到第一个可以定位的节点，并减去所有父节点的结束标签长度
+					if (!next) {
+						var parents = [],
+							parent = node,
+							parentNext = null;
+						while (!parentNext && (parent = findParentNode(parent))) {
+							parents.push(parent);
+							parentNext = findNextNode(parent);
+						}
+						if (parentNext) {
+							nextLine = pos.lines[parentNext.location.line - 1];
+							nextIndex = nextLine ? nextLine.pos + parentNext.location.col : -1;
+						}
+						if (nextIndex == -1)
+							nextIndex = source.length + 1;
+						for (var j = 0; j < parents.length; ++j) {
+							var p = parents[j];
+							switch (p.type) {
+								case "tag":
+									// TODO 计算结束标签中的多余字符
+									nextIndex -= p.name.length + 3;
+									break;
+								default:
+									trace("INVALID PARENT ->", p);
+									break;
+							}
+						}
+						if (!nextLine)
+							nextLine = pos.lines[pos.lines.length - 1];
+						for (var j = nextLine.lineIndex; j >= 0; --j) {
+							var line = pos.lines[j];
+							if (line.pos <= nextIndex) {
+								nextLocation = {
+									line: line.lineIndex + 1,
+									col: nextIndex - line.pos
+								};
+								break;
+							}
+						}
+					}
+					child.indexNode = {
+						outlineNode: node, // outline节点 
+						index: index, // 当前节点索引
+						nextIndex: nextIndex, // 下一个节点索引
+						location: node.location, // 当前节点位置
+						nextLocation: nextLocation // 下一个节点的位置
+					};
+				}
+				if (prevNodeStats) {
+					// 正向匹配标签，更新节点展开状态
+					// 正向匹配失败后开始逆向匹配
+					// 再次失败后结束
+					var children = [].concat(dataParent.children),
+						nodeStats = [].concat(prevNodeStats);
+					matchNode(children, nodeStats);
+					matchNode(children.reverse(), nodeStats.reverse());
+				}
+				for (var i = 0; i < dataParent.children.length; ++i) {
+					var child = dataParent.children[i];
+					if (child.indexNode.outlineNode.children) {
+						var prevStat = _childPrevStatMap[child.prevStatId];
+						traverse(child.indexNode.outlineNode.children, child, pos, depth + 1, prevStat ? prevStat.children : null);
+					}
+				}
+			}
+			function doneEdit(){
+	 			editContent=ue.getContent();
+	 			finalCode=topCode+editContent+bottomCode;
+	 			console.log(finalCode);
+	 		}
+			$(document).ready(function () {
+				HtmlBuilder(source)
+			})
+		</script>
+	</body>
+
+</html>

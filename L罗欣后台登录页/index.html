@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="css/login.css"/>
+	</head>
+	<body>
+		<div class="header">
+			<div class="wrap b-center clearfix">
+				<a class="fl dis-block" href="#">
+					<img src="images/login_logo.jpg"/>
+				</a>
+				<div class="fr">
+					<a href="#" onclick="setHomepage()">设为首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="AddFavorite(window.location,document.title)">加入收藏</a>
+				</div>
+			</div>
+		</div>
+		<div class="login">
+			<div class="title">
+				<img src="images/login_user_icon.png"/>
+				用户登录
+			</div>
+			<form id="form" action="login.action?_t=<%=com.jerehsoft.common.http.HttpUtil.encodeUriComponent(request.getParameter("_t") == null ? "" : request.getParameter("_t"))%>" method="post">
+				<input class="username" type="text" name="userNo" autocomplete="off" id="userNo" tabindex="" value="" placeholder="用户名" onfocus="if(this.value=='用户名')this.value=''" onblur="if(this.value=='')this.value='用户名'" />
+				<input class="password" type="password" name="pwd" autocomplete="off" tabindex="" value="" placeholder="密码"/>
+				<input class="submit" id="loginbt" type="button" tabindex="" value="登  录" /><span color="#FF0000" class="alert-info" style="color: #ff0000;"><s:actionerror theme="simple"></s:actionerror></span>
+			</form>
+		</div>
+		<div class="footer">
+			 Copyright&copy;2006-2016 www.eluoxin.com All rights reserved             <a href="http://www.jerei.com" target="_blank">捷瑞数字</a>    制作维护
+		</div>
+	</body>
+</html>

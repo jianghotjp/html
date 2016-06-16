@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>App下载</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>订单评价</title>
+		<link href='../resources/css/mobile.css' rel='stylesheet' />
+		<script src="../resources/js/jquery/jquery/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		html,body{
+			height: 100%;
+			box-shadow: none;
+			background-color: #383737;
+		}
+		.down-btns{
+			position: absolute;
+			top: 70%;
+			width: 100%;
+		}
+		a{display: block;
+			box-sizing: border-box;
+			width: 80%;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			color: #1f1a17!important;
+			margin: 10px auto 0;
+			border-radius: 20px;
+		}
+		a.anzuo{
+			background: #f19606;
+		}
+		a.anzuo:active{
+			background: #c37e12;
+		}
+		a.ios{
+			background: #ffd12d;
+		}
+		a.ios:active{
+			background: #cdaa30;
+		}
+		._cover {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.75);
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    display: none;
+}
+._cover ._img {
+    margin: 0 auto;
+    display: none;
+}
+
+	</style>
+
+	<body style="background:url(../download.png) center top repeat; background-size: 100% auto;">
+		<div class="down-btns">
+			<a class="ios" id="iphone" href="#">IPhone版下载</a>
+			<a class="anzuo" id="android" href="#">Android版下载</a>
+		</div>
+		<div class="_cover">
+			<div class="_img tip_android"><img src="../resources/images/ec/tip_android.png"></div>
+			<div class="_img tip_iphone"><img src="../resources/images/ec/tip_iphone.png"></div>
+		</div>
+		<script type="text/javascript">
+		$(function () {
+			var ua = navigator.userAgent.toLowerCase();
+			//begin
+			$('#android').click(function(e) {
+				if (/micromessenger/.test(ua)) {
+					e.preventDefault();
+					$('._cover').show().find('.tip_android').show();
+					return;
+				}
+				
+			});
+			$('#iphone').click(function(e) {
+				if (/micromessenger/.test(ua)) {
+					e.preventDefault();
+					$('._cover').show().find('.tip_iphone').show();
+					return;
+				}
+				setTimeout(function(){
+					
+					window.location = '/ec/download_ios.html';
+				},0);
+			});
+		
+			$('._cover').click(function() {
+				$(this).hide().find('._img').hide();
+			});
+			//end
+		})
+			
+		</script>
+	</body>
+
+</html>

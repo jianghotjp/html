@@ -1,0 +1,159 @@
+@charset "utf-8";
+
+body{
+	background-color: #FFFFFF;
+}
+.clearfix{
+	clear: both;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+/*登录栏*/
+.start{
+	position: relative;
+	width: 100%;
+	height: 487px;
+	background-image: url(../img/index_bg.jpg);
+	background-repeat: no-repeat;
+	background-position:center bottom;
+}
+.login{
+	width: 975px;
+	height: 485px;
+	position: absolute;
+	top:50%;
+	left: 45%;
+	margin-top: -200px;
+	margin-left: -520px;
+	background: url(../img/login_index_title.png) left top no-repeat;
+}
+.start .login .denglu-box{
+	width: 260px;
+	float: right;
+	margin-right: 0;
+	margin-top: 120px;
+}
+.start .login h2{
+	font-size: 24px;
+	color: #fff;
+	font-family: "微软雅黑";
+	font-weight: normal;
+	float: right;
+	line-height: 27px;
+}
+.login-logo{
+	width: 135px;
+	height: 70px;
+	position: absolute;
+	top: 40px;
+	left: 40px;
+}
+.start .login h2 span{
+	font-size: 16px;
+	color: #fff;
+	font-weight: normal;
+}
+.start .login input{
+	border: none;
+	width: 222px;
+	height: 36px;
+	line-height: 36px;
+	border-radius: 3px;
+	display: block;
+	float: right;
+	font-family: "微软雅黑";
+	outline: none;
+	text-align: center;
+}
+.denglu{
+	margin-top: 30px;
+}
+.username {
+	width: 258px;
+	height: 36px;
+	background:#fff url(../img/account_bg.png) no-repeat left center;
+	margin-top: 45px;
+	border-radius: 5px;
+
+}
+.userpw {
+	width: 258px;
+	height: 36px;
+	background:#fff url(../img/passw_bg.png) no-repeat left center;
+	margin-top: 14px;
+	border-radius: 5px;
+
+}
+.start .login .account{
+	text-align: left;
+	float: left;
+	margin-left: 35px;
+	text-indent: 8px;
+}
+.start .login .passw{
+	background-repeat: no-repeat;
+	text-align: left;
+	float: left;
+	margin-left: 35px;
+	text-indent: 8px;
+}
+.start .login .denglu{
+	width: 158px;
+	border:solid 1px #485565;
+	background-color:#fff;
+	font-size: 16px;
+	color: #000000;
+	transition: all 0.2s;
+}
+.start .login .denglu:hover{
+	background-color: #f1f1f1;
+	opacity: 0.7;
+}
+.start .login .denglu-box .alert-info{
+	position: absolute;
+	top: 58px;
+	right: -100px;
+}
+/*版权，二维码*/
+.bottom-box{
+	width: 1000px;
+	height: 110px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+.bottom-box p{
+	width: 100%;
+	line-height: 110px;
+	color: #999;
+}
+/*头部*/
+.header{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 80px;
+	background: #fff;
+	z-index: 5;
+}
+.header-content{
+	width: 880px;
+	height: 80px;
+	margin: 0 auto;
+}
+.header a{
+	display: block;
+	
+}
+.header a.index-link{
+	width: 130px;
+	line-height: 80px;
+	color: #032680;
+	font-size: 14px;
+	text-align: center;
+}

@@ -1,0 +1,59 @@
+/*
+* data: 2015-12-01
+*/
+
+/* reset */
+body { font: 13px/1.7 'helvetica neue',tahoma,'hiragino sans gb',stheiti,
+'wenquanyi micro hei', \5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif; overflow-x: hidden; 
+color: #555;background: #fff;}
+body, h1, h2, h3, h4, p, ul, ol, dd, dl, form { margin: 0;}
+input, button, select { font-size: 100%; box-sizing: border-box;margin: 0; padding: 0; 
+	vertical-align: middle; border: 1px solid #ccc; outline: none;line-height: normal;}
+textarea { overflow: auto; height: auto; resize: vertical;vertical-align: top;}
+img {max-width: 100%; vertical-align: top;border: 0 ;height: auto; 
+	-ms-interpolation-mode: bicubic;line-height: 0;}
+ul { padding-left: 0; list-style-type: none;}
+i, b {font-weight: normal; font-style: normal;}
+a { text-decoration: none; outline: none;color:inherit;*color: #555;}
+a:hover { color: #0087b3;}
+
+/* html5 ele */
+article, aside, dialog, footer, header, section, nav, figure, menu { display: block;}
+audio, canvas, progress, video {display: inline-block;vertical-align: baseline; }
+
+/* 高亮选中 */
+::-moz-selection {color: #fff; background: #0087b3; }
+::selection {color: #fff; background: #0087b3; }
+
+/* modern ie */
+@-ms-viewport { width: device-width;}
+
+/* baseUI */
+.wrap { max-width: 1000px; margin-right: auto; margin-left: auto; *width: 1000px;}
+.clearfix { *zoom: 1;}
+.clearfix:before, .fix:after {display: table; line-height: 0; clear: both; content: '';}
+.clr {clear: both;}
+.oh { overflow: hidden; *zoom: 1;}
+.fl { float: left;}.fr { float: right;}
+.fl,.fr{_display:inline;}
+.disb { display: inline-block; *display: inline; *zoom: 1;}
+.pos-rel { position: relative;}.pos-abs { position: absolute;}
+.el {overflow: hidden;white-space: nowrap;  text-overflow: ellipsis;}
+img[data-src],.opc0 { opacity: 0 ; filter:alpha(opacity=0);}
+.hide { display: none;}
+.hidetext { font: 0/0 a; letter-spacing: -9px;}
+/* button */
+button, .button{ padding:0 1em;margin:0;background:#39f;color:#fff;
+	vertical-align: top;display: inline-block;line-height: 2em;height: 2em; border:0;
+	border-radius: 2px;cursor: pointer;*display: inline;*zoom:1;}
+button:hover, .button:hover{color: #fff; filter: alpha(opacity=85);opacity: .85;}
+button.big, .button.big{font-size:1.2em;height: 2.5em;line-height: 2.5em; }
+/* table */
+.datalist {width: 100%; border-collapse: collapse; border-spacing:0; border: 1px solid #ccc; }
+.datalist caption { padding-bottom: 5px;}
+.datalist th {font-weight: 700; padding: 5px 15px; border: 1px solid #ccc; 
+	background: #eee;}
+.datalist td {padding: 5px 15px; border: 1px solid #ccc;}
+.datalist tr.altrow { background: #ccc;}
+
+.p20{ padding:20px;}

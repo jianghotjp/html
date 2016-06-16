@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+*{margin: 0;padding: 0;}
+.index{
+	width: 100%;
+	height: 500px;
+	background: #ffcc00;
+}
+.testbox{
+	width: 960px;
+	height: 500px;
+	margin: 0 auto;
+	background: #fff;
+	position: relative;
+}
+.testjs{
+	width: 480px;
+	height: 500px;
+	background: #cc00ff;
+	position: absolute;
+	top: 0;
+	left: 50%;
+}
+q:before,q:after{
+	content: "";
+}

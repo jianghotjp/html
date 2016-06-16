@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			(function(){
+			var userAgent = window.navigator.userAgent;
+			if(/windows|win32/i.test(userAgent)) {
+			if(/Windows NT 5/.test(userAgent)) {
+			document.writeln('<style type="text/css">' + 'body,button,input,select,textarea,code{font-family: tahoma,sans-serif;}' + '<' + '/style>');
+			}
+			} else if(/macintosh/i.test(userAgent)) {
+			document.writeln('<style type="text/css">' + 'body,button,input,select,textarea,code{font-family: "Lucida Grande","Hiragino Sans GB","Hiragino Sans GB W3",verdana;}' + '<' + '/style>');
+			}
+			})();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

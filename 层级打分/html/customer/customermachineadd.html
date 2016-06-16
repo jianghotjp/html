@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>新建保有设备</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/datepicker.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/app/customer.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    <script type="text/javascript">
+	    document.addEventListener('deviceready', function() {
+			$(function() {
+	    		$("#purDate").Zebra_DatePicker();
+	    		$("#custId").val(getStore("CURR_CUST_ID"));
+				loadBrand();
+				loadMachineCode();
+				loadMachineEditData();
+				applyScroll(".scroll-wrapper", false);
+			});
+	    }, false);
+		
+		function submitServer() {
+			var mode = getStore("CURR_IN_MODE");
+			if(!!mode && mode == 0) {
+				dismissSavePop();
+				alertMsg("提交保有设备到服务器前，请先提交客户信息!");
+				return;
+			}
+			if (validateMachine()) {
+				showPageLoading();
+				checkboxHandler();
+				var paramObj = form2Obj();
+				paramObj["en.isSold"] = false;// 20140331 取消该字段，默认为false
+				paramObj["en.purAmount"] = 0; // 20140327 取消该字段，默认为0
+				
+				blockedPostData('customer/machineSubmit.action', paramObj, function(json) {
+					if (!!getStore("CURR_CUST_MACHINE_ID")) {
+						ap.dbDelete("Phone_Co_Cust_Mach", { "_id" : getStore("CURR_CUST_MACHINE_ID") }, function() {
+							toast("保存成功", 3000);
+							hidePageLoading();
+							backFromSave();
+						});
+					} else {
+						toast("保存成功", 3000);
+						hidePageLoading();
+						backFromSave();
+					}
+				});
+			}
+		}
+		
+		function saveDraft(){
+			if (validateMachine()) {
+				showPageLoading();
+				checkboxHandler2();
+				var paramObj = translateDraft(getParameterDraft4Mach(), false);
+				paramObj["isSold"] = 0;// 20140331 取消该字段，默认为false
+				paramObj["purAmount"] = 0; // 20140327 取消该字段，默认为0
+				
+				if (!!getStore("CURR_CUST_MACHINE_ID")) {
+					ap.dbUpdate("Phone_Co_Cust_Mach", paramObj, { _id : getStore("CURR_CUST_MACHINE_ID") }, function(result) {
+						toast("保存成功", 3000);
+						hidePageLoading();
+						backFromSave();
+					});
+				} else {
+					ap.dbInsert("Phone_Co_Cust_Mach", paramObj, function(result) {
+						toast("保存成功", 3000);
+						hidePageLoading();
+						backFromSave();
+					});
+				}
+			}
+		}
+		
+		function getParameterDraft4Mach() {
+			var paramstr = '';
+			for (var i = 0; i < $(":input").length; i++) {
+				if ($(":input").eq(i).attr("id")) {
+					var id = $(":input").eq(i).attr("id");
+					paramstr += id + '=';
+					paramstr += $(":input").eq(i).val() == null ? '' : $(":input").eq(i).val();
+					if (i < $(":input").length - 1) {
+						paramstr += '&';
+					}
+				}
+			}
+			console.log(paramstr);
+			return paramstr;
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="customermachineadd">
+		<div class="ui-header ui-bar-t">
+        	<h1 id="header_title"></h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="showSavePop();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">保存</span>
+                    <span class="ui-icon ui-icon-check ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content scroll-wrapper" style="bottom: 0; padding-top: .8em;">
+        	<form id="theform">
+        		<div class="ui-field-contain">
+                    <label for="" class="ui-input-text">品牌<span style="color: #f00;">*</span></label>
+                    <div class="ui-select" id="brand-validate">
+                        <a id="brand-show-link" class="ui-btn ui-select-a" onclick="openSelectList('brand');">
+                        	<span class="ui-select-txt" id="brand-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="brandId" name="en.brandId"/>
+                        <input type="hidden" id="brandName" name="brandName"/>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="" class="ui-input-text">产品<span style="color: #f00;">*</span></label>
+                    <div class="ui-select" id="product-validate">
+                        <a id="product-show-link" class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+                        	<span class="ui-select-txt" id="product-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="productName" name="productName"/>
+                        <input type="hidden" id="productId" name="en.productId"/>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="" class="ui-input-text">机型<span style="color: #f00;">*</span></label>
+                    <div class="ui-select" id="model-validate">
+                        <a id="model-show-link" class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+                        	<span class="ui-select-txt" id="model-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="modelName" name="modelName"/>
+                        <input type="hidden" id="modelId" name="en.modelId"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <label for="serialNo" class="ui-input-text">机号</label>
+                    <div class="ui-body">
+                    	<input type="text" id="serialNo" name="en.serialNo" placeholder="请输入机号" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <label for="purQty" class="ui-input-text">台量<font color="red">*</font></label>
+                    <div class="ui-body">
+                    	<input type="number" id="purQty" name="en.purQty" required="required" placeholder="请输入台量" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <div class="ui-body ui-checkbox-body">
+                    	<input type="checkbox" id="isSecondhand" name="en.isSecondhand" class="ui-checkbox"/>
+                    	<label for="isSecondhand" class="ui-input-text">是否二手机</label>
+                    </div>
+				</div>
+                <div class="ui-field-contain">
+                    <label for="purDate" class="ui-input-text">购买日期</label>
+                    <div class="ui-body">
+                    	<input type="text" id="purDate" name="en.purDate" placeholder="请输入购买日期" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+				<div class="ui-field-contain" style="bottom: 1em;">
+                    <label for="" class="ui-input-text">行业类型</label>
+                    <div class="ui-select" id="industryType-validate">
+                        <a class="ui-btn ui-select-a" onclick="openSelectList('industryType');">
+                        	<span class="ui-select-txt" id="industryType-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="industryType" name="en.industryType"/>
+                        <input type="hidden" id="industryTypeDesc" name="industryTypeDesc"/>
+                    </div>
+                </div>
+                <input type="hidden" id="custId" name="en.custId"/>
+                <input type="hidden" id="custMachId" name="en.custMachId"/>
+        	</form>
+        </div>
+        <div id="brand-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="brand-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="product-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="product-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="model-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="model-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="industryType-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="industryType-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="saveDataShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="saveDataPop" class="ui-popup-savedata ui-hidden">
+			<a id="submit" class="ui-btn ui-corners ui-btn-block ui-btn-save-server" onclick="submitServer();">保存并提交</a> 
+			<a id="draft" class="ui-btn ui-corners ui-btn-block ui-btn-save-draft" onclick="saveDraft();">保存本地草稿</a> 
+			<a class="ui-btn ui-corners ui-btn-block ui-btn-save-cancel" onclick="dismissSavePop();">取消</a>
+		</div>
+		<div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

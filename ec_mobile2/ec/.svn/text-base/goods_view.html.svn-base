@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>商品详情</title>
+    <link rel="stylesheet" type="text/css" href="../resources/css/mui/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../resources/css/mui/iconfont.css"/>
+    <link href="../resources/css/ec/tmpl1.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../resources/js/muiInit.js"></script>
+    <script type="text/javascript" src="js/goods_view.js"></script>
+</head>
+<body class="goods-view">
+	<header id="header" class="mui-bar mui-bar-nav trans">
+		<a class="mui-pull-left c-fff" href="sort.html"><i class="iconfont icon-left c-fff"></i><span class="fs-10 c-fff"></span></a>
+		<h1 class="mui-title c-fff fs-17">商品详情</h1>
+		<a class="mui-pull-right c-fff" href="goods_cart.html"><i class="iconfont icon-cart c-fff fs-20"></i><span class="mui-badge fs-10">9</span></a>
+	</header>
+	<div class="goods-view-content">
+		<div class="mui-slider" id="goods-img">
+			<div class="mui-slider-group">
+				<!-- 第一张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../resources/img/ec/tmpl1/product_img.png">
+					</a>
+				</div>
+				<!-- 第二张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../resources/img/ec/tmpl1/product_img.png">
+					</a>
+				</div>
+				<!-- 第三张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../resources/img/ec/tmpl1/product_img.png">
+					</a>
+				</div>
+				<!-- 第四张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../resources/img/ec/tmpl1/product_img.png">
+					</a>
+				</div>
+			</div>
+			<div class="mui-slider-indicator">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+			</div>
+		</div>
+		<!--产品图结束-->
+		<div class="goods-info clearfix">
+			<span class="title mui-block fs-14 fl">
+				Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOGKixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+			</span>
+			<span class="collcet mui-block fs-10 fr">
+				<i class="iconfont icon-xing fs-20"></i>
+				收藏
+			</span>
+			<div class="view-price clr clearfix">
+				<span class="sale-price fs-18 c-ff5b53">￥100</span>
+				<span class="old-price fs-15">￥200</span>
+			</div>
+			<div class="goods-more">
+				<span class="goods-num fs-12 c-999 mui-text-left fl">库存<i>12</i>件</span>
+				<span class="goods-sale-num fs-12 c-999 mui-text-center fl">月销<i>12</i>笔</span>
+				<span class="goods-place fs-12 c-999 mui-text-right fr">江西 南昌</span>
+			</div>
+		</div>
+		<!--商品信息结束-->
+		<div class="index-block bg-fff">
+			<div class="index-block-tit clearfix">
+				<a class="show-goods-sort c-333 clearfix" href="javascript:void(0)">
+					<span class="title fs-13 fl">选择颜色分类</span>
+					<i class="iconfont icon-you more fr"></i>
+				</a>
+			</div>
+		</div>
+		<!--产品属性弹出层-->
+		<div class="goods-sort">
+			<div class="goods-sort-info clearfix">
+				<img class="fl b-r-4" src="../resources/img/ec/tmpl1/product_img.png">
+				<i class="close-goods-sort iconfont icon-guanbi fs-20 c-333"></i>
+				<div class="goods-sort-info-content fr">
+					<span class="cart-price fs-15 c-ff5b53 mui-block">￥500</span>
+					<span class="goods-num fs-13 c-777 mui-block">库存xxxxx件</span>
+					<span class="sort-content fs-13 c-333 mui-block">请选择商品属性</span>
+				</div>
+			</div>
+			<div class="goods-sort-content clearfix">
+				<dl>
+					<dt class="fs-13">类型</dt>
+					<dd><span>4L</span><span>4L</span><span>4L</span><span>4L</span><span class="on">4L</span><span>4L</span></dd>
+				</dl>
+				<dl>
+					<dt class="fs-13">类型</dt>
+					<dd><span>4L</span><span>4L</span><span>4L</span><span>4L</span><span class="on">4L</span><span>4L</span></dd>
+				</dl>
+				<dl>
+					<dt class="fs-13">类型</dt>
+					<dd><span>4L</span><span>4L</span><span>4L</span><span>4L</span><span class="on">4L</span><span>4L</span></dd>
+				</dl>
+				<dl>
+					<dd><i class="fs-13">购买数量</i>
+						<div class="mui-numbox fr" data-numbox-min='1' data-numbox-max='9' style="height: 30px;">
+							<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+							<input class="mui-numbox-input" type="number" value="5" />
+							<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+						</div>
+					</dd>
+				</dl>
+			</div>
+			<div class="goods-sort-footer">
+				<a class="bg-9c4b0f fs-14" href="#">加入购物车</a>
+			<a class="bg-f2c212 fs-14" href="goods_cart.html">立即购买</a>
+			</div>
+		</div>
+		<div class="goods-sort-cover"></div>
+		<!--颜色分类结束-->
+		<div class="index-block bg-fff" id="comment">
+			<div class="index-block-tit clearfix">
+				<span class="title fs-13 fl">商品评价(<i>20</i>)</span>
+			</div>
+			<div class="comment-content">
+				<ul>
+					<li>
+						<div class="comment-user">
+							<img class="comment-user-img" src="../resources/img/ec/tmpl1/userpic.png"/>
+							<span class="comment-user-name fs-13 c-333">kelle**die</span>
+						</div>
+						<div class="comment-stars" data-starnum="4.8"></div>
+						<div class="comment-text fs-13 c-777">
+							油的质量很好，好评！
+						</div>
+						<div class="comment-moreinfo fs-11 c-999">
+							<span>2015-10-02</span>
+							<span>颜色分类：纯净版</span>
+						</div>
+					</li>
+					<li>
+						<div class="comment-user">
+							<img class="comment-user-img" src="../resources/img/ec/tmpl1/userpic.png"/>
+							<span class="comment-user-name fs-13 c-333">kelle**die</span>
+						</div>
+						<div class="comment-stars" data-starnum="3"></div>
+						<div class="comment-text fs-13 c-777">
+							油的质量很好，中评！
+						</div>
+						<div class="comment-moreinfo fs-11 c-999">
+							<span>2015-10-02</span>
+							<span>颜色分类：纯净版</span>
+						</div>
+					</li>
+				</ul>
+
+				<a class="comment-show-more mui-text-center c-333 fs-13" href="#">查看所有评价</a>
+
+			</div>
+		</div>
+		<!--评价结束-->
+		<div class="index-block bg-fff" id="shop">
+			<div class="index-block-tit clearfix">
+				<span class="title fs-14 fl"><i class="iconfont icon-dianpu c-9c4b0f fs-20 blod"> </i>强力龙挖机配件专营店</span>
+				<i class="more fr fs-12 c-fd433a blod">9.2分</i>
+			</div>
+			<div class="shop-info clearfix">
+				<ul class="clearfix">
+					<li><a class="fs-11 c-777" href="#"><span class="mui-block fs-17 c-333">236</span>全部商品</a></li>
+					<li><a class="fs-11 c-777" href="#"><span class="mui-block fs-17 c-333">15</span>促销商品</a></li>
+					<li><a class="fs-11 c-777" href="#"><span class="mui-block fs-17 c-333">500</span>收藏人数</a></li>
+				</ul>
+				<a class="shop-info-btn fl fs-13 c-333 mui-text-center b-r-4" href="#"><i class="iconfont icon-fenleifull c-999"> </i>商品分类</a>
+				<a class="shop-info-btn fr fs-13 c-333 mui-text-center b-r-4" href="#"><i class="iconfont icon-dianpu c-999"> </i>进入店铺</a>
+			</div>
+		</div>
+		<!--店铺信息结束-->
+		<div class="index-block bg-fff" id="intro">
+			<div class="index-block-tit clearfix">
+				<span class="title mui-text-center fs-14 fl on">图文详情</span>
+				<span class="title mui-text-center fs-14 fl">商品参数</span>
+				<span class="title mui-text-center fs-14 fl">商品简介</span>
+			</div>
+			<div class="intro-content clr">
+				<div class="content mui-block">
+					<img src="../resources/images/mui/cbd.jpg"/>
+				</div>
+				<div class="content">
+					<table cellpadding="0" cellspacing="1" width="100%" border="0" class="Ptable">
+						<tbody>
+							<tr>
+								<th class="tdTitle" colspan="2">主体</th>
+							</tr>
+							<tr>
+							</tr>
+							<tr>
+								<td class="tdTitle">系列</td>
+								<td>FX系列</td>
+							</tr>
+							<tr>
+								<td class="tdTitle">型号</td>
+								<td>FX-PLUS</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="content fs-15">
+					商品简介商品简介商品简介商品简介商品简介商品简介商品简介商品简介商品简介商品简介商品简介商品简介商品简介商品简介
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--底部-->
+	<footer class="bottom-nav">
+		<nav class="footer-nav">
+			<a class="footer-s-btn mui-col-xs-2 c-fff  mui-text-center" href="index.html">
+				<span class="iconfont icon-shouye fs-20 mui-block"></span>
+				<span class="mui-text-center fs-11">首页</span>
+			</a>
+			<a class="footer-s-btn mui-col-xs-2 c-fff  mui-text-center" href="#">
+				<span class="iconfont icon-dianpu fs-20 mui-block"></span>
+				<span class="mui-text-center fs-11">店铺</span>
+			</a>
+			<a class="footer-m-btn mui-col-xs-4 bg-9c4b0f c-fff fs-14" href="#">加入购物车</a>
+			<a class="footer-m-btn mui-col-xs-4 bg-f2c212 c-fff fs-14" href="goods_cart.html">立即购买</a>
+		</nav>
+	</footer>
+</body>
+</html>

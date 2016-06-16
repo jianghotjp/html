@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>人员流动编辑</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="fonts/moving-icon.css">
+		<link rel="stylesheet" type="text/css" href="css/moving-editor.css"/>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jQueryui/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/moving-editor.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<script type="text/javascript">
+			loader();
+		</script>
+		<div class="dpo-block">
+			<div class="dpo-main">
+				<div class="dpo-img" id="map">
+					<img src="img/1.jpg"/>
+				</div>
+			</div>
+			<div class="dpo-slide">
+				<div class="slide-tools fl">
+					<div class="slide-content">
+						<ul class="clearfix">
+							<li><a class="tools-btn" href="#">保存</a></li>
+							<li><a class="tools-btn" href="javascript:void(0);" onclick="editor.resetEl()">重置比例</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="slide-edit edit fl">
+					<div class="slide-content">
+						<ul class="clearfix">
+							<li class="clearfix human">
+								<a class="position fl" href="javascript:void(0);"><i class="moving">&#xe600;</i></a>
+								<a class="info fl" href="javascript:void(0);">姓名-当前进度</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,55 @@
+/**
+    *站点通用 
+ */
+body {
+  font: 13px/1.5 'helvetica neue', tahoma, 'hiragino sans gb', stheiti, 'wenquanyi micro hei', \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, sans-serif;
+  background: #fff;
+  color: #333333;
+}
+body a {
+  color: #333333;
+}
+body a:hover,
+body a:active {
+  color: #666666;
+}
+body a:hover,
+body a:active {
+  color: #333333;
+}
+.top {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  background: #F2F2F2;
+}
+.top a {
+  display: block;
+  float: left;
+}
+.top .top_l a {
+  padding: 0 5px;
+}
+.top .top_l a.login,
+.top .top_l a {
+  color: #106DB2;
+}
+.top .top_l a.login:hover,
+.top .top_l a:hover,
+.top .top_l a.login:active,
+.top .top_l a:active {
+  color: #3ba1ed;
+}
+.top .top_l a.login:hover,
+.top .top_l a:hover,
+.top .top_l a.login:active,
+.top .top_l a:active {
+  color: #106DB2;
+}
+.top .top_r a {
+  padding: 0 5px;
+}
+.top .top_r a.help {
+  border: 1px solid #D8D8D8;
+}
+/*# sourceMappingURL=style.css.map */

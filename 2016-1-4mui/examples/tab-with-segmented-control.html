@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+		<style>
+			.mui-control-content {
+				height: 100%;
+				padding-top: 50px
+			}
+			
+			.mui-popover {
+				height: 300px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div style="padding: 10px 10px;">
+				<div id="listCtrl" class="mui-segmented-control">
+					<a class="mui-control-item mui-active" href="#item1">
+						title1
+					</a>
+					<a class="mui-control-item" href="#item2">
+						title2
+					</a>
+				</div>
+				<div class="sort-lists">
+					<a href="#sort1">1111</a>
+					<a href="#sort2">222222</a>
+				</div>
+			</div>
+			<div>
+				<div id="item1" class="mui-control-content mui-active">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-1
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-2
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-3
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-4
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-5
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-6
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-7
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-8
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-9
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-10
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-11
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-12
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-13
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-14
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-15
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-16
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-17
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-18
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-19
+								</li>
+								<li class="mui-table-view-cell">
+									第一个选项卡子项-20
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item2" class="mui-control-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							第二个选项卡子项-1
+						</li>
+						<li class="mui-table-view-cell">
+							第二个选项卡子项-2
+						</li>
+						<li class="mui-table-view-cell">
+							第二个选项卡子项-3
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="sort1" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell"><a href="#">Item1</a>
+							</li>
+							<li class="mui-table-view-cell"><a href="#">Item2</a>
+							</li>
+							<li class="mui-table-view-cell"><a href="#">Item3</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div id="sort2" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell"><a href="#">Item1</a>
+							</li>
+							<li class="mui-table-view-cell"><a href="#">Item2</a>
+							</li>
+							<li class="mui-table-view-cell"><a href="#">Item3</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script>
+				mui('.mui-scroll-wrapper').scroll({
+					indicators: false //是否显示滚动条
+				});
+				
+			</script>
+
+	</body>
+
+</html>

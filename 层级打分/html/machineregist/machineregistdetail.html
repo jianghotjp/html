@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>设备登记详细</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/app/machineregist.js"></script>
+    <script type="text/javascript">
+   document.addEventListener("deviceready", function() {
+   	$(function() {
+			var type = getStore("CURR_IN_MODE");
+			if (type == 1) {
+				$("#edit_link").hide();
+				setTimeout(getUsedMachineDetail, 200);
+			} else {
+				$("#edit_link").show();
+				setTimeout(getUsedMachineDetailDraft, 200);
+			}
+		});
+    },
+    false);
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="machineregistdetail">
+    	<div class="ui-header ui-bar-t">
+        	<h1>设备登记</h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="jumpToEditPage();" id="edit_link">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">编辑</span>
+                    <span class="ui-icon ui-icon-edit ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content" id="content" style="bottom: 0;">
+        	<table border="0" cellpadding="0" cellspacing="0" class="ui-table">
+                <tr>
+					<td width="50%" align="left" class="ui-td">品牌</td>
+					<td align="right" class="ui-td"><span id="brandName"></span></td>
+				</tr>
+                <tr>
+					<td width="50%" align="left" class="ui-td">产品</td>
+					<td align="right" class="ui-td"><span id="productName"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">机型</td>
+					<td align="right" class="ui-td"><span id="modelName"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">机号</td>
+					<td align="right" class="ui-td"><span id="serialNo"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">车架号</td>
+					<td align="right" class="ui-td"><span id="frameNo"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">发动机号</td>
+					<td align="right" class="ui-td"><span id="engineNo"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">再制造</td>
+					<td align="right" class="ui-td"><span id="isEngineReman"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">出厂日期</td>
+					<td align="right" class="ui-td"><span id="leaveDate"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">出保日期</td>
+					<td align="right" class="ui-td"><span id="serviceEndDate"></span></td>
+				</tr>
+				<tr>
+					<td width="50%" align="left" class="ui-td">备注</td>
+					<td align="right" class="ui-td"><span id="remark"></span></td>
+				</tr>
+            </table>
+        </div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</body>
+</html>

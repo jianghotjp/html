@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.css"/>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span3">
+					<abbr title="缩略语标签">缩略</abbr>
+					<abbr class="initialism" title="缩略语标签">小号字体？？</abbr>
+					<address>
+						<strong>address地址</strong><br>
+						  795 Folsom Ave, Suite 600<br>
+						  San Francisco, CA 94107<br>
+						  <abbr title="Phone">P:</abbr> (123) 456-7890
+					</address>
+					<blockquote>
+					  <a href="http://v2.bootcss.com/base-css.html">引用内容</a>
+					  	<small>前缀<cite title="有提示框">来源名</cite></small>
+					</blockquote>
+					<blockquote class="pull-right">
+					  .pull-right，右对齐
+					  	<small>前缀<cite title="有提示框">来源名</cite></small>
+					</blockquote>
+				</div>
+				<div class="span9">
+					<div class="row-fluid">
+						<div class="span6">
+							<p class="muted">浅色muted</p>
+							<p class="text-warning">黄色text-warning</p>
+							<p class="text-error">红色text-error</p>
+							<p class="text-info">蓝色text-info</p>
+							<p class="text-success">绿色text-success</p>
+							<ul>
+								<li>ul和li的样式</li>
+								<li>
+									<ul>
+										<li>第二级</li>
+										<li>
+											<ul>
+												<li>第三级最多三级样式不同</li>
+												<li>
+													<ul class="unstyled">
+														<li>.unstyled去除当前列表样式</li>
+														<li>第四级</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li></li>
+							</ul>
+							<ul class="inline">
+								<li>.inline横列</li>
+								<li>2</li>
+								<li>3</li>
+								<li>4</li>
+								<li>5</li>
+							</ul>
+							<dl>
+								<dt>条目一</dt>
+								<dd>条目一描述</dd>
+								<dt>条目一</dt>
+								<dd>条目一描述</dd>
+							</dl>
+							<dl class="dl-horizontal ">
+								<dt>.dl-horizontal</dt>
+								<dd>dt和dd一行</dd>
+								<dt>样式结构</dt>
+								<dd>dt文字右对齐，dd文字左对齐</dd>
+							</dl>
+							嵌入代码
+							<code>&lt;div&gt;&lt;/div&gt;</code>
+							字符需转义
+							<pre>&lt;div class="test"&gt;大小于号需要转义&lt;/div&gt;
+								&lt;p&gt;可以存放多行代码&lt;/p&gt;TAB也会被执行
+							</pre>
+							<pre class="pre-scrollable">&lt;div class="test"&gt;大小于号需要转义&lt;/div&gt;
+							&lt;p&gt;.pre-scrollable可以350高带滚动条&lt;/p&gt;
+							</pre>
+							<table class="table table-bordered table-hover table-condensed">
+							  <tr class="success"><td>TABLE美化.table</td></tr>
+							  <tr class="warning"><td>TABLE边框.table-bordered</td></tr>
+							  <tr class="info"><td>TABLE行指向效果.table-hover</td></tr>
+							  <tr><td>padding减半.table-condensed</td></tr>
+							</table>
+						</div>
+						<div class="span6">
+							<form>
+							  <fieldset>
+							    <legend>form内置了样式</legend>
+							    <label>Label name</label>
+							    <input type="text" placeholder="Type something…">
+							    <span class="help-block">Example block-level help text here.</span>
+							    <label class="checkbox">
+							      <input type="checkbox"> Check me out
+							    </label>
+							    <button type="submit" class="btn">Submit</button>
+							  </fieldset>
+							</form>
+							<form class="form-search">
+							  <input type="text" class="input-medium search-query">
+							  <button type="submit" class="btn">Search</button>
+							  input添加.search-query,圆边搜索框
+							</form>
+							<form class="form-search">
+							  <div class="input-append">
+							    <input type="text" class="span2 search-query">
+							    <button type="submit" class="btn">Search</button>
+							  </div>
+							  <div class="input-prepend">
+							    <button type="submit" class="btn">Search</button>
+							    <input type="text" class="span2 search-query">
+							  </div>
+							</form>
+							<form class="form-inline">
+							  <input type="text" class="input-small" placeholder="Email">
+							  <input type="password" class="input-small" placeholder="Password">
+							  <label class="checkbox">
+							    <input type="checkbox"> .form-inline横列
+							  </label>
+							  <button type="submit" class="btn">Sign in</button>
+							</form>
+							<form class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="inputEmail">Email</label>
+    <div class="controls">
+      <input type="text" id="inputEmail" placeholder="Email">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" placeholder="Password">
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox"> Remember me
+      </label>
+      <button type="submit" class="btn">Sign in</button>
+    </div>
+  </div>
+</form>
+<div class="input-prepend">
+  <span class="add-on">@</span>
+  <input class="span6" id="prependedInput" type="text" placeholder="Username">
+</div>
+<div class="input-append">
+  <input class="span6" id="appendedInput" type="text">
+  <span class="add-on">.00</span>
+</div>
+<div class="input-append">
+  <input class="span2" id="appendedInputButton" type="text">
+  <button class="btn" type="button">Go!</button>
+</div>
+<div class="dropdown">
+  <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+    Dropdown
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    ...
+  </ul>
+</div>
+
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>

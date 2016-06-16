@@ -1,0 +1,48 @@
+@charset "utf-8";
+
+
+/*头部背景*/
+
+.bg_color {
+	background: #bf3545;
+}
+/*头部文字*/
+
+.header_promise_color {
+	color: #6b0b17;
+}
+/*导航背景*/
+
+.nav_bg_color {
+	background: #7e1421;
+}
+/*导航按钮激活*/
+
+.nav .nav_list li a:hover {
+	background: #55020d;
+}
+/*焦点图按钮箭头*/
+
+.banner_nav_color {
+	color: #bf3545;
+}
+/*认证对号*/
+
+.confirm_duihao_color {
+	color: #bf3545;
+}
+/*预约评估电话*/
+
+.tel_color {
+	color: #bf3545;
+}
+/*更多*/
+
+.more_color {
+	color: #bf3545;
+}
+/*地图下方*/
+
+.map_color {
+	color: #bf3545;
+}

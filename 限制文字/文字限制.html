@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js" ></script>
+	</head>
+	<body>
+		<p>
+			<span class="comand_word">啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊啊飒飒大师阿斯达是的阿斯达是的啊</span>
+			<a href="javascript:void(0);" class="comand_word_a">
+				这里
+			</a>
+		</p>
+		<script>
+			$(".comand_word").each(function(){
+						var new_p = $(this).text().length;
+						var new_con=$(this).text();
+						if( new_p > 68){						
+							new_str=new_con.substring(0,68)
+							$(this).html(new_str+"......")
+					$(this).parents("p").find(".comand_word_a").click(function(){
+						if ($(this).hasClass("on")) {
+							$(this).removeClass("on")
+							var new_con=$(this).parents("p").find(".comand_word").text();
+							new_str=new_con.substring(0,68)
+							console.log($(this).parents("li").find("span.comand_word")[0])
+							$(this).parents("li").find("span.comand_word").html(new_str+"......")
+							return;
+						}else{
+							var new_con=$(this).parents("p").find(".comand_word").text();
+							console.log(new_con)
+							$(this).addClass("on")
+							new_str=new_con.substring(0,100000)
+							$(this).parents("p").find(".comand_word").html(new_con)
+							$(this).html("[收起]")
+							$(this).addClass("down")
+							return;
+						}
+							
+					})
+						}
+						else if (new_p < 68) {
+							$(this).parents("p").find(".comand_word_a").hide()
+						}
+					})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+	</head>
+
+	<body>
+
+		
+			<div class="mui-card">
+				<form class="mui-input-group">
+					<div class="mui-input-row mui-radio">
+						<label>radio</label>
+						<input name="radio1" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>radio</label>
+						<input name="radio1" type="radio" checked>
+					</div>
+					<div class="mui-input-row mui-radio mui-disabled">
+						<label>disabled radio</label>
+						<input name="radio1" type="radio" disabled="disabled">
+					</div>
+				</form>
+			</div>
+			<div class="mui-content-padded">
+				<p id="info"></p>
+			</div>
+		
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		var info = document.getElementById("info");
+		document.querySelector('.mui-radio input').addEventListener('selected',function(e){
+			info.innerHTML = "当前选中的为："+e.detail.el.innerText;
+		});
+		
+	</script>
+</html>

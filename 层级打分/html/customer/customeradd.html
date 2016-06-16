@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>客户新建</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/app/customer.js"></script>
+    <script type="text/javascript" src="../../js/json2.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    <script type="text/javascript">
+	    document.addEventListener('deviceready', function() {
+		    $(function() {
+				$("#city, #town").attr("disabled", "disabled");
+				loadCustCode();
+				loadEditData();
+				applyScroll(".scroll-wrapper", false);
+			});
+	    }, false);
+	    
+		function openAreaPopup() {
+			$("#area-shadow, #area-list").removeClass("ui-hidden");
+			$("#industryType").attr("disabled", "disabled");
+			loadProvinceData();
+			
+			document.removeEventListener("backbutton", back, false);
+			document.addEventListener("backbutton", closeAreaPopup, false);
+		}
+		
+		function closeAreaPopup() {
+			$("#area-shadow, #area-list").addClass("ui-hidden");
+			$("#industryType").removeAttr("disabled");
+			
+			document.removeEventListener("backbutton", closeAreaPopup, false);
+			document.addEventListener("backbutton", back, false);
+		}
+		
+		function openAreaList(sel) {
+			$("#" + sel + "-list").removeClass("ui-hidden");
+		}
+		
+		function loadProvinceData() {
+			showPageLoading();
+			ap.dbFindAll("Phone_Comm_Area", function(result) {
+				var options = '<option>--- 请选择 ---</option>';
+				for (var i = 0; i < result.rows.length; i++) {
+					var item = result.rows.item(i);
+					options += '<option iscity="' + item.isCity + '" value="' + item.areaId + '">' + item.areaName + '</option>';
+				}
+				$("#province").empty().append(options);
+				$("#city, #town").attr("disabled", "disabled").empty();
+				hidePageLoading();
+			}, "areaId, areaName, isCity", "areaLevel=1 and isUse=1");
+		}
+		
+		function loadCityData() {
+			showPageLoading();
+			$("#city").attr("disabled", false).empty();
+			$("#town").empty();
+			var parentId = $("#province").val();
+			for (var k = 0; k < $("#province option").length; k++) {
+				if ($("#province option")[k].value == parentId) {
+					window.isCity = $("#province option").eq(k).attr("iscity");
+					window.provinceName = $("#province option").eq(k).text();
+					break;
+				}
+			}
+			console.log("直辖市：" + window.isCity + ":" + window.provinceName);
+			
+			if (window.isCity == 1) {
+				var options = '<option>--- 请选择 ---</option>';
+				options += '<option value="' + parentId + '">' + window.provinceName + '</option>';
+				$("#city").empty().append(options);
+				hidePageLoading();
+			} else if (parentId > 0) {
+				ap.dbFindAll("Phone_Comm_Area", function(result) {
+					if (result.rows.length > 0) {
+						var options = '<option>--- 请选择 ---</option>';
+						for (var i = 0; i < result.rows.length; i++) {
+							var item = result.rows.item(i);
+							options += '<option value="' + item.areaId + '">' + item.areaName + '</option>';
+						}
+						$("#city").empty().append(options);
+					} else {
+						alertMsg("该区域没有下级区域");
+					}
+					hidePageLoading();
+				}, "areaId, areaName", "areaLevel=2 and isUse=1 and parentAreaId=" + parentId);
+			} else {
+                $("#city, #town").attr("disabled", "disabled");
+                hidePageLoading();
+            }
+		}
+		
+		function loadTownData() {
+			showPageLoading();
+			$("#town").attr("disabled", false).empty();
+			var parentId = $("#city").val();
+			var areaLevel = 0;
+			if (window.isCity == 1) {
+				areaLevel = 2;
+			} else {
+				areaLevel = 3;
+			}
+            if (parentId > 0) {
+                ap.dbFindAll("Phone_Comm_Area", function(result) {
+                    if (result.rows.length > 0) {
+                        var options = '<option>--- 请选择 ---</option>';
+                        for (var i = 0; i < result.rows.length; i++) {
+                             var item = result.rows.item(i);
+                             options += '<option value="' + item.areaId + '*' + item.showCode + '">' + item.areaName + '</option>';
+                        }
+                        $("#town").empty().append(options);
+                    } else {
+                        alertMsg("该区域没有下级区域");
+                    }
+                    hidePageLoading();
+                }, "areaId, showCode, areaName", "areaLevel=" + areaLevel + " and isUse=1 and parentAreaId=" + parentId);
+            } else {
+                $("#town").attr("disabled", "disabled");
+                hidePageLoading();
+            }
+		}
+		
+		function setAreaData() {
+			if (!!$("#province").val() && !!$("#city").val() && !!$("#town").val()) {
+				$("#fullAreaName").val(getSelectText("province") + "/" + getSelectText("city") + "/" + getSelectText("town"));
+				var areaId = $("#town").val().split("*")[0];
+				var showCode = $("#town").val().split("*")[1];
+				$("#areaId").val(areaId);
+				$("#custZone").val(showCode);
+				
+				if ($("#fullAreaName").parent().hasClass("ui-check-error")) {
+					$("#fullAreaName").parent().removeClass("ui-check-error");
+				}
+			}
+		}
+		
+		function confirm() {
+			setAreaData();
+			closeAreaPopup();
+		}
+		
+		function cancel() {
+			closeAreaPopup();
+			$("#fullAreaName, #areaId, #custZone, #province, #city, #town").val("");
+			applyScroll("#content");// add by wanglj 2014-02-15
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="customeradd">
+    	<div class="ui-header ui-bar-t">
+        	<h1 id="header_title"></h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="showSavePop();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">保存</span>
+                    <span class="ui-icon ui-icon-check ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content scroll-wrapper" id="content" style="bottom: 0; padding-top: .8em;">
+        <div style="width:100%;position:absolute;"> <!-- add by wanglj 2014-02-15 -->
+        	<form id="theform">
+                <div class="ui-field-contain">
+                    <label for="handPhone" class="ui-input-text">手机号<font color="red">*</font></label>
+                    <a class="ui-btn ui-corners" onclick="validateHandPhone();">校验</a>
+                    <div class="ui-body">
+                    	<input type="number" id="handPhone" name="en.handPhone" required="required" placeholder="请输入有效手机号码" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <label for="custName" class="ui-input-text">客户名称<font color="red">*</font></label>
+                    <div class="ui-body">
+                    	<input type="text" id="custName" name="en.custName" required="required" placeholder="请输入客户名称" class="ui-input-text ui-body"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <label for="custZone" class="ui-input-text">所属区域<font color="red">*</font></label>
+                    <div class="ui-body" id="area-validate">
+                    	<input type="text" id="fullAreaName" name="fullAreaName" readonly="readonly" required="required" class="ui-input-text ui-body" onclick="openAreaPopup();"/>
+						<input type="hidden" id="custZone" name="en.custZone"/>
+						<input type="hidden" id="areaId" name="areaId"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain">
+                    <label for="" class="ui-input-text">行业类型<font color="red">*</font></label>
+                    <div class="ui-select" id="industryType-validate">
+                        <a class="ui-btn ui-select-a" onclick="openSelectList('industryType');">
+                        	<span class="ui-select-txt" id="industryType-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="industryType" name="en.industryType"/>
+                        <input type="hidden" id="industryTypeDesc" name="industryTypeDesc"/>
+                    </div>
+                </div>
+                <div class="ui-field-contain" style="margin-bottom: 1em;">
+                    <label for="" class="ui-input-text">客户类型<font color="red">*</font></label>
+                    <div class="ui-select" id="buyerType-validate">
+                        <a class="ui-btn ui-select-a" onclick="openSelectList('buyerType');">
+                        	<span class="ui-select-txt" id="buyerType-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="buyerTypeId" name="en.buyerTypeId"/>
+                        <input type="hidden" id="buyerTypeDesc" name="buyerTypeDesc"/>
+                    </div>
+                </div>
+                <input type="hidden" name="en.custId" id="custId"/>
+            </form>
+        </div>
+        </div>
+		<div id="area-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="area-list" class="ui-select-container ui-hidden">
+        	<p style="background-color: #e5e5e5; padding: .5em; font-weight: bold;">选择区域</p>
+        	<div class="ui-field-contain">
+                <label for="province" class="ui-input-text">省</label>
+                <div class="ui-body">
+                    <select id="province" name="province" onchange="loadCityData();"></select>
+                </div>
+            </div>
+        	<div class="ui-field-contain">
+                <label for="city" class="ui-input-text">市</label>
+                <div class="ui-body">
+                    <select id="city" name="city" onchange="loadTownData();" ></select>
+                </div>
+            </div>
+        	<div class="ui-field-contain">
+                <label for="town" class="ui-input-text">县/区</label>
+                <div class="ui-body">
+                    <select id="town" name="town" ></select>
+                </div>
+            </div>
+        	<div class="ui-field-contain" style="margin-top: 1em; border-bottom: none;">
+                <a class="ui-btn" style="border-radius: 1em; padding: .5em 2em; margin-left: 1em; margin-right: .5em;" onclick="confirm();">确认</a>
+                <a class="ui-btn" style="border-radius: 1em; padding: .5em 2em; margin-left: 1em; margin-right: .5em;" onclick="cancel();">取消</a>
+            </div>
+        </div>
+        <div id="industryType-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="industryType-list" class="ui-select-container ui-hidden">
+        </div>
+        <div id="buyerType-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="buyerType-list" class="ui-select-container ui-hidden">
+        </div>
+        <div id="saveDataShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="saveDataPop" class="ui-popup-savedata ui-hidden">
+			<a id="submit" class="ui-btn ui-corners ui-btn-block ui-btn-save-server" onclick="submitServer();">保存并提交</a> 
+			<a id="draft" class="ui-btn ui-corners ui-btn-block ui-btn-save-draft" onclick="saveDraft();">保存本地草稿</a> 
+			<a class="ui-btn ui-corners ui-btn-block ui-btn-save-cancel" onclick="dismissSavePop();">取消</a>
+		</div>
+		<div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</body>
+</html>

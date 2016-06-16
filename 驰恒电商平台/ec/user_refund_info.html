@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>退款/退货</title>
+		<script type="text/javascript" src="../resources/js/muiInit.js"></script>
+		<script type="text/javascript" src="../resources/js/mui/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="js/user_refund_info.js"></script>
+	</head>
+
+	<body class="user-refund-info">
+		<header id="header" class="mui-bar mui-bar-nav trans">
+			<a class="mui-pull-left c-fff" href="user_center.html"><i class="iconfont icon-left c-fff"></i><span class="fs-10 c-fff"></span></a>
+			<h1 class="mui-title c-fff">退款/退货</h1>
+		</header>
+
+		<div class="goods-order-content mui-slider mui-fullscreen">
+			<div class="order-control fs-13">
+				<ul class="mui-slider-indicator clearfix">
+					<li class="mui-indicator mui-active js-active"><span><i class="iconfont">&#xe608;</i></span>退款申请</li>
+					<li class="mui-indicator js-active"><span><i class="iconfont">&#xe608;</i></span>商家确认</li>
+					<li class="mui-indicator"><span><i class="iconfont"></i></span>物流凭证</li>
+					<li class="mui-indicator"><span><i class="iconfont"></i></span>商家退款</li>
+				</ul>
+			</div>
+			<!--全部订单-->
+			<div class="mui-slider-group">
+				<div class="order-content mui-slider-item mui-control-content mui-active" id="first">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<!---->
+							<div class="mui-card">
+								<ul class="mui-table-view fs-14">
+									<li class="mui-table-view-cell">
+										当前状态：<span class="c-ff5b53">等待商家确认</span>
+									</li>
+									<li class="mui-table-view-cell">
+										退款类型：我要退货
+									</li>
+									<li class="mui-table-view-cell">
+										退款原因：商品质量有问题
+									</li>
+									<li class="mui-table-view-cell">
+										退款金额：283.40元
+									</li>
+									<li class="mui-table-view-cell">
+										上传凭证：
+										<img src="../logo.png" />
+										<img src="../logo.png" />
+										<img src="../logo.png" />
+									</li>
+									
+								</ul>
+
+							</div>
+							<div class="mui-card">
+								<a class="user-sub mui-btn">下一步</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--待付款-->
+				<div class="order-content mui-slider-item mui-control-content" id="second">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="mui-card">
+								<ul class="mui-table-view fs-14">
+									<li class="mui-table-view-cell">
+										当前状态：<span class="c-ff5b53">请按信息寄回商品并提交物流凭证</span>
+									</li>
+									<li class="mui-table-view-cell">
+										确认时间：2015-15-15 12:00
+									</li>
+									<li class="mui-table-view-cell">
+										寄回地址：山东省X市X县X区X街道X路XX号
+									</li>
+									<li class="mui-table-view-cell">
+										收件人：XXXX
+									</li>
+									<li class="mui-table-view-cell">
+										联系电话：12543648256
+									</li>
+									
+								</ul>
+
+							</div>
+							<div class="mui-card">
+								<a class="user-sub mui-btn">下一步</a>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+				<!--待发货-->
+				<div class="order-content mui-slider-item mui-control-content" id="third">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<!---->
+							<div class="mui-card">
+								<ul class="mui-table-view fs-14">
+									<li class="mui-table-view-cell">
+										当前状态：<span class="c-ff5b53">等待商家确认</span>
+									</li>
+									<li class="mui-table-view-cell">
+										<a href="#topPopover">
+											物流公司：<span class="c-777">点击选择对应物流公司</span>
+										</a>
+									</li>
+									<li class="mui-table-view-cell mui-input-row">
+										<dl class="mui-input-row">
+											<dt>物流单号：</dt>
+											<dd><input class="user-ipt mui-input-clear" type="text" id="" value="" placeholder="在此输入寄出物流单号"/></dd>
+										</dl>
+									</li>
+									<li class="mui-table-view-cell">
+										<dl class="mui-input-row">
+											<dt>物流联系方式：</dt>
+											<dd><input class="user-ipt mui-input-clear" type="text" id="" value="" placeholder="在此输入物流联系电话"/></dd>
+										</dl>
+									</li>
+									<li class="mui-table-view-cell">
+										上传凭证：
+										<img src="../logo.png" />
+										<img src="../logo.png" />
+										<img src="../logo.png" />
+									</li>
+								</ul>
+
+							</div>
+							<div class="mui-card">
+								<a class="user-sub mui-btn">下一步</a>
+							</div>
+						</div>
+<script>
+	$(function () {
+		$(".user-sub").click(function () {
+			window.location.href="http://www.baidu.com"
+		})
+	})
+</script>
+					</div>
+
+				</div>
+				<!--待收货-->
+				<div class="order-content mui-slider-item mui-control-content" id="fourth">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<!---->
+							<div class="mui-card">
+								<ul class="mui-table-view fs-14">
+									<li class="mui-table-view-cell">
+										当前状态：<span class="c-ff5b53">等待商家确认</span>
+									</li>
+									<li class="mui-table-view-cell">
+										<a href="#topPopover">
+											退款金额：<span class="c-ff5b53">200.00</span>
+										</a>
+									</li>
+									
+								</ul>
+
+							</div>
+							<div class="mui-card">
+								<a class="user-sub mui-btn">下一步</a>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+			<!--弹出菜单-->
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#">物流公司1</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">物流公司1</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">物流公司1</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">物流公司1</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">物流公司1</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">物流公司1</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<!--/弹出菜单-->
+	</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>用户中心</title>
+    <link rel="stylesheet" type="text/css" href="../resources/css/mui/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../resources/css/mui/iconfont.css"/>
+    <link href="../resources/css/ec/tmpl1.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../resources/js/muiInit.js"></script>
+    <script type="text/javascript" src="js/user_center.js"></script>
+</head>
+<body class="user-center">
+	<header id="header" class="mui-bar mui-bar-nav trans">
+		<a class="mui-pull-left c-fff" href="sort.html"><i class="iconfont icon-shezhi c-fff"></i><span class="fs-10 c-fff"></span></a>
+		<h1 class="mui-title"></h1>
+		<a class="mui-pull-right c-fff" href="#"><i class="iconfont icon-msg c-fff fs-20"></i></a>
+	</header>
+	<div class="user-info bg-e49e07">
+		<div class="user-info-content">
+			<a href="register.html">
+				<div class="user-pic">
+					<img src="../resources/img/ec/tmpl1/userpic.png"/>
+				</div>
+				<span class="user-name">
+					Killerbuker
+				</span>
+			</a>
+			<a class="user-manager c-fff fs-11" href="#">
+				帐户管理、收货地址<i class="iconfont icon-you fs-13"></i>
+			</a>
+		</div>
+	</div>
+	<div class="index-block bg-fff" id="my-order">
+		<div class="index-block-tit clearfix">
+			<span class="title fs-15 c-333 fl fw-normal">我的订单</span>
+			<a class="more fr fs-11" href="#">查看全部订单<i class="iconfont icon-you fs-11"></i></a>
+		</div>
+		<!--内容开始-->
+		<ul class="order-tools clearfix">
+			<li><a href="#"><i class="iconfont icon-daifukuan"></i>待付款</a></li>
+			<li><a href="#"><i class="iconfont icon-daifahuo"></i>待发货</a></li>
+			<li><a href="#"><i class="iconfont icon-daishouhuo"></i>待收货</a></li>
+			<li><a href="#"><i class="iconfont icon-daipingjia"></i>待评价</a></li>
+			<li><a href="#"><i class="iconfont icon-shouhou"></i>退货/售后</a></li>
+		</ul>
+	</div>
+	<div class="index-block bg-fff" id="user-tools-list">
+		<ul class="clearfix">
+		
+			<li><a href="#"><i class="iconfont icon-xing c-ff5b53"></i>收藏夹</a></li>
+			<li><a href="#"><i class="iconfont icon-jifen c-1cbd1c"></i>积分</a></li>
+			<li><a href="#"><i class="iconfont icon-youhuiquan c-425ebc"></i>优惠劵</a></li>
+			<li><a href="#"><i class="iconfont icon-daijinquan c-fca72f"></i>代金券</a></li>
+			<li><a href="#"><i class="iconfont icon-bangzhu c-3b97f1"></i>帮助</a></li>
+		</ul>
+		
+	</div>
+	<!--底部-->
+	<footer class="bottom-nav">
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" href="index.html">
+				<span class="mui-icon iconfont icon-shouye"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="sort.html">
+				<span class="mui-icon iconfont icon-fenlei"></span>
+				<span class="mui-tab-label">分类</span>
+			</a>
+			<a class="mui-tab-item" href="goods_cart.html">
+				<span class="mui-icon iconfont icon-cart"><span class="mui-badge">9</span></span>
+				<span class="mui-tab-label">购物车</span>
+			</a>
+			<a class="mui-tab-item  mui-active" href="user_center.html">
+				<span class="mui-icon iconfont icon-wode"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+	</footer>
+</body>
+</html>

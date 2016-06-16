@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>我的订单</title>
+		<script type="text/javascript" src="../resources/js/muiInit.js"></script>
+		<script type="text/javascript" src="../resources/js/mui/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="js/user_order.js"></script>
+	</head>
+
+	<body class="user-order">
+		<header id="header" class="mui-bar mui-bar-nav trans">
+			<a class="mui-pull-left c-fff" href="user_center.html"><i class="iconfont icon-left c-fff"></i><span class="fs-10 c-fff"></span></a>
+			<h1 class="mui-title c-fff">我的订单</h1>
+		</header>
+
+		<div class="goods-order-content mui-slider mui-fullscreen">
+			<div class="order-control fs-13">
+				<ul class="mui-slider-indicator clearfix">
+					<li class="mui-indicator mui-active">全部</li>
+					<li class="mui-indicator">待付款</li>
+					<li class="mui-indicator">待发货</li>
+					<li class="mui-indicator">待收货</li>
+					<li class="mui-indicator">待评价</li>
+				</ul>
+			</div>
+			<!--全部订单-->
+			<div class="mui-slider-group">
+				<div class="order-content mui-slider-item mui-control-content mui-active" id="allorder">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								
+								<!--待发货-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<i class="iconfont icon-dianpu c-9c4b0f"></i> 强力龙挖机配件专营店
+										<span class="mui-pull-right c-ff5b53">买家已付款</span>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="gry-border-btn fs-12 fr" href="#">提醒发货</a>
+										<a class="gry-border-btn fs-12 fr" href="#">查看物流</a>
+									</div>
+								</li>
+								<!--待收货-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<i class="iconfont icon-dianpu c-9c4b0f"></i> 强力龙挖机配件专营店
+										<span class="mui-pull-right c-ff5b53">卖家已发货</span>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="red-border-btn fs-12 fr" href="#">确认收货</a>
+										<a class="gry-border-btn fs-12 fr" href="#">查看物流</a>
+									</div>
+								</li>
+								<!--待评价-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<i class="iconfont icon-dianpu c-9c4b0f"></i> 强力龙挖机配件专营店
+										<span class="mui-pull-right c-ff5b53">交易成功</span>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="red-border-btn fs-12 fr" href="#">评价</a>
+										<a class="gry-border-btn fs-12 fr" href="#">查看物流</a>
+										<a class="gry-border-btn fs-12 fr" href="#">删除订单</a>
+									</div>
+								</li>
+								<!--取消订单-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<i class="iconfont icon-dianpu c-9c4b0f"></i> 强力龙挖机配件专营店
+										<span class="mui-pull-right c-ff5b53">交易关闭</span>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="gry-border-btn fs-12 fr" href="#">删除订单</a>
+									</div>
+								</li>
+							</ul>
+
+						</div>
+
+					</div>
+				</div>
+				<!--待付款-->
+				<div class="order-content mui-slider-item mui-control-content" id="waitpay">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<!--待付款-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<div class="mui-input-row mui-checkbox mui-left">
+											<label>
+												<i class="iconfont icon-dianpu c-9c4b0f"></i>
+												强力龙挖机配件专营店
+												<span class="mui-pull-right c-ff5b53">等待买家付款</span></label>
+											<input name="checkbox" value="Item 1" type="checkbox" >
+										</div>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="red-border-btn fs-12 fr" href="#">付款</a>
+										<a class="gry-border-btn fs-12 fr" href="#">取消订单</a>
+									</div>
+								</li>
+								<!--待付款-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<div class="mui-input-row mui-checkbox mui-left">
+											<label>
+												<i class="iconfont icon-dianpu c-9c4b0f"></i>
+												强力龙挖机配件专营店
+												<span class="mui-pull-right c-ff5b53">等待买家付款</span></label>
+											<input name="checkbox" value="Item 1" type="checkbox" >
+										</div>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="red-border-btn fs-12 fr" href="#">付款</a>
+										<a class="gry-border-btn fs-12 fr" href="#">取消订单</a>
+									</div>
+								</li>
+
+							</ul>
+
+						</div>
+
+					</div>
+				</div>
+				<!--待发货-->
+				<div class="order-content mui-slider-item mui-control-content" id="waitsend">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<!--待发货-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<i class="iconfont icon-dianpu c-9c4b0f"></i> 强力龙挖机配件专营店
+										<span class="mui-pull-right c-ff5b53">等待买家付款</span>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="red-border-btn fs-12 fr" href="#">付款</a>
+										<a class="gry-border-btn fs-12 fr" href="#">取消订单</a>
+									</div>
+								</li>
+
+							</ul>
+
+						</div>
+
+					</div>
+
+				</div>
+				<!--待收货-->
+				<div class="order-content mui-slider-item mui-control-content" id="waitget">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<!--待付款-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<i class="iconfont icon-dianpu c-9c4b0f"></i> 强力龙挖机配件专营店
+										<span class="mui-pull-right c-ff5b53">等待买家付款</span>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="red-border-btn fs-12 fr" href="#">付款</a>
+										<a class="gry-border-btn fs-12 fr" href="#">取消订单</a>
+									</div>
+								</li>
+
+							</ul>
+
+						</div>
+
+					</div>
+
+				</div>
+				<!--待评价-->
+				<div class="order-content mui-slider-item mui-control-content" id="waitassess">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<!--待付款-->
+								<li class="shop-order mui-table-view-cell">
+									<div class="shop-title fs-12">
+										<i class="iconfont icon-dianpu c-9c4b0f"></i> 强力龙挖机配件专营店
+										<span class="mui-pull-right c-ff5b53">等待买家付款</span>
+									</div>
+									<ul class="goods-list">
+										<li class="clearfix">
+											<img class="fl" src="../resources/img/ec/tmpl1/product_img.png" />
+											<div class="goods-info fl">
+												<p class="c-333 fs-13">
+													Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+												</p>
+												<p class="c-999 fs-11">
+													颜色分类：4L蓝瓶装
+												</p>
+											</div>
+											<div class="goods-price fr">
+												<p class="fs-13 c-333 mui-text-right">¥568</p>
+												<p class="fs-13 c-333 mui-text-right">x1</p>
+											</div>
+										</li>
+
+									</ul>
+									<div class="shop-balance clearfix">
+										<p class="c-333 fs-12">共<span class="goods-num">2</span>件商品 合计<span class="price">¥1342.00</span>（含运费<span class="freight">0.00</span>）</p>
+										<a class="red-border-btn fs-12 fr" href="#">付款</a>
+										<a class="gry-border-btn fs-12 fr" href="#">取消订单</a>
+									</div>
+								</li>
+
+							</ul>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<div class="cart-tools-bar merge">
+			<a class="balance fr fs-15" href="javascript:void(0)">合并订单</a>
+			
+		</div>
+	</body>
+
+</html>

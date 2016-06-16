@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>设备登记</title>
+    <!-- 新增设备登记	add by wanglj 2014-02-15 -->
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/datepicker.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script><!-- add by wanglj 2014-02-15 -->
+    <script type="text/javascript" src="../../js/app/machineregist.js"></script>
+    <script type="text/javascript">
+    	document.addEventListener('deviceready', function() {
+    	$(function() {
+    		$("#leaveDate, #serviceEndDate").Zebra_DatePicker();
+    		loadBrand();
+    		loadEditData();
+    		applyScroll("#content");// add by wanglj 2014-02-15
+		});
+		}, false);
+    	
+    	function updateMachInfo() {
+			var brandId = $("#brandId").val(), productId = $("#productId").val(), modelId = $("#modelId").val(), serialNo = $("#serialNo").val();
+			if (brandId!=null && productId!=null && modelId!=null && serialNo!=null) {
+				var param = { brandId: brandId, productId: productId, modelId: modelId, serialNo: serialNo };
+				getDataFromServer("basedata/findMachInfoJson.action", param, function(json) {
+					try {
+						json = $.parseJSON(json);
+						if (json.machInfo) {
+							if (json.machInfo.leaveDate) {
+								var leaveDate = parseDate(json.machInfo.leaveDate);
+								if (leaveDate) {
+									$("#leaveDate").val(getTimeString(leaveDate, true));
+								}
+							}
+							if (json.machInfo.frameNo) {
+								$("#frameNo").val(json.machInfo.frameNo);
+							}
+							if (json.machInfo.engineNo) {
+								$("#engineNo").val(json.machInfo.engineNo);
+							}
+						}
+					} catch (e) {
+						console.log(e.message);
+					}
+				});
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="machineregistadd">
+    	<div class="ui-header ui-bar-t">
+        	<h1 id="header_title"></h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="showSavePop();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">保存</span>
+                    <span class="ui-icon ui-icon-edit ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content scroll-wrapper" id="content" style="bottom: 0;">
+        <div style="width:100%;position:absolute;"> <!-- add by wanglj 2014-02-15 -->
+        	<form id="theform">
+       			<div class="ui-field-contain">
+                    <label for="" class="ui-input-text">品牌<font color="red">*</font></label>
+                    <div class="ui-select" id="brand-select">
+                        <a class="ui-btn ui-select-a" onclick="openSelectList('brand');" id="brand-validate">
+                        	<span class="ui-select-txt" id="brand-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" name="brandId" id="brandId"/>
+                    </div>
+                    <div id="brand-input" style="display: none;">
+                    	<div class="ui-body" style="display:inline-block;width:80%;" >
+	                    	<input type="text" id="brandName" name="brandName" placeholder="请输入品牌" class="ui-input-text ui-body"/>
+	                    </div>
+                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;" 
+                    		onclick="returnToSelect('brand')">&nbsp;</a>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="" class="ui-input-text">产品<font color="red">*</font></label>
+                    <div class="ui-select" id="product-select">
+                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);" id="product-validate">
+                        	<span class="ui-select-txt" id="product-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="productId" name="productId" />
+                    </div>
+                    <div id="product-input" style="display: none;">
+	                    <div class="ui-body" style="display:inline-block;width:80%;" >
+	                    	<input type="text" id="productName" name="productName" placeholder="请输入产品" class="ui-input-text ui-body"/>
+	                    </div>
+                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;" 
+                    		 onclick="returnToSelect('product')">&nbsp;</a>
+                    </div>
+                </div>
+        		<div class="ui-field-contain">
+                    <label for="" class="ui-input-text">机型<font color="red">*</font></label>
+                    <div class="ui-select" id="model-select">
+                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);" id="model-validate">
+                        	<span class="ui-select-txt" id="model-list-selected">---请选择---</span>
+                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                        </a>
+                        <input type="hidden" id="modelId" name="modelId" />
+                    </div>
+                    <div id="model-input" style="display:none;">
+	                    <div class="ui-body" style="width:80%; display:inline-block;">
+	                    	<input type="text" id="modelName" name="modelName" placeholder="请输入机型" class="ui-input-text ui-body"/>
+	                    </div>
+                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;"
+							 onclick="returnToSelect('model')">&nbsp;</a>
+                    </div>
+                </div>
+				<div class="ui-field-contain">
+					<label for="serialNo" class="ui-input-text">机号<span style="color: #f00;">*</span></label>
+					<div class="ui-body">
+						<input type="text" id="serialNo" name="serialNo" required="required" placeholder="请填写机号" class="ui-input-text ui-body" onchange="updateMachInfo();"/>
+					</div>
+				</div>
+				<div class="ui-field-contain">
+					<label for="frameNo" class="ui-input-text">车架号</label>
+					<div class="ui-body">
+						<input type="text" id="frameNo" name="frameNo" placeholder="请填写车架号" class="ui-input-text ui-body"/>
+					</div>
+				</div>
+				<div class="ui-field-contain">
+					<label for="engineNo" class="ui-input-text">发动机号</label>
+					<div class="ui-body">
+						<input type="text" id="engineNo" name="engineNo" placeholder="请填写发动机号" class="ui-input-text ui-body"/>
+					</div>
+				</div>
+				<div class="ui-field-contain">
+                    <div class="ui-body ui-checkbox-body">
+                    	<input type="checkbox" id="isEngineReman" name="isEngineReman" class="ui-checkbox"/>
+                    	<label for="isEngineReman" class="ui-input-text">再制造</label>
+                    </div>
+				</div>
+				<div class="ui-field-contain">
+					<label for="leaveDate" class="ui-input-text">出厂日期<span style="color: #f00;">*</span></label>
+					<div class="ui-body">
+						<input type="text" id="leaveDate" name="leaveDate" required="required" placeholder="请填写出厂日期" class="ui-input-text ui-body"/>
+					</div>
+				</div>
+				<div class="ui-field-contain">
+					<label for="serviceEndDate" class="ui-input-text">出保日期</label>
+					<div class="ui-body">
+						<input type="text" id="serviceEndDate" name="serviceEndDate" placeholder="请填写出保日期" class="ui-input-text ui-body"/>
+					</div>
+				</div>
+				<div class="ui-field-contain">
+					<label for="remark" class="ui-input-text">备注</label>
+					<div class="ui-body">
+						<textarea id="remark" name="remark"	class="ui-textarea ui-body" placeholder="备注"></textarea>
+					</div>
+				</div>
+			</form>
+        </div> <!-- add by wanglj 2014-02-15 -->
+        </div>
+        <div id="brand-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="brand-list" class="ui-select-container ui-hidden"></div>
+        <div id="product-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="product-list" class="ui-select-container ui-hidden"></div>
+        <div id="model-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="model-list" class="ui-select-container ui-hidden"></div>
+        <div id="saveDataShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="saveDataPop" class="ui-popup-savedata ui-hidden">
+			<a id="submit" class="ui-btn ui-corners ui-btn-block ui-btn-save-server" onclick="submitServer();">保存并提交</a> 
+			<a id="draft" class="ui-btn ui-corners ui-btn-block ui-btn-save-draft" onclick="saveDraft();">保存本地草稿</a> 
+			<a class="ui-btn ui-corners ui-btn-block ui-btn-save-cancel" onclick="dismissSavePop();">取消</a>
+		</div>
+		<div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</body>
+</html>

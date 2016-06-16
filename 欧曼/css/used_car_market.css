@@ -1,0 +1,156 @@
+@charset "utf-8";
+
+/*二手车源*/
+
+a.del_chk{
+	display: block;
+	width: 92px;
+	font-size: 14px;
+	padding-left: 18px;
+	background: url(../images/icon_del.png) left center no-repeat;
+}
+.filter{
+	border: solid 1px #f4f4f4;
+}
+.filter dl{
+	background: #323737;
+	border-bottom: solid 1px #f4f4f4;
+}
+.filter dl dt{
+	float: left;
+	width: 165px;
+	color: #fff;
+	min-height: 40px;
+	_height:40px;
+	line-height: 40px;
+	text-indent: 26px;
+}
+.filter dl dd{
+	float: left;
+	width: 940px;
+	min-height: 40px;
+	background: #fff;
+	padding: 5px 0 5px 20px;
+}
+.filter dl dd select{
+	margin: 5px;
+}
+.filter dl dd ul li{
+	float:left;
+	cursor: pointer;
+	min-width: 30px;
+	_width:30px;
+	height: 22px;
+	line-height: 22px;
+	padding: 0 10px;
+	margin: 6px;
+	margin-left: 0;
+	border: solid 1px #fff;
+}
+.filter dl dd ul li.on{
+	color: #fff;
+	background: #0062A8;
+	border-color:#0062A8;
+}
+.filter dl dd ul li:hover{
+	border: solid 1px #0062A8;
+}
+
+/*排序项*/
+.filter-tools{
+	margin-top: 35px;
+	width: 1127px;
+	height: 40px;
+	background: #f4f4f4;
+}
+.filter-tools li{
+	float: left;
+	min-width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border-left: solid 1px #e1e1e1;
+}
+.filter-tools li a{
+	display: block;
+	padding: 0 20px;
+}
+.filter-tools li:first-child{
+	border: 0 none;
+}
+.filter-tools li i.iconfont{
+	color: #939595;
+	font-size: 12px;
+}
+.filter-tools li.on a{
+	color: #fff;
+	background: #323737;
+}
+.filter-tools li.on i.iconfont{
+	color: #0092CE;
+}
+
+.goods-list{
+	width: 1127px;
+	overflow: hidden;
+}
+.goods-list ul.goods-list-content{
+	width: 1180px;
+}
+.goods-list ul.goods-list-content li{
+	position: relative;
+	float: left;
+	width: 245px;
+	height: 290px;
+	margin-right: 50px;
+	margin-top: 27px;
+}
+.goods-list ul.goods-list-content li a{
+	position: absolute;
+	top: 0;
+	display: block;
+	width: 243px;
+	height: 288px;
+	border: solid 1px #fff;
+}
+.goods-list ul.goods-list-content li .goods-btn{
+	position: relative;
+	height: 0;
+}
+.goods-list ul.goods-list-content li .goods-btn .goods-btn-content{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	height: 0;
+	overflow: hidden;
+}
+.goods-list ul.goods-list-content li .goods-btn span{
+	width: 60px;
+	height: 25px;
+	color: #fff;
+	line-height: 25px;
+	text-align: center;
+	font-size: 12px;
+	margin-left: 2px;
+}
+.goods-list ul.goods-list-content li .goods-btn span.blue-bg{
+	background: #0062a8;
+}
+.goods-list ul.goods-list-content li .goods-btn span.yellow-bg{
+	background: #e5ae18;
+}
+.goods-list ul.goods-list-content li img{
+	width: 243px;
+	height: 176px;
+}
+.goods-list ul.goods-list-content li h3{
+	margin-top: 10px;
+	line-height: 24px;
+}
+.goods-list ul.goods-list-content li p{
+	color: #555;
+	line-height: 24px;
+}
+.goods-list ul.goods-list-content li span{
+	line-height: 40px;
+}

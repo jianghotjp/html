@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>登录</title>
+    
+    <link type="text/css" rel="stylesheet" href="../css/styles.css"/>
+    <script type="text/javascript" src="../js/cordova.js"></script>
+    <script type="text/javascript" src="../js/db.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/app/login.js"></script>
+</head>
+<body>
+    
+    <div id="wxImg" style="display:none;back-ground:#f00;left: 6%; top: 20%; position:absolute;z-index: 999;margin: 0 auto;"><img src="../img/down_icon.png"/></div>
+	<div class="ui-page page-login-bg" id="login">
+    	<div style="position:absolute;left:0;right:0;bottom:4%;">
+        	<form>
+                <table cellpadding="0" cellspacing="0" class="login-table" id="loginTable">
+                    <tr>
+                        <td>用户名</td>
+                        <td><input type="text" id="userno" name="userno" placeholder="请输入帐号"></td>
+                        <td rowspan="2"><a onclick="login();"><img src="../img/login_btn.png"/></a></td>
+                    </tr>
+                    <tr>
+                        <td>密&nbsp;&nbsp;码</td>
+                        <td><input type="password" id="password" name="password" placeholder="请输入密码"></td>
+                    </tr>
+                </table>
+            </form>
+            <p class="login-version" style="font-size:0.8em;">版本号：V1.4.6</p>
+            <p class="ui-p-img" id="iconExpand">
+            <a href="javascript:void(0)" onMouseOut="hideImg()"  onmouseover="showImg()">
+                <img src="../img/view-icon.png"/>
+            </a>
+            </p>
+        </div>
+        <div class="ui-footer" style="background-color: transparent; color: #494848; font-size: .5em; font-weight: normal;">
+        	<p>(C)COPYRIGHTS 2013 <span style="color: #0000FF;">DOOSAN INTERFACE</span> CO.LTD ALL RIGHTS RESERVED</p>
+        </div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+		<div id="updateShadow" style="width: 100%; height: 100%; position: absolute; z-index: 100; display: none; background-color: #fff; opacity: 0.6;"></div>
+		<div id="updatePopup" style="position: absolute; left: 5%; top: 40%; z-index: 101; width: 90%; height: 10%; background: #ccc; padding: 5% 0; color: #fff; border-radius: .5em; display: none;">
+			<p style="text-align: center;">正在下载，请稍候...</p>
+			<div class="ui-progressbar-bg" style="width: 90%; margin-top: 5%; margin-left: 5%;">
+				<span id="current_progress_bar" class="ui-progressbar">&nbsp;</span>
+			</div>
+		</div>
+    </div>
+</body>
+</html>

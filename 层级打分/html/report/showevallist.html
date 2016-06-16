@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>评估打分</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    
+    <script type="text/javascript" src="../../js/app/report.js"></script>
+    <script type="text/javascript" src="../../js/app/report_calc.js"></script>
+	<script type="text/javascript">
+		var template;
+		document.addEventListener('deviceready', function() {
+			document.addEventListener('backbutton', back, false);
+			$(function() {
+				showPageLoading();
+				loadTemplateDetail(loadEvalItemData);
+				applyScroll("#content", false);
+			});
+		});
+		
+		function loadEvalItemData() {
+			template = getCurrentTemplate();
+			var html = '';
+	        for (var i = 0, items = template.details; i < items.length; i++) {
+	        	var item = items[i];
+	        	if (item.levelId == 1) {
+		        	html += '<li class="ui-li" onclick="showEvalDetail(' + item.evalItemId + ', \'' + item.evalItemName + '\', ' + item.newRate.toFixed(2) + ');">';
+		        	html += '<div class="ui-li-wrapper-a ui-txt-inner">';
+		        	html += '<span class="ui-li-txt">' + item.evalItemName + '(' + item.newRate.toFixed(2) + '% <span style="color:gray;font-size:0.7em;">/ ' + item.salvageRate.toFixed(2) + '%</span>)</span></div></li>';
+	        	}
+	        }
+			$('#eval_list').empty().append(html);
+			hidePageLoading();
+	        refreshScroll("#content", true, false);
+		}
+
+		function showEvalDetail(eid, ename, erate) {
+			var trs = '';
+			trs += '<tr>';
+			trs += '	<td class="td-bottom">名称</td>';
+			trs += '	<td class="td-bottom">新机率</td>';
+			trs += '	<td class="td-bottom">打分</td>';
+			trs += '	<td class="td-bottom">剩余率</td>';
+			trs += '</tr>';
+			$("#evalDetailPop").find("p").html(ename + erate + "%");
+			$(template.details).each(function() {
+				if (this.parentItemId == eid) {
+					trs += '<tr>';
+					trs += '	<td class="td-bottom">' + this.evalItemName + '</td>';
+					trs += '	<td class="td-bottom">' + this.newRate.toFixed(2) + '%</td>';
+					trs += '	<td class="td-bottom">' + this.salvageValue.toFixed(2) + '</td>';
+					trs += '	<td class="td-bottom">' + this.salvageRate.toFixed(2) + '%</td>';
+					trs += '</tr>';
+				}
+			});
+			$("#evalDetail").empty().append(trs);
+			$("#evalDetailPop, #evalDetailShadow").removeClass("ui-hidden");
+			centerPop($("#evalDetailPop"));
+			document.removeEventListener('backbutton', back, false);
+			document.addEventListener('backbutton', dismissPop, false);
+		}
+		
+		function dismissPop() {
+			$("#evalDetailPop, #evalDetailShadow").addClass('ui-hidden');
+			document.removeEventListener('backbutton', dismissPop, false);
+			document.addEventListener('backbutton', back, false);
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="showevallist">
+		<div class="ui-header ui-bar-t">
+        	<h1>评估明细</h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content scroll-wrapper" id="content" style="bottom: 0;">
+        	<ul id="eval_list"></ul>
+        </div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"/></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+		<div id="evalDetailShadow" class="ui-hidden ui-popup-shadow"></div>
+		<div id="evalDetailPop" class="ui-popup ui-hidden" style="padding: 0; overflow:hidden; height: 90%;">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="dismissPop();"></a>
+			<p class="ui-pop-header"></p>
+			<div style="margin-top: 1em; width: 100%; height: 80%; overflow-x: hidden; overflow-y: scroll;">
+				<table id="evalDetail" border="0" cellpadding="0" cellspacing="0" class="ui-detail-popup-content"></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

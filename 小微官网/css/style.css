@@ -1,0 +1,634 @@
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+/*
+ * -- BASE STYLES --
+ * Most of these are inherited from Base, but I want to change a few.
+ */
+
+body {
+	line-height: 1.7em;
+	color: #333;
+	font-size: 13px;
+}
+
+html,
+button,
+input,
+select,
+textarea,
+.pure-g [class *="pure-u"],
+.pure-g-r [class *="pure-u"] {
+	font-family: 'helvetica neue', tahoma, 'hiragino sans gb', stheiti, 'wenquanyi micro hei', \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, sans-serif!important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+	color: #34495e;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+	color: #fff;
+}
+
+.pure-img-responsive {
+	max-width: 100%;
+	height: auto;
+}
+
+
+/*
+ * -- LAYOUT STYLES --
+ * These are some useful classes which I will need
+ */
+
+.l-box {
+	padding: .5em;
+}
+
+.l-box-lrg {
+	padding: 2em 1em;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.l-box-tit {
+	padding: 0 1em;
+}
+
+.is-center {
+	text-align: center;
+}
+
+
+/*
+ * -- PURE FORM STYLES --
+ * Style the form inputs and labels
+ */
+
+.pure-form label {
+	margin: 1em 0 0;
+	font-weight: bold;
+	font-size: 100%;
+}
+
+.pure-form input[type],
+textarea {
+	border: 1px solid #fff;
+	box-shadow: none;
+	font-size: 100%;
+	color: #fff;
+	font-size: 14px;
+	margin-bottom: 1em;
+	border-radius: 0!important;
+	background: none;
+	box-shadow: none!important;
+}
+
+.pure-form input[type]:focus,
+textarea:focus {
+	border-color: #ffd000!important;
+	color: #fff;
+}
+
+.form-box textarea {
+	height: 160px;
+}
+
+.form-box .pure-button {
+	width: 120px;
+	height: 40px;
+	color: #333;
+	border-radius: 0;
+	margin-top: .5em;
+}
+
+
+/*
+ * -- PURE BUTTON STYLES --
+ * I want my pure-button elements to look a little different
+ */
+
+.pure-button {
+	color: white;
+	padding: 0.5em 2em;
+	border-radius: 5px;
+	margin: 0;
+	padding: 0;
+}
+
+a.pure-button-primary {
+	background: white;
+	color: #1f8dd6;
+	border-radius: 5px;
+	font-size: 120%;
+}
+
+
+/*
+ * -- MENU STYLES --
+ * I want to customize how my .pure-menu looks at the top of the page
+ */
+
+.home-menu {
+	padding: 0.5em;
+	text-align: center;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10);
+}
+
+.home-menu.pure-menu-open {
+	background-color: #000;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pure-menu.pure-menu-open.pure-menu-fixed {
+	/* Fixed menus normally have a border at the bottom. */
+	border-bottom: none;
+	/* I need a higher z-index here because of the scroll-over effect. */
+	z-index: 4;
+}
+
+.home-menu .pure-menu-heading {
+	color: white;
+	font-weight: 400;
+	font-size: 120%;
+}
+
+.home-menu .pure-menu-selected a {
+	color: 333;
+	background: #ffd000;
+}
+
+.home-menu a {
+	margin-top: 10px;
+	color: #ffd000;
+	background: none;
+	border: solid 1px #ffd000;
+	border-radius: 5px;
+}
+
+.home-menu li a:hover,
+.home-menu li a:focus {
+	background: #f6c900;
+	color: #333;
+	border: solid 1px #ffd000;
+}
+
+
+/*
+ * -- SPLASH STYLES --
+ * This is the blue top section that appears on the page.
+ */
+
+.splash-container {
+	z-index: 1;
+	overflow: hidden;
+	width: 100%;
+	height: 45%;
+	top: 0;
+	left: 0;
+	position: fixed !important;
+}
+
+.splash {
+	width: 80%;
+	height: 50%;
+	margin: auto;
+	position: absolute;
+	top: 100px;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.splash-head {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	border: 3px solid white;
+	padding: 1em 1.6em;
+	font-weight: 100;
+	border-radius: 5px;
+	line-height: 1em;
+}
+
+.splash-subhead {
+	color: white;
+	letter-spacing: 0.05em;
+	opacity: 0.8;
+}
+
+.content-wrapper {
+	position: absolute;
+	top: 45%;
+	width: 100%;
+	min-height: 12%;
+	z-index: 2;
+	background: white;
+}
+
+.content-head {
+	width: 100%;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	margin: 2em 0 1em;
+}
+
+.content-head-ribbon {
+	color: white;
+}
+
+
+/* This is the class used for the content sub-headers (<h3>) */
+
+.content-subhead {
+	color: #fff;
+}
+
+.content-subhead i {
+	margin-right: 7px;
+}
+
+.yellow-ribbon {
+	background: #ffd000;
+	color: #aaa;
+	text-align: center;
+}
+
+.gry-ribbon {
+	background: #333;
+	color: #aaa;
+	width: 100%;
+}
+
+.map-bg {
+	background: url(../images/map_bg.jpg) center center no-repeat;
+	background-size: auto 100%;
+}
+
+.gry-ribbon .function-list-content {
+	overflow: hidden;
+}
+
+.function-list .l-box {
+	padding: 0;
+}
+
+.function-list .l-box .box-content {
+	margin: 12px 6px 0 6px;
+	padding-top: 12px;
+	background: #26262e;
+}
+
+.function-list .l-box .box-content .content-subhead {
+	margin: 0;
+	padding-bottom: 1rem;
+	font-size: 0.875em;
+	font-weight: normal;
+}
+
+.reason-content {
+	text-align: center;
+}
+
+.reason-content .box-content {
+	background: #f1f1f1;
+	padding: 1rem 0;
+}
+
+.reason-content .content-subhead {
+	color: #333;
+}
+
+.yellow-ribbon .content-subhead {
+	color: #333;
+	font-size: 2.125em;
+	margin: 0.4em 0 0 0;
+}
+
+.yellow-ribbon .content-subkey {
+	color: #fff;
+	font-size: 1.25em;
+	margin: 0.4em 0 0 0;
+	font-weight: normal;
+}
+
+.yellow-ribbon p {
+	font-size: 0.875em;
+	color: #333;
+	margin-top: 0;
+}
+
+.contact-content {
+	padding-left: 2em;
+	color: #fff;
+	font-size: 14px;
+	vertical-align: middle;
+	line-height: 300%;
+}
+
+.contact-content img {
+	vertical-align: middle;
+}
+
+.contact-content a {
+	color: #fff;
+}
+
+.footer {
+	color: #fff;
+	font-size: 12px;
+	background: #272727;
+}
+
+.footer a {
+	color: #fff;
+	font-size: 12px;
+}
+
+
+/* fullSlide */
+
+.fullSlide {
+	width: 100%;
+	position: relative;
+	height: 100%;
+}
+
+.fullSlide .bd {
+	height: 100%;
+	position: relative;
+	z-index: 0;
+	overflow: hidden;
+}
+
+.fullSlide .bd ul {
+	width: 100% !important;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.fullSlide .bd li {
+	width: 100% !important;
+	height: 100%!important;
+	overflow: hidden;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+.fullSlide .bd li a {
+	display: block;
+	height: 100%;
+}
+
+.fullSlide .hd {
+	width: 100%;
+	position: absolute;
+	z-index: 1;
+	bottom: 8px;
+	left: 0;
+	height: 30px;
+	line-height: 30px;
+}
+
+.fullSlide .hd ul {
+	text-align: center;
+	padding: 0;
+}
+
+.fullSlide .hd ul li {
+	cursor: pointer;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	width: 42px;
+	height: 5px;
+	margin: 3px;
+	overflow: hidden;
+	background: #fff;
+	filter: alpha(opacity=20);
+	opacity: 0.2;
+	line-height: 999px;
+}
+
+.fullSlide .hd ul .on {
+	background: #ffd000;
+	filter: alpha(opacity=80);
+	opacity: 0.8;
+}
+
+.fullSlide .prev,
+.fullSlide .next {
+	display: block;
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	margin-top: -30px;
+	left: 0%;
+	z-index: 1;
+	width: 40px;
+	height: 60px;
+	background: url(../images/slider-arrow.png) -126px -137px #000 no-repeat;
+	cursor: pointer;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+	display: none;
+}
+
+.fullSlide .next {
+	left: auto;
+	right: 0%;
+	background-position: -6px -137px;
+}
+
+.block-center {
+	margin: 0 auto;
+}
+
+.what-content .pure-button {
+	display: block;
+	line-height: 3.5em;
+	font-size: 1.2em;
+	text-align: center;
+	margin: 0 .5em;
+	pointer-events: none;
+}
+
+.button-yellow {
+	background: #ffd000;
+}
+
+.button-blue {
+	background: #28acf8;
+}
+
+.button-green {
+	background: #45cc5b;
+}
+
+.button-red {
+	background: #fd6344;
+}
+
+.need-icon {
+	background: url(../images/inputbg.png) top right no-repeat!important;
+}
+
+
+/*
+ * -- TABLET (AND UP) MEDIA QUERIES --
+ * On tablets and other medium-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+
+@media (min-width: 48em) {
+	/* We increase the body font size */
+	body {
+		font-size: 16px;
+	}
+	/* We want to give the content area some more padding */
+	.content {
+		padding: 1em;
+	}
+	/* We can align the menu header to the left, but float the
+    menu items to the right. */
+	.home-menu {
+		text-align: left;
+	}
+	.home-menu ul {
+		float: right;
+	}
+	.splash-container {
+		height: 88%;
+	}
+	.fullSlide .hd {
+		bottom: 25px;
+	}
+	.fullSlide .hd ul li {
+		cursor: pointer;
+		display: inline-block;
+		*display: inline;
+		zoom: 1;
+		width: 42px;
+		height: 11px;
+		margin: 3px;
+	}
+	.content-wrapper {
+		top: 87%;
+	}
+	.gry-ribbon .function-list {
+		position: absolute;
+		left: 0;
+		top: 150px;
+		width: 100%;
+		height: 582px;
+		background: url(../images/mac_bg.png) center top no-repeat;
+	}
+	.reason-top {
+		margin-top: 430px;
+	}
+	.reason-content {
+		margin-bottom: 100px;
+	}
+	.gry-ribbon .function-list-content {
+		width: 670px;
+		height: 390px;
+		margin: 60px auto;
+	}
+	.gry-ribbon {
+		position: relative;
+		height: 520px;
+	}
+	.yellow-ribbon {
+		padding-top: 100px;
+		padding-bottom: 100px;
+	}
+	.what-content {
+		margin: 50px auto 150px;
+	}
+	.what-content .pure-button {
+		line-height: 5.625rem;
+		font-size: 1.5rem;
+		margin: 0;
+	}
+	/* We increase the height of the splash-container */
+	/*    .splash-container {
+        height: 500px;
+    }*/
+	/* We decrease the width of the .splash, since we have more width
+    to work with */
+	.splash {
+		width: 50%;
+		height: 50%;
+	}
+	.splash-head {
+		font-size: 250%;
+	}
+	.l-box {
+		padding: .5em;
+	}
+	/* We remove the border-separator assigned to .l-box-lrg */
+	.l-box-lrg {
+		border: none;
+	}
+	.map-bg {
+		background: url(../images/map_bg.jpg) center center no-repeat;
+		background-size: 100% 100%;
+	}
+	.large-right {
+		float: right;
+	}
+	.large-left {
+		float: left;
+	}
+}
+
+
+/*
+ * -- DESKTOP (AND UP) MEDIA QUERIES --
+ * On desktops and other large devices, we want to over-ride some
+ * of the mobile and tablet styles.
+ */
+
+@media (min-width: 78em) {
+	/* We increase the header font size even more */
+	.splash-head {
+		font-size: 300%;
+	}
+	.reason-content .box-content {
+		margin: 0 1rem;
+	}
+	.map-bg {
+		background-size: 100% auto;
+	}
+	.what-content {
+		width: 1000px;
+	}
+	.reason-content {
+		width: 1000px;
+		margin: auto;
+		margin-bottom: 100px;
+	}
+	.map-bg>.pure-g {
+		width: 1000px;
+		margin: auto;
+	}
+	.max-block {
+		width: 1000px;
+		margin: 0 auto;
+	}
+}

@@ -1,0 +1,49 @@
+
+@font-face {font-family: "iconfont";
+        src:url('../fonts/iconfont.ttf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    }
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+}
+
+.icon-left:before { content: "\e600"; }/*返回，左箭头*/
+.icon-you:before { content: "\e60f"; }/*右*/
+.icon-you-after:after { content: "\e60f"; }/*右*/
+.icon-duihao:before { content: "\e608"; }/*对号*/
+.icon-jiantou:before { content: "\e606"; }/*下三角*/
+.icon-jiantoushang:before { content: "\e607"; }/*上三角*/
+.icon-fenleifull:before { content: "\e605"; }/*切换大图视图*/
+.icon-liebiao:before { content: "\e609"; }/*切换列表视图*/
+.icon-wode:before { content: "\e601"; }/*我的*/
+.icon-fenlei:before { content: "\e602"; }/*类别*/
+.icon-shouye:before { content: "\e604"; }/*首页*/
+.icon-cart:before { content: "\e603"; }/*购物车*/
+.icon-xia:before { content: "\e60c"; }/*下*/
+.icon-shang:before { content: "\e60b"; }/*上*/
+.icon-msg:before {content: "\e60d"; }/*消息*/
+.icon-biaozhu:before {content: "\e620"; }/*标注*/
+
+.icon-jifen:before { content: "\e617"; }/*积分*/
+.icon-youhuiquan:before { content: "\e616"; }/*优惠券*/
+.icon-daijinquan:before { content: "\e61a"; }/*代金券*/
+.icon-xing:before { content: "\e61b"; }/*星*/
+.icon-kongxing:before { content: "\e61d"; }/*空心星*/
+.icon-banxing:before { content: "\e61c"; }/*半颗星*/
+.icon-shezhi:before { content: "\e610"; font-size: 23px;}/*设置*/
+.icon-guanbi:before { content: "\e61e"; }/*关闭*/
+
+.icon-ershou:before { content: "\e61f"; }/*二手*/
+.icon-dianpu:before { content: "\e60e";}/*店铺*/
+
+.icon-daifukuan:before { content: "\e611"; }/*待付款*/
+.icon-daipingjia:before { content: "\e612"; }/*待评价*/
+.icon-daishouhuo:before { content: "\e613"; }/*待收货*/
+.icon-daifahuo:before { content: "\e614"; }/*待发货*/
+.icon-shouhou:before { content: "\e615"; }/*售后*/
+.icon-bangzhu:before { content: "\e619"; }/*帮助*/
+.icon-tianjiazhaopian:before { content: "\e621"; }/*帮助*/

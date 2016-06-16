@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<p>111</p>
+		<p></p>
+		<p></p>
+		<p></p>
+		<p></p>
+		<p>111</p>
+		<p>
+			<br>
+		</p>
+		<p>
+			<br>
+		</p>
+		<p>
+		<br>
+		</p>
+		<script type="text/javascript">
+		var delHtmlTag = function (str){
+			if(!str){
+				return "";
+			}
+	        var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
+	        var result=str.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+	        return  result.replace(/\s/g,"");//去除文章中间空格
+		}
+		var removeEndP = function(){
+			var els = $("body").find("p"),
+				last = $(els[els.length - 1]);
+				if(!delHtmlTag(last.prev().html())){
+					last.remove();
+					removeEndP();
+				}
+				return;
+		}
+			$(function(){
+				removeEndP();
+			})
+		</script>
+	</body>
+</html>

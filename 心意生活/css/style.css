@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+/*hack mui*/
+.mui-bar {
+    height: 2.8125rem;
+    line-height: 2.8125rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    background-color: #fff;
+}
+.mui-pull-left,.mui-pull-right{
+	font-size: 1rem;
+}
+.mui-bar .mui-title {
+    right: 2.5rem;
+    left: 2.5rem;
+    display: inline-block;
+    overflow: hidden;
+    width: auto;
+    margin: 0;
+    text-overflow: ellipsis;
+}
+.mui-title {
+	line-height: 2.8125rem;
+    font-size: 1.125rem;
+}
+
+
+
+/*style*/
+.warp{
+	height: 100%;
+	width: 100%;
+	overflow-x: hidden;
+}
+.hav-top .warp{
+	padding-top: 2.8125rem;;
+}
+.hav-bottom .warp{
+	padding-bottom: 2.8125rem;;
+}
+.banner{
+	width: 100%;
+	height: 9.375rem;
+	overflow: hidden;
+}
+.banner .mui-slider-item img{
+	width: 100%;
+}
+.banner .mui-slider-indicator {
+    position: absolute;
+    bottom: 8px;
+    right: 3.90625%;
+    width: 96%;
+    text-align: right;
+    background: 0 0;
+}
+.banner .mui-slider-indicator .mui-indicator {
+    display: inline-block;
+    width: 0.78125rem;
+    height: 4px;
+    margin: 1px 0.09375rem;
+    cursor: pointer;
+    border-radius: 2px;
+    background: rgba(255,255,255,.25);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.banner .mui-slider-indicator .mui-active.mui-indicator {
+    background: rgba(255,255,255,.7);
+}
+/*发现导航*/
+
+.nav{
+	width: 100%;
+	height: auto;
+}
+.nav a{
+	display: block;
+}
+.nav .wide{
+	width: 7.96875rem;
+	height: 8.0625rem;
+}
+.nav .wide .big{
+	width: 7.71875rem;
+	height: 3.75rem;
+	margin: 0 0 0.21875rem 0.23rem;
+	background: #ccc;
+}
+.nav .wide .small{
+	float: left;
+	width: 3.75rem;
+	height: 3.75rem;
+	margin: 0 0 0.21875rem 0.23rem;
+	background: #ccc;
+}

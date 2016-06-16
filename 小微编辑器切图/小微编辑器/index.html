@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>工具条</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/editor.css"/>
+		<link rel="stylesheet" type="text/css" href="font/wx_editor.css"/>
+		<link rel="stylesheet" type="text/css" href="css/toolbar.css"/>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+	    <div class="toolbar-top top-bg">
+            <img class="editor-logo" src="img/editor_logo.png" alt="logo"/>
+            <div class="alert-tool right-line">
+            	<ul>
+            		<li>
+            		    <a class="js_alert toolbar-top-fs" href="javascript:void(0)">
+            		        <i class="wx_editor">&#xe61d;</i>
+            		        <p class="js_alert_box">保存</p>
+            		    </a>
+            		</li>
+            		<li>
+                        <a class="js_alert toolbar-top-fs" href="javascript:void(0)">
+                            <i class="wx_editor">&#xe61c;</i>
+                            <p class="js_alert_box">保存</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="js_alert toolbar-top-fs" href="javascript:void(0)">
+                            <i class="wx_editor">&#xe626;</i>
+                            <p class="js_alert_box">保存</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="js_alert toolbar-top-fs" href="javascript:void(0)">
+                            <i class="wx_editor">&#xe61b;</i>
+                            <p class="js_alert_box">保存</p>
+                        </a>
+                    </li>
+            	</ul>
+            </div>
+            <div class="scales right-line">
+                <div class="scales-icon">
+                	<a class="toolbar-top-fs" href="javascript:void(0)">
+                        <i class="wx_editor">&#xe601;</i>
+                    </a>
+                </div>
+            	<input type="text" name="scale" value="" placeholder="100%"/>
+            	<div class="scales-icon">
+            		<a class="toolbar-top-fs" href="javascript:void(0)">
+                        <i class="wx_editor">&#xe600;</i>
+                    </a>
+            	</div>
+            </div>
+            <div class="other-tool">
+            	<ul>
+            		<li>
+            		    <a class="toolbar-top-fs" href="javascript:void(0)">
+            		        <i class="wx_editor">&#xe602;</i>
+            		    </a>
+            		</li>
+            		<li>
+                        <a class="toolbar-top-fs" href="javascript:void(0)">
+                            <i class="wx_editor">&#xe603;</i>
+                        </a>
+                    </li>
+                    <li>
+                        <p class="toolbar-top-fs js_click" href="javascript:void(0)">
+                            <i class="wx_editor">&#xe645;</i>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="toolbar-top-fs js_click" href="javascript:void(0)">
+                            <i class="wx_editor">&#xe644;</i>
+                        </p>
+                    </li>
+            	</ul>
+            </div>
+            <a class="help left-line">
+            	帮助
+            </a>
+            <div class="layer-list-box left-line">
+                <div class="layer-list">
+                	<ul>
+                		<li class="layer-item toolbar-top-fs">
+                		    <i class="wx_editor">&#xe620;</i>
+                		    <i class="layer-item-name">首页</i>
+                		</li>
+                	</ul>
+                </div>
+                <p class="property toolbar-top-fs js_click" href="javascript:void(0)">
+                    <i class="wx_editor">&#xe61f;</i>
+                </p>
+            </div>
+        </div>
+	    <div class="editer-content">
+    		<div class="toolbar-box toolbar-left content-bg">
+    			<h3 class="toolbar-title tilte-bg">
+                                            控件
+    			</h3>
+    			<ul>
+    				<li>
+    				    <a href="javascript:void(0)">
+    				        <i class="btn-icon wx_editor">&#xe641;</i>
+    				        <p class="btn-word">按钮</p>
+    				    </a>
+    				</li>
+    				<li>
+    				    <a href="javascript:void(0)">
+                            <i class="btn-icon wx_editor">&#xe63f;</i>
+                            <p class="btn-word">文本</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="btn-icon wx_editor">&#xe642;</i>
+                            <p class="btn-word">图片</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="btn-icon wx_editor">&#xe63d;</i>
+                            <p class="btn-word">地图</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="btn-icon wx_editor">&#xe63e;</i>
+                            <p class="btn-word">导航</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="btn-icon wx_editor">&#xe633;</i>
+                            <p class="btn-word">轮播</p>
+                        </a>
+                        <i class="wx_editor extend">&#xe60a;</i>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="btn-icon wx_editor">&#xe62c;</i>
+                            <p class="btn-word">列表</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="btn-icon wx_editor">&#xe643;</i>
+                            <p class="btn-word">表单</p>
+                        </a>
+                    </li>
+    			</ul>
+    		</div>
+    		<div class="toolbar-box toolbar-right content-bg">
+    			<h3 class="toolbar-title tilte-bg">
+                                         图层
+                </h3>
+                <div class="toolbar-right-nav">
+                	<a href="javascript:void(0)">
+                	    <i class="wx_editor">&#xe62f;</i>
+                	</a>
+                	<a href="javascript:void(0)">
+                        <i class="wx_editor">&#xe646;</i>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <i class="wx_editor">&#xe647;</i>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <i class="wx_editor">&#xe632;</i>
+                    </a>
+                </div>
+                <ul class="toolbar-right-content">
+                	<li>
+                	    <a class="show-layer"><i class="wx_editor">&#xe634;</i></a>
+                	    <p class="layer">
+                	    	<i class="wx_editor layer-icon">&#xe63f;</i>
+                	    	<i class="layer-name">文本</i>
+                	    </p>
+                	    <i class="wx_editor copy">&#xe610;</i>
+        	            <i class="wx_editor delete">&#xe60c;</i>
+                	</li>
+                	<li>
+                        <a class="show-layer"><i class="wx_editor">&#xe634;</i></a>
+                        <p class="layer">
+                            <i class="wx_editor layer-icon">&#xe641;</i>
+                            <i class="layer-name">大按钮</i>
+                        </p>
+                        <i class="wx_editor copy">&#xe610;</i>
+                        <i class="wx_editor delete">&#xe60c;</i>
+                    </li>
+                    <li>
+                        <a class="show-layer"><i class="wx_editor">&#xe634;</i></a>
+                        <p class="layer">
+                          <i class="wx_editor layer-icon">&#xe63d;</i>
+                          <i class="layer-name">图片一号</i>
+                        </p>
+                        <i class="wx_editor copy">&#xe610;</i>
+                        <i class="wx_editor delete">&#xe60c;</i>
+                    </li>
+                    <li>
+                        <a class="show-layer"><i class="wx_editor">&#xe634;</i></a>
+                        <p class="layer">
+                            <i class="wx_editor layer-icon">&#xe640;</i>
+                            <i class="layer-name"> 静态轮播大图</i>
+                        </p>
+                        <i class="wx_editor copy">&#xe610;</i>
+                        <i class="wx_editor delete">&#xe60c;</i>
+                    </li>
+                    <li>
+                        <a class="show-layer"><i class="wx_editor">&#xe634;</i></a>
+                        <p class="layer">
+                            <i class="wx_editor layer-icon">&#xe63f;</i>
+                            <i class="layer-name">简介</i>
+                        </p>
+                        <i class="wx_editor copy">&#xe610;</i>
+                        <i class="wx_editor delete">&#xe60c;</i>
+                    </li>
+                    <li>
+                        <a class="show-layer"><i class="wx_editor">&#xe634;</i></a>
+                        <p class="layer">
+                            <i class="wx_editor layer-icon">&#xe63f;</i>
+                            <i class="layer-name">广告文字</i>
+                        </p>
+                        <i class="wx_editor copy">&#xe610;</i>
+                        <i class="wx_editor delete">&#xe60c;</i>
+                    </li>
+                </ul>
+                <div class="toolbar-right-hide">
+                	<i class="wx_editor">&#xe628;</i>
+                </div>
+    		</div>
+            <div class="control-properties">
+                <div class="control-prop-tit">
+                    <h5 class="fs-13 fl">控件属性 (dynaSlider)</h5>
+                    <a href="" class="close"><i class="wx_editor fs-18 fr c-fff">&#xe60d;</i></a>
+                </div>
+
+                <div class="control-prop-content">
+                    <div class="up-control-prop">
+                        <h5 class="up-prop-tit">位置和尺寸</h5>
+                        <div class="up-prop-content">
+                            <ul>
+                                <li class="fl"><p>左</p><input type="number" name="" id="" class="up-input" value="128"/><i class="px1">Px</i></li>
+                                <li class="fl"><p>上</p><input type="number" name="" id="" class="down-input" value="128"/><i class="px1">Px</i></li>
+                                <li class="fl"><p class="tit">宽</p><input type="number" name="" id="" class="width-input" value="128"/><i class="px2">Px</i></li>
+                                <li class="fl"><p class="tit">高</p><input type="number" name="" id="" class="height-input" value="128"/><i class="px2">Px</i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="down-control-prop">
+                        <div class="switch-control">
+                            <ul class="clearfix">
+                                <li class="active">背景</li>
+                                <li class="">边框</li>
+                                <li class="">其他</li>
+                            </ul>
+                        </div>
+                        <div class="switch-content">
+                            <div class="bg-control clearfix dis-block">
+                                <div class="img-pick fl">
+                                    <p class="fl">图片</p>
+                                    <div class="fl img-pick-content">
+                                        <div class="img">
+
+                                        </div>
+                                        <a href="javascript:void(0)" class="fl">添加</a>
+                                        <a href="javascript:void(0)" class="fr">删除</a>
+                                    </div>
+                                </div>
+                                <div class="align-pick fl">
+                                    <p class="fl">对齐</p>
+                                    <div class="fl align-pick-content">
+                                        <div class="align-div">
+                                            <i class="first"><i class="ver-border fl"></i><i class="top-border fl"></i><i class="bg-d9d9d9"></i></i>
+                                            <i class="twice"><i class="bg-d9d9d9"></i></i>
+                                            <i class="three"><i class="ver-border fr"></i><i class="top-border fr"></i><i class="bg-d9d9d9"></i></i>
+                                            <i class="four"><i class="bg-d9d9d9"></i></i>
+                                            <i class="five"><i class="bg-d9d9d9 on"></i></i>
+                                            <i class="six"><i class="bg-d9d9d9"></i></i>
+                                            <i class="seven"><i class="ver-border fl"></i><i class="top-border fl"></i><i class="bg-d9d9d9"></i></i>
+                                            <i class="eight"><i class="bg-d9d9d9"></i></i>
+                                            <i class="nine"><i class="ver-border fr"></i><i class="top-border fr"></i><i class="bg-d9d9d9"></i></i>
+                                        </div>
+                                        <select name="" class="align-style">
+                                            <option value="">平铺</option>
+                                            <option value="">展开</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="color-pick fl">
+                                    <p class="fl">颜色</p>
+                                    <div class="fl color-pick-content">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border-control">
+                                222
+                            </div>
+                            <div class="other-control">
+                                333
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+	    </div>
+	</body>
+</html>

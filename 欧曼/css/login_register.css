@@ -1,0 +1,159 @@
+@charset "utf-8";
+
+html,body{
+	-moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+.login_form{
+	width: 582px;
+	margin: 0 auto;
+}
+.login_header{
+	position: relative;
+	width: 582px;
+	height: 100px;
+	margin: 0 auto;
+	background: url(../images/login_cutline.gif) bottom center no-repeat;
+}
+.login_header img{
+	width: 285px;
+	height: 61px;
+	margin: 0 auto;
+	padding-top: 30px;
+}
+.login_header a.backindex{
+	display: block;
+	position: absolute;
+	right: -50px;
+	bottom: 0; 
+	width: 60px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	padding-right: 25px;
+	background: url(../images/right_arr.gif) right center no-repeat;
+}
+.login .login_header a.backindex{
+	right: 0;
+}
+.login_header a.tologin{
+	display: block;
+	position: absolute;
+	right: 40px;
+	bottom: 0; 
+	width: 90px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	padding-right: 25px;
+	background: url(../images/right_arr_blue.gif) right center no-repeat;
+}
+.login_form h3{
+	width: 321px;
+	margin: 0 auto;
+	padding-top: 22px;
+	height: 40px;
+	line-height: 40px;
+}
+.from_content{
+	width: 321px;
+	margin: 0 auto;
+	padding-bottom: 30px;
+}
+.from_content .ipt_text{
+	width: 295px;
+	margin: 6px auto;
+}
+.from_content .ipt_btn{
+	width: 321px;
+	margin: 10px 0 20px;
+}
+.login_reg{
+	width: 321px;
+	margin: 0 auto;
+}
+
+.login_reg .ipt_btn{
+	display: block;
+	width: 120px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+}
+.login_reg p{
+	width: 180px;
+}
+
+.register_control{
+	margin: 0 auto;
+	width: 309px;
+	height: 38px;
+	padding: 22px 7px 0;
+	border-bottom: solid 3px #0062a8;
+}
+.register_control li{
+	width: 125px;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	float: left;
+	margin-left:18px;
+}
+.register_control li a{
+	display: block;
+	width: 125px;
+	height: 38px;
+	background: #e6e6e6;
+}
+.register_control li a:hover{
+	background: #cfcfcf;
+}
+.register_control li.on a{
+	color: #fff;
+	background: #0062A8;
+}
+.register_content{
+	width: 523px;
+	padding: 20px 0;
+	margin: 0 auto;
+}
+.register_content .register_from dl dt,.register_content .register_from dl dd{
+	float: left;
+}
+.register_content .register_from dl dt{
+	width: 86px;
+	height: 47px;
+	line-height: 47px;
+	text-align: right;
+}
+.register_content .register_from dl dd .ipt_text{
+	margin: 8px 8px 8px 14px;
+	width: 297px;
+}
+.register_content .register_from dl dd .ipt_text.ident_code{
+	width: 115px;
+}
+.register_content .register_from dl dd .ident_img{
+	cursor: pointer;
+	width: 65px;
+	height: 27px;
+	border: solid 1px #878787;
+	margin-top: 9px;
+}
+.register_content .register_from dl dd .ident_text{
+	height: 47px;
+	line-height: 47px;
+	text-indent: 8px;
+}
+.register_content .register_from dl dd .ipt_btn{
+	width: 323px;
+}
+.register_from{
+	display: none;
+}

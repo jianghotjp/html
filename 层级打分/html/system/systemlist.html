@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>系统设置</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+	<script type="text/javascript">
+		document.addEventListener('deviceready', onDeviceReady, false);
+		
+		function onDeviceReady() {
+			document.addEventListener('backbutton', back, false);
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="systemlist">
+    	<div class="ui-header ui-bar-t">
+        	<h1>系统设置</h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content" id="content" style="bottom: 0;">
+        	<ul id="system_list">
+            	<li class="ui-li" onclick="window.location.href='personaldetail.html';">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<span class="ui-li-txt">个人信息</span>
+                    </div>
+                </li>
+                <!-- 
+                <li class="ui-li" onclick="window.location.href='localstoragelist.html';">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<span class="ui-li-txt">本地存储列表</span>
+                    </div>
+                </li>
+            	<li class="ui-li" onclick="">
+                	<div class="ui-li-wrapper-a ui-txt-inner">
+                    	<span class="ui-li-txt">清除缓存</span>
+                    	<span class="ui-li-count ui-corner-all">8.47M</span>
+                    </div>
+                </li>
+                 -->
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

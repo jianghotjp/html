@@ -1,0 +1,29 @@
+@h-100 : 100%;
+@bg-default : #000;
+@base-color: #111;
+@zero:0;
+.hotjp{
+    .home{
+        .borderRadius(@radius:5px) { 
+         -moz-border-radius: @radius; 
+         -webkit-border-radius: @radius; 
+         border-radius: @radius; 
+         } 
+    }
+}
+html,body{
+    height: @h-100;
+    background-color: @bg-default;
+    .hotjp>.home>.borderRadius;
+}
+a{
+    @color:#111;
+     color: lighten(@color, 10%); // return a color which is 10% *lighter* than @color 
+//   darken(@color, 10%); // return a color which is 10% *darker* than @color 
+//   saturate(@color, 10%); // return a color 10% *more* saturated than @color 
+//   desaturate(@color, 10%);// return a color 10% *less* saturated than @color 
+//   fadein(@color, 10%); // return a color 10% *less* transparent than @color 
+//   fadeout(@color, 10%); // return a color 10% *more* transparent than @color 
+//   spin(@color, 10); // return a color with a 10 degree larger in hue than @color 
+//   spin(@color, -10); // return a color with a 10 degree smaller hue than @color
+}

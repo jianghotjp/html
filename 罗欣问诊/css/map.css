@@ -1,0 +1,124 @@
+@charset "utf-8";
+
+.main{
+	min-width: 1200px;
+}
+.map-slider{
+	width: 32%;
+	height: 720px;
+	background: #daf9e4;
+}
+.map-slider .map-slider-content{
+	position: relative;
+	width: 316px;
+	height: 640px;
+	overflow: hidden;
+	padding: 60px 20px 10px 10px;
+}
+.map-block{
+	width: 68%;
+}
+
+.pos-select{
+	margin-top: 10px;
+}
+.stor-list{
+	margin-top: 25px;
+}
+.stor-list ul{
+	padding-right: 20px;
+	list-style: none;
+}
+.stor-list ul li{
+
+	border-top: solid 1px #b7d0bf;
+}
+
+.stor-list li a{
+	padding: 10px;
+	display: block;
+}
+.stor-list li a:hover{
+	background: #b7d0bf;
+}
+.stor-list li h3{
+	padding-top: 5px;
+	line-height: 45px;
+	font-size: 16px;
+	font-weight: bold;
+	color: #2c2c2c;
+}
+.stor-list li p{
+	color: #2c2c2c
+}
+.doc-top img{
+	width: 125px;
+	height: 125px;
+	border: solid 2px #0fba61;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.doc-top .doc-top-r{
+	width: 165px;
+}
+.doc-top .doc-top-r h3{
+	line-height: 55px;
+	font-size: 18px;
+	font-weight: normal;
+}
+.doc-top .doc-top-r span{
+	line-height: 35px;
+	color: #089b42;
+	font-size: 16px;
+}
+
+.doc-bottom p{
+	padding-top: 15px;
+	line-height: 30px;
+	font-size: #5f5f5f;
+	font-size: 14px;
+}
+.doc-bottom p span{
+	font-size: 18px;
+	color: #f76d08;
+}
+.bottom-btns{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 55px;
+}
+.bottom-btns a{
+	display: block;
+	margin: 6px;
+	width: 143px;
+	height: 41px;
+	line-height: 41px;
+	border-radius: 3px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+	background-color: transparent;
+	background-position: 15px center;
+	background-repeat: no-repeat;
+	text-indent: 45px;
+	font-size: 18px;
+	color: #fff
+}
+.bottom-btns a.close-btn{
+	background-image: url(../images/close_btn_icon.png);
+	background-color: #979797;
+	border-color: #979797;
+}
+.bottom-btns a.close-btn:hover{
+	background-color: #818181;
+}
+.bottom-btns a.upload-btn{
+	background-image: url(../images/upload_btn_icon.png);
+	background-color: #fea700;
+	border-color: #fea700;
+}
+.bottom-btns a.upload-btn:hover{
+	background-color: #f19e00;
+}

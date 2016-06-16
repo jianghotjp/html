@@ -1,0 +1,19 @@
+{
+	"index.html": {
+		"resources": [
+			"css/common.css",
+			"js/update.js",
+			"js/shortcut.js",
+			"js/immersed.js"
+		],
+		"refer": [
+			"plus/downloader.html",
+			"plus/audio.html"
+		]
+	},
+	"plus/downloader.html": {
+		"resources": [
+			"js/common.js"
+		]
+	}
+}

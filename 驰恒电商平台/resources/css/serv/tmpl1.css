@@ -1,0 +1,132 @@
+/*背景色*/
+
+.bg-fff{background-color: #fff;}
+
+.addcart{background-color: #9c4b0f!important;}
+.buynow{background-color: #f2c212!important;}
+.coupon-color1{background-color:#166db1!important ;}
+.coupon-color2{background-color:#16b19d!important ;}
+.coupon-color3{background-color:#db951a!important ;}
+.coupon-disable{background-color:#e0e0e0!important ;}
+
+/*文字*/
+.fw-normal{font-weight: normal!important;}
+.c-fff{color: #fff;}
+a.c-fff{color: #fff;}
+.c-333{color: #333!important;}
+.c-777{color: #777!important;}
+.c-999{color: #999!important;}
+.c-b0b0b0{color: #b0b0b0!important;}
+.c-ff5b53{color: #ff5b53;}
+.c-fd433a{color: #fd433a!important;}
+.c-1cbd1c{color: #1cbd1c!important;}
+.c-425ebc{color: #425ebc!important;}
+.c-fca72f{color: #fca72f!important;}
+.c-3b97f1{color: #3b97f1!important;}
+.c-9c4b0f{color: #9c4b0f!important;}
+
+/*字号*/
+/*.fs-8{font-size: 0.47rem!important;}*/
+/*.fs-10{font-size: 0.588rem!important;}*/
+/*.fs-11{font-size: 0.647rem!important;}*/
+/*.fs-12{font-size: 0.735rem!important;}*/
+/*.fs-13{font-size: 0.764rem!important;}*/
+/*.fs-14{font-size: 0.823rem!important;}*/
+/*.fs-15{font-size: 0.9rem!important;}*/
+/*.fs-16{font-size: 0.941rem!important;}*/
+/*.fs-17{font-size: 1rem!important;}*/
+/*.fs-18{font-size: 1.058rem!important;}*/
+/*.fs-20{font-size: 1.176rem!important;}*/
+/*.fs-23{font-size: 1.352rem!important;}*/
+/*.fs-32{font-size: 1.882rem!important;}*/
+/*.fs-50{font-size: 2.941rem!important;}*/
+.fs-8{font-size: 0.5rem!important;}
+.fs-10{font-size: 0.625rem!important;}
+.fs-11{font-size: 0.6875rem!important;}
+.fs-12{font-size: 0.75rem!important;}
+.fs-13{font-size: 0.8125rem!important;}
+.fs-14{font-size: 0.875rem!important;}
+.fs-15{font-size: 0.9375rem!important;}
+.fs-16{font-size: 1rem!important;}
+.fs-17{font-size: 1.0625rem!important;}
+.fs-18{font-size: 1.125rem!important;}
+.fs-20{font-size: 1.25rem!important;}
+.fs-23{font-size: 1.4375rem!important;}
+.fs-32{font-size: 2rem!important;}
+.fs-50{font-size: 3.125rem!important;}
+
+.goods-view .collcet.on{
+    color:#fbd034!important;
+}
+.goods-view .collcet.on i{
+    color:#fbd034;
+}
+
+.bg-none{
+    background: none!important;
+}
+
+/*下载*/
+body.down{
+    height: 100%;
+    box-shadow: none;
+    background-color: #383737;
+}
+body.down .down-btns{
+    position: absolute;
+    top: 70%;
+    width: 100%;
+}
+body.down a{display: block;
+    box-sizing: border-box;
+    width: 80%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #1f1a17!important;
+    margin: 10px auto 0;
+    border-radius: 20px;
+}
+body.down a.anzuo{
+    background: #f19606;
+}
+body.down a.anzuo:active{
+    background: #c37e12;
+}
+body.down a.ios{
+    background: #ffd12d;
+}
+body.down a.ios:active{
+    background: #cdaa30;
+}
+body.down ._cover {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.75);
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    display: none;
+}
+body.down ._cover ._img {
+    margin: 0 auto;
+    display: none;
+}
+body.down ul{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    margin-left: -40%;
+    width: 80%;
+    height: 45%;
+    padding: 5%;
+    background: rgba(255,255,255,0.85);
+    font-size: 14px;
+    border-radius: 10px;
+}
+body.down li{
+    line-height: 1.2em;
+    padding-bottom: 10px;
+    word-break: break-all;
+}

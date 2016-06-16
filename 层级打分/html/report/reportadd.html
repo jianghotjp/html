@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>报告新建</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/datepicker.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    
+    <script type="text/javascript" src="../../js/app/report.js"></script>
+    <script type="text/javascript" src="../../js/app/report_calc.js"></script>
+    
+    <script type="text/javascript">
+	document.addEventListener('deviceready', function() {
+		$(function() {
+			showPageLoading();
+			
+			if (getStore("PAGE_EVALUATING") == "1") {
+				// 如果是从评估打分返回，则跳转到评估选项卡
+				initTabs('#theform', 'identityinfo', 2);
+				removeStore("PAGE_EVALUATING");
+			} else {
+				initTabs('#theform', 'baseinfo', 0);
+			}
+			
+			$("#evalDate, #leaveDate, #expTradeDate").Zebra_DatePicker({
+				onSelect : function(a, ymd, c, target) {
+					var id = target.attr("id");
+					if (id == "evalDate" || id == "leaveDate") {
+						var ad = parseDate($("#evalDate").val());
+						var ld = parseDate($("#leaveDate").val());
+						if (ad && ld && ad < ld) {
+							alertMsg("出厂日期不能晚于评估日期");
+						}
+					}
+					target.val(ymd);
+					target.trigger("change");
+				}
+			});
+			loadBrand();
+			loadCode();
+			loadCompBrand();
+			loadReProduct();
+			loadTemplate();
+			
+			var keyId = getStore("CURR_REPORT_ID");
+			var type = getStore("CURR_IN_MODE");
+			if (!keyId) {
+				chengeSourceType(0);
+				loadData();
+			} else {//说明来自明细页点击编辑，而非列表页点击新建
+				console.log("进入编辑页面，编辑单据，keyId = " + keyId + ", type = " + type);
+				$("#header_title").html("编辑报告");
+				if (type == 0){//手机本地草稿
+					ap.dbFindAll('Phone_Du_Eval_Report',function(data){
+						var en = data.rows.item(0);
+						
+						$.extend(en, {
+							wSalePrice:!!en.salePrice?en.salePrice:0,
+							wEvalPrice:!!en.evalPrice?en.evalPrice:0,
+							wSysEvalPrice:!!en.sysEvalPrice?en.sysEvalPrice:0,
+							wCustExpPrice:!!en.custExpPrice?en.custExpPrice:0,
+							wReMachinePrice:!!en.reMachinePrice?en.reMachinePrice:0,
+							wMarketPrice:!!en.marketPrice?en.marketPrice:0,
+							wCompPrice:!!en.compPrice?en.compPrice:0,
+							wCompNewPrice:!!en.compNewPrice?en.compNewPrice:0
+						});
+						
+						stuffFormDatas(en);
+						!!en.isCertNo && en.isCertNo == 1 ? $('#isCertNo').attr('checked',true).val(true) : $('#isCertNo').attr('checked',false).val(false);
+						!!en.isInvoiceNo && en.isInvoiceNo == 1 ? $('#isInvoiceNo').attr('checked', true).val(true) : $('#isInvoiceNo').attr('checked', false).val(false);
+						!!en.isContractNo && en.isContractNo == 1 ? $('#isContractNo').attr('checked',true).val(true) : $('#isContractNo').attr('checked',false).val(false);
+                        !!en.isStandpart && en.isStandpart == 1 ? $('#isStandpart').attr('checked',true).val(true) : $('#isStandpart').attr('checked',false).val(false);
+                        !!en.isOrigpain && en.isOrigpain == 1 ? $('#isOrigpain').attr('checked',true).val(true) : $('#isOrigpain').attr('checked',false).val(false);
+						!!en.isEngineReman && en.isEngineReman == 1 ? $("#isEngineReman").attr("checked", "checked") : $("#isEngineReman").attr("checked", false);
+						!!en.isOnScene && en.isOnScene == 1 ? $("#isOnScene").attr("checked", "checked") : $("#isOnScene").attr("checked", false);
+						
+						chengeSourceType(en.sourceTypeId);
+						$("#iwYear").val(Math.floor(en.workYear / 12));
+						$("#iwMonth").val(Math.floor(en.workYear % 12));
+						
+						dealComboNCheckboxValue(en);
+						
+						var applyTmpl = function(template) {
+							var itemMap = {};
+							$(template.details).each(function() {
+								itemMap[this.evalItemId] = this;
+							});
+							
+							// 加载本地评分结果，填充模板
+							ap.dbFindAll("Phone_Du_Eval_Report_Detail", function(data) {
+								console.log("本地评分结果: " + data.rows.length);
+								for (var i = 0, j = data.rows; i < j.length; ++i) {
+									var item = j.item(i);
+									var titem = itemMap[item.evalItemId];
+									if (titem) {
+										if (titem.levelId == 2) {
+											titem.salvageValue = item.salvageRate;
+											titem.salvageRate = titem.salvageValue * titem.newRate;
+										}
+									} else {
+										console.log("未找到评估项目" + item.evalItemId);
+									}
+								}
+								_prepareTemplate(template, true);
+								// 保存模板
+								saveCurrentTemplate(template);
+								// 生成照片
+								preparePhoto(keyId, en.evalTemplateId);
+							}, "*", "reportId=" + keyId);
+						};
+						
+						var template = getCurrentTemplate();
+						if (template)
+							applyTmpl(template);
+						else
+							_loadTemplateData(en.evalTemplateId, applyTmpl);
+					},'*','_id='+keyId);
+				}
+			}
+			applyScroll(".scroll-wrapper", false);
+		});
+}, false);
+	    
+		function dealComboNCheckboxValue(en){
+			//combobox
+			$('#brand-list-selected').html(en.brandName);
+			$('#product-list-selected').html(en.productName);
+			$('#model-list-selected').html(en.modelName);
+			$('#reProduct-list-selected').html(en.RProductName || en.reProductName || '---请选择---');
+			$('#reModel-list-selected').html(en.RModelName || en.reModelName || '---请选择---');
+			$('#compBrand-list-selected').html(en.CBrandName || en.compBrandName || '---请选择---');
+			$('#compProduct-list-selected').html(en.CProductName || en.compProductName || '---请选择---');
+			$('#compModel-list-selected').html(en.CModelName || en.compModelName || '---请选择---');
+			$('#evalTemplate-list-selected').html(en.evalTemplateName);
+			$('#sourceType-list-selected').html(en.sourceTypeName);
+			$('#machCondition-list-selected').html(en.machConditionName);
+			$('#reProductName').val(en.RProductName || en.reProductName);
+			$('#reModelName').val(en.RModelName || en.reModelName);
+			$('#compBrandName').val(en.CBrandName || en.compBrandName);
+			$('#compProductName').val(en.CProductName || en.compProductName);
+			$('#compModelName').val(en.CModelName || en.compModelName);
+			$('#evalTemplateName').val(en.evalTemplateName);
+			$('#sourceTypeName').val(en.sourceTypeName);
+			$('#machConditionName').val(en.machConditionName);
+		}
+		
+		// 从草稿读取照片并显示
+		function preparePhoto(keyId, tid) {
+			ap.dbFindAll("Phone_Eval_Template_Photo", function(result) {
+				var html = '';
+				for (var p = 0; p < result.rows.length; p++) {
+					var part = result.rows.item(p);
+					var tp = '<li class="ui-li-photo">';
+					tp += '<img id="' + part.photoPartId + '" src="../../img/' + getPartImg(part.photoPartId) + 
+								'" partId="' + part.photoPartId + '" alt="' + part.photoPartName + 
+								'" class="small-pic" onclick="capturePicture(this, ' + part.photoPartId + ');">';
+					tp += '<p class="pic-desc-name">' + part.photoPartName + '</p></li>';
+					html += tp;
+				}
+				$("#photoinfo").empty().append('<ul class="ui-ul-photo">' + html + '</ul>');
+				refreshScroll("#content", true);
+				
+				ap.dbFindAll("Phone_Du_Eval_Photo", function(data) {
+					var other = '';
+					for (var i = 0; i < data.rows.length; i++) {
+						var item = data.rows.item(i);
+						console.log("loaded eval photo -> " + JSON.stringify(item));
+						if (item.partId > 0) {
+							$("#" + item.partId).attr("src", item.photoPath);
+						} else {
+							var p = '<li class="ui-li-photo">';
+							p += '<img id="_local_' + item._id + '" src="' + item.photoPath + '" oth="' + item.remark + '" class="small-pic" onclick="capturePicture(this);">';
+							var remark = item.remark;
+							if (remark) {
+								var nsep = remark.indexOf("\n");
+								if (nsep != -1)
+									remark = remark.substring(0, nsep);
+							}
+							p += '<p class="pic-desc-name">' + remark + '</p></li>';
+							other += p;
+						}
+					}
+					other += '<li class="ui-li-photo">';
+					other += '<img src="../../img/bg_icon_add.jpg" class="small-pic" addPic=1 onclick="addPicture(this);">';
+					other += '<p class="pic-desc-name">添加</p></li>';
+					$("#photoinfo ul").append(other);
+					refreshScroll("#content", true);
+					
+					for (var i = 0; i < data.rows.length; i++) {
+						var item = data.rows.item(i);
+						var remark = item.remark || "", nsep = remark.indexOf("\n");
+						console.log("remark = " + remark);
+						// 已保存的附件信息
+						if (nsep != -1) {
+							item.remark = remark.substring(0, nsep);
+							var attachStr = remark.substring(nsep + 1), attach = null;
+							console.log("已保存的本地附件信息" + attachStr);
+							try {
+								attach = $.parseJSON(attachStr);
+							} catch (ex) {
+								console.log("无法解析保存的附件信息为json");
+							}
+							if (item.partId > 0) {
+								$("#" + item.partId).data("attachment", attach);
+								console.log("partId -> " + item.partId + " : " + $("#" + item.partId).length);
+							} else {
+								$("#_local_" + item._id).data("attachment", attach);
+								console.log("_id -> " + item._id + " : " + $("#_local_" + item._id).length);
+							}
+						}
+					}
+				}, "*", "billId=" + keyId + " and billType='REPT'");
+				
+			}, "*", "evalTemplateId=" + tid);
+		}
+		
+		// 读取图片上的附件信息
+		function _loadPhotos() {
+			var attachments = [], partIds = [], extAtts = [];
+			$("#photoinfo img").each(function() {
+				var img = $(this), imageURI = img.attr("src"), partId = parseInt(img.attr("partId"), 10) || 0;
+				var att = img.data("attachment");
+				if (att) {
+					att._img_src = imageURI;	// 记录source，用于从评分表返回时恢复图片
+					if (partId > 0) {
+						attachments.push(att);
+						partIds.push(partId);
+					} else {
+						att._img_oth = img.attr("oth");
+						extAtts.push(att);
+					}
+					console.log("读取图片信息：" + JSON.stringify(att));
+				}
+			});
+			return { attachments : attachments, partIds : partIds, extAtts : extAtts };
+		}
+		
+		// 跳转打分页时读取页面上全部图片信息
+		function _loadPhotos2() {
+			var attachments = [], partIds = [], extAtts = [];
+			$("#photoinfo img").each(function() {
+				var img = $(this), imageURI = img.attr("src"), partId = parseInt(img.attr("partId"), 10) || 0;
+				var att = img.data("attachment");
+				if (!att) {// 如果不存在则说明是本地文件，添加一个空对象，加入标识
+					att = {};
+					att._is_empty = 1;
+				}
+				att._img_src = imageURI;
+				if (partId > 0) {
+					attachments.push(att);
+					partIds.push(partId);
+				} else {
+					att._img_oth = img.attr("oth");
+					extAtts.push(att);
+				}
+				console.log("读取图片信息：" + JSON.stringify(att));
+			});
+			return { attachments : attachments, partIds : partIds, extAtts : extAtts };
+		}
+		
+		function uploadFile(finishCallback) {
+			var imgs = [], uploadCount = 0;
+			$("#photoinfo img").each(function() {
+				var imageURI = $(this).attr("src");
+				// 没有attachment表示既非从申请带来，也不是刚刚上传到服务器的
+				if (imageURI && imageURI.indexOf("part_") == -1 && imageURI.indexOf("bg_icon_add") == -1) {
+					if (!/^http[s]?:\/\/.*/.test(imageURI))
+						imgs.push(this);
+					else
+						console.log("照片地址:" + imageURI + "，但是缺少attachment");
+				}
+			});
+			if (!imgs.length)
+				return finishCallback(_loadPhotos());
+			
+			var attachments = [], partIds = [], extAtts = [];
+			$(imgs).each(function() {
+				var img = $(this), imageURI = img.attr("src"), partId = img.attr("partId");
+				var options = new FileUploadOptions();
+				options.fileKey = "upload";
+				options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+				options.mimeType = "image/jpeg";
+				options.headers = { userid : getStore("USERID"), phone : 1 };
+				options.trustAllHosts = true;
+				options.chunkedMode = false;
+				options.params = { uploadFolder : "phone" };
+				if (options.fileName.lastIndexOf("?") != -1)
+					options.fileName = options.fileName.substring(0, options.fileName.lastIndexOf("?"));
+				
+				function showProgress(msg) {
+					toast(msg || ("照片上传进度:" + uploadCount + "/" + imgs.length), 2000);
+				}
+				
+				var ft = new FileTransfer();
+				ft.upload(imageURI, SERVERURL + 'common/fileUploadAction.action', function(attach) {
+					++uploadCount;
+					console.log("success " + uploadCount + "/" + imgs.length);
+					var att = null;
+					try {
+						att = $.parseJSON(attach.response).attachmentInfo;
+					} catch (e) {
+						console.log("error : " + e.message + ", response : " + attach.response);
+						console.log(e);
+						showProgress("照片'" + img.siblings(".pic-desc-name").html() + "'上传失败:" + (fileTransferErrorMessage[e.message] || "未知错误"));
+						return;
+					}
+					img.data("attachment", att);
+					showProgress();
+					if (uploadCount == imgs.length) {
+						showProgress("照片上传完成");
+						if (finishCallback)
+							finishCallback(_loadPhotos());
+					}
+				}, function(error) {
+					console.log("Code = " + error.code + ", Source = " + error.source + ", Target = " + error.target + ", HttpStatus = " + error.http_status);
+					showProgress("照片'" + img.siblings(".pic-desc-name").html() + "'上传失败:" + error.code);
+				}, options);
+			});
+
+		}
+		
+		// 保存草稿的部位图片
+		function saveParts(_id) {
+			var imgs = [], data = [];
+			$("#photoinfo img").each(function() {
+				var imageURI = $(this).attr("src");
+				if (imageURI && imageURI.indexOf("part_") == -1 && 
+						imageURI.indexOf("bg_icon_add") == -1)
+					imgs.push(this);
+			});
+			if (!imgs.length) {
+				toast("保存成功", 3000);
+				hidePageLoading();
+				backFromSave();
+				return;
+			}
+			
+			for (var i = 0; i < imgs.length; i++) {
+				// 保存草稿时，如果有附件，则是评估申请带来的，如果没有附件，则是本地文件
+				var attach = $(imgs[i]).data("attachment");
+				var item = {
+					billId : _id,
+					billType : 'REPT',
+					partId : !!$(imgs[i]).attr("partId") ? $(imgs[i]).attr("partId") : 0,
+					partName : !!$(imgs[i]).attr("alt") ? $(imgs[i]).attr('alt') : '',
+					photoPath : $(imgs[i]).attr("src"),
+					remark : !!$(imgs[i]).attr("oth") ? $(imgs[i]).attr("oth") : ''
+				};
+				if (attach) {
+					// 附件信息序列化之后保存在remark之后，以\n分隔
+					item.remark += "\n" + JSON.stringify(attach);
+				}
+				data.push(item);
+			}
+			
+			var insertCount = data.length;
+			
+			function tryBack() {
+				if (insertCount == 0) {
+					toast("保存成功", 3000);
+					hidePageLoading();
+					backFromSave();
+				}
+			}
+			
+			tryBack();
+			$(data).each(function() {
+				ap.dbInsert("Phone_Du_Eval_Photo", this, function(result) {
+					--insertCount;
+					tryBack();
+				});
+			});
+		}
+		
+		function insertDB(tableName, data, index, callback) {
+			if (index < data.length) {
+				ap.dbInsert(tableName, data[index], function(result) {
+					setTimeout(insertDB(tableName, data, ++index, callback), 300);
+				});
+			} else {
+				callback();
+			}
+		}
+		
+		function saveDraft() {
+			prepareForm();
+			if (validate()) {
+				showPageLoading();
+				checkboxHandler2();
+				
+				var obj = translateDraft(getParameterDraft(), true);
+				
+				delete obj.actionLeaveDate;
+				delete obj.iwYear;
+				delete obj.iwMonth;
+				delete obj.wSalePrice;
+				delete obj.lastEvalTemplateId;
+				delete obj.moreMonth;
+				delete obj.wSysEvalPrice;
+				delete obj.wEvalPrice;
+				delete obj.wCustExpPrice;
+				delete obj.wReMachinePrice;
+				delete obj.wMarketPrice;
+				delete obj.wCompPrice;
+				delete obj.wCompNewPrice;
+				delete obj.levelPrice;
+				delete obj.app_keyword;
+				delete obj.cust_keyword;
+                delete obj.eval_keyword;
+				delete obj.device_keyword;
+				
+				toast("正在保存草稿，请稍候", 2000);
+				
+				if (!!getStore("CURR_REPORT_ID")) {
+					ap.dbUpdate("Phone_Du_Eval_Report", obj, { _id : getStore("CURR_REPORT_ID") }, function(result) {
+						ap.dbDelete("Phone_Du_Eval_Photo", { billId : getStore("CURR_REPORT_ID"), billType : 'REPT' }, function() {
+							ap.dbDelete("Phone_Du_Eval_Report_Detail", { reportId : getStore("CURR_REPORT_ID") }, function() {
+								saveDetails(getStore("CURR_REPORT_ID"), function() {
+									saveParts(getStore("CURR_REPORT_ID"), function() {
+										toast("保存成功", 3000);
+										hidePageLoading();
+										backFromSave();
+										return;
+									});
+								});
+								// TODO 切换模板时需要重新保存部位
+							});
+						});
+					});
+				} else {
+					ap.dbInsert("Phone_Du_Eval_Report", obj, function(result) {
+						saveDetails(result.insertId, function() {
+							saveParts(result.insertId);
+						});
+					});
+				}
+			}
+		}
+		
+		function saveDetails(rptId, callback) {
+			var template = getCurrentTemplate();
+			if (template && template.details && template.details.length) {
+				console.log("保存明细: " + template.details.length);
+				var insertCount = template.details.length;
+				$(template.details).each(function() {
+					var d = { 
+						reportId : rptId, evalItemId : this.evalItemId, evalItemName : this.evalItemName, salvageRate : this.salvageValue 
+					};
+					ap.dbInsert("Phone_Du_Eval_Report_Detail", d, function(result) {
+						--insertCount;
+						if (insertCount == 0 && callback)
+							callback();
+					});
+				});
+			} else {
+				if (callback)
+					callback();
+			}
+		}
+		
+		//设备来源更改时控制交易tab
+		function chengeSourceType(val){
+			if(val==1000201){
+				$('#adeal').show();
+				$('#divReProduct').show();
+				$('#divReModel').show();
+				$('#divNewPrice').show();
+				$('#divCompBrand').show();
+				$('#divCompProduct').show();
+				$('#divCompModel').show();
+				$('#divCompEvalPrice').show();
+				$('#divCompNewPrice').show();
+				$('#abase').removeClass("ui-navbar-item-d").addClass("ui-navbar-item-e");
+				$('#aused').removeClass("ui-navbar-item-d").addClass("ui-navbar-item-e");
+				$('#aidentity').removeClass("ui-navbar-item-d").addClass("ui-navbar-item-e");
+				$('#aphoto').removeClass("ui-navbar-item-d").addClass("ui-navbar-item-e");
+			}
+			else if (val==1000202){
+				$('#adeal').show();
+				$('#divReProduct').hide();
+				$('#divReModel').hide();
+				$('#divNewPrice').hide();
+				$('#divCompBrand').hide();
+				$('#divCompProduct').hide();
+				$('#divCompModel').hide();
+				$('#divCompEvalPrice').hide();
+				$('#divCompNewPrice').hide();
+				$('#abase').removeClass("ui-navbar-item-d").addClass("ui-navbar-item-e");
+				$('#aused').removeClass("ui-navbar-item-d").addClass("ui-navbar-item-e");
+				$('#aphoto').removeClass("ui-navbar-item-d").addClass("ui-navbar-item-e");
+			}
+			else{
+				$('#adeal').hide();
+				$('#abase').removeClass("ui-navbar-item-e").addClass("ui-navbar-item-d");
+				$('#aused').removeClass("ui-navbar-item-e").addClass("ui-navbar-item-d");
+				$('#aphoto').removeClass("ui-navbar-item-e").addClass("ui-navbar-item-d");
+			}
+		}
+		
+		function updateMachInfo() {
+			var brandId = $("#brandId").val(), productId = $("#productId").val(), modelId = $("#modelId").val(), serialNo = $("#serialNo").val();
+			if (brandId!=null && productId!=null && modelId!=null && serialNo!=null) {
+				var param = { brandId: brandId, productId: productId, modelId: modelId, serialNo: serialNo };
+				getDataFromServer("basedata/findMachInfoJson.action", param, function(json) {
+					try {
+						json = $.parseJSON(json);
+						if (json.machInfo) {
+							if (json.machInfo.leaveDate) {
+								var leaveDate = parseDate(json.machInfo.leaveDate);
+								if (leaveDate) {
+									$("#leaveDate").val(getTimeString(leaveDate, true));
+									calcLeaveDate();
+								}
+							}
+							if (json.machInfo.frameNo) {
+								$("#frameNo").val(json.machInfo.frameNo);
+							}
+							if (json.machInfo.engineNo) {
+								$("#engineNo").val(json.machInfo.engineNo);
+							}
+						}
+					} catch (e) {
+						console.log(e.message);
+					}
+				});
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="reportadd">
+		<div class="ui-header ui-bar-t">
+        	<h1 id="header_title">新建报告</h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="showSavePop();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">保存</span>
+                    <span class="ui-icon ui-icon-check ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content  scroll-wrapper" id="content">
+        <div style="width:100%;position:absolute;">
+        	<form id="theform">
+        		<div id="baseinfo" style="width: 100%;">
+        			<div class="ui-field-contain">
+	                    <label for="appNo" class="ui-input-text">评估申请单</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="appNo" name="appNo" readonly="readonly" onclick="getAppList(0);" placeholder="请选择评估申请单" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="appId" name="en.appId"/>
+	                    </div>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="custName" class="ui-input-text">客户姓名</label>
+	                    <div>
+	                    <div class="ui-body" style="width: 80%; display: inline-block;">
+	                    	<input type="text" id="custName" name="custName" readonly="readonly" onclick="getCustList(0);" placeholder="请选择客户姓名" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="custId" name="en.custId"/>
+	                    </div>
+	                    <a class="ui-icon ui-icon-add ui-corner-all" style="margin: .9em;" onclick="window.location.href='../customer/customeradd.html';">&nbsp;</a>
+	                    </div>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="handPhone" class="ui-input-text">手机号码</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="handPhone" name="handPhone" readonly="readonly" placeholder="请填写手机号码" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="areaName" class="ui-input-text">区域</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="areaName" name="areaName" readonly="readonly" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="areaId" name="en.areaId"/>
+	                    </div>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="evalDate" class="ui-input-text">评估日期<font color="red">*</font></label>
+	                    <div class="ui-body">
+	                    	<input type="text" required="required" id="evalDate" readonly="readonly" name="en.evalDate" placeholder="请填写申请日期" class="ui-input-text ui-body ui-check-error" onchange="calcLeaveDate()"/>
+	                    </div>
+	                </div>
+        		</div>
+        		<div id="usedinfo" style="width: 100%;" class="ui-hidden">
+        			<div class="ui-field-contain">
+	                    <label for="brand-show-link" class="ui-input-text">品牌<span style="color: #f00;">*</span></label>
+	                    <div class="ui-select" id="brand-select">
+	                        <a id="brand-show-link" class="ui-btn ui-select-a" onclick="openSelectList('brand');">
+	                        	<span class="ui-select-txt" id="brand-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="brandId" name="brandId" required="required"/>
+	                    </div>
+	                    <div id="brand-input" style="display: none;">
+	                    	<div class="ui-body" style="display:inline-block;width:80%;" >
+		                    	<input type="text" id="brandName" name="brandName" placeholder="请输入品牌" class="ui-input-text ui-body"/>
+		                    </div>
+	                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;" 
+	                    		onclick="returnToSelect('brand')">&nbsp;</a>
+	                    </div>
+	                </div>
+	        		<div class="ui-field-contain">
+	                    <label for="product-show-link" class="ui-input-text">产品<span style="color: #f00;">*</span></label>
+	                    <div class="ui-select" id="product-select">
+	                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);" id="product-show-link">
+	                        	<span class="ui-select-txt" id="product-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="productId" name="productId" />
+	                    </div>
+	                    <div id="product-input" style="display: none;">
+		                    <div class="ui-body" style="display:inline-block;width:80%;" >
+		                    	<input type="text" id="productName" name="productName" placeholder="请输入产品" class="ui-input-text ui-body"/>
+		                    </div>
+	                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;" 
+	                    		 onclick="returnToSelect('product')">&nbsp;</a>
+	                    </div>
+	                </div>
+	        		<div class="ui-field-contain">
+	                    <label for="model-show-link" class="ui-input-text">机型<span style="color: #f00;">*</span></label>
+	                    <div class="ui-select" id="model-select">
+	                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);" id="model-show-link">
+	                        	<span class="ui-select-txt" id="model-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="modelId" name="modelId" />
+	                    </div>
+	                    <div id="model-input" style="display:none;">
+		                    <div class="ui-body" style="width:80%; display:inline-block;">
+		                    	<input type="text" id="modelName" name="modelName" placeholder="请输入机型" class="ui-input-text ui-body"/>
+		                    </div>
+	                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;"
+								 onclick="returnToSelect('model')">&nbsp;</a>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="serialNo" class="ui-input-text" style="display:block">机号<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body" style="width: 80%; display: inline-block;">
+	                    	<input type="text" id="serialNo" name="serialNo" required="required" 
+	                    		placeholder="请输入机号" class="ui-input-text ui-body" onchange="updateMachInfo();"/>
+	                    </div>
+	                    <a class="ui-icon ui-icon-search ui-corner-all" style="margin: .9em;" onclick="getMachList(0)">&nbsp;</a>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="frameNo" class="ui-input-text">车架号</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="frameNo" name="frameNo" placeholder="请输入车架号" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="engineNo" class="ui-input-text">发动机号</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="engineNo" name="engineNo" placeholder="请输入发动机号" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                	<div class="ui-body ui-checkbox-body">
+	                    	<input type="checkbox" id="isEngineReman" name="isEngineReman" class="ui-checkbox" value="1"/>
+	                    	<label for="isEngineReman" class="ui-input-text">发动机再制造</label>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="leaveDate" class="ui-input-text">出厂日期<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="leaveDate" name="en.leaveDate" required="required" placeholder="请填写出厂日期" class="ui-input-text ui-body" onchange="calcLeaveDate()"/>
+	                    	<input type="hidden" id="actionLeaveDate" name="leaveDate"/> <!-- 与后台兼容，后台用此字段覆盖en.leaveDate -->
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">年限</label>
+                        <div class="ui-body" style="border: none; background:none;">
+                            <input type="number" id="iwYear" name="iwYear" style="width: 35%;height:25px;line-height:25px;padding:2px 0;border:solid .1em #aaa;border-radius:4px"  onchange="calculatTotalMonth();" />&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;
+                            <input type="number" id="iwMonth" name="iwMonth" style="width: 35%;height:25px;line-height:25px;padding:2px 0;border:solid .1em #aaa;border-radius:4px" onchange="calculatTotalMonth();" />&nbsp;&nbsp; 月
+                            <input type="hidden" id="workYear" name="en.workYear"/>
+                        </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="workHour" class="ui-input-text">工作小时<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="workHour" name="en.workHour" required="required" placeholder="请填写工作小时数" onchange="calcEvalFormValues();" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="wSalePrice" class="ui-input-text">一次销售价(万元)<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wSalePrice" name="en.wSalePrice" placeholder="请填写一次销售价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="salePrice" name="en.salePrice"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="machineAddress" class="ui-input-text">设备位置</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="machineAddress" name="en.machineAddress" placeholder="请填写设备位置" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <div class="ui-body ui-checkbox-body">
+	                    	<input type="checkbox" id="isInvoiceNo" name="en.isInvoiceNo" class="ui-checkbox" value="1"/>
+	                    	<label for="isInvoiceNo" class="ui-input-text">是否有发票</label>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <div class="ui-body ui-checkbox-body">
+	                    	<input type="checkbox" id="isContractNo" name="en.isContractNo" class="ui-checkbox" value="1"/>
+	                    	<label for="isContractNo" class="ui-input-text">是否有合同</label>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <div class="ui-body ui-checkbox-body">
+	                    	<input type="checkbox" id="isCertNo" name="en.isCertNo" class="ui-checkbox" value="1"/>
+	                    	<label for="isCertNo" class="ui-input-text">是否有合格证</label>
+	                    </div>
+	                </div>
+                    <div class="ui-field-contain">
+                        <div class="ui-body ui-checkbox-body">
+                            <input type="checkbox" id="isOrigpain" name="en.isOrigpain" class="ui-checkbox" value="1"/>
+                            <label for="isOrigpain" class="ui-input-text">是否原厂漆</label>
+                        </div>
+                    </div>
+                    <div class="ui-field-contain">
+                        <div class="ui-body ui-checkbox-body">
+                            <input type="checkbox" id="isStandpart" name="en.isStandpart" class="ui-checkbox" value="1"/>
+                            <label for="isStandpart" class="ui-input-text">是否纯正部品</label>
+                        </div>
+                    </div>
+	                <div class="ui-field-contain">
+	                    <label for="sourceTypeId" class="ui-input-text">设备来源<span style="color: #f00;">*</span></label>
+	                    <div class="ui-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('sourceType');" id="sourceType-validate">
+	                        	<span class="ui-select-txt" id="sourceType-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="sourceTypeId" name="en.sourceTypeId" required="required"/>
+	                        <input type="hidden" id="sourceTypeName" name="en.sourceTypeName"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="faultDesc" class="ui-input-text">故障信息描述<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+							<textarea id="faultDesc" name="en.faultDesc" class="ui-textarea ui-body" placeholder="请填写故障信息" required="required"></textarea>
+						</div>
+	                </div>
+        		</div>
+        		<div id="identityinfo" style="width: 100%;" class="ui-hidden">
+        			<div class="ui-field-contain">
+	                    <label for="evalTemplateId" class="ui-input-text">评估模板<span style="color: #f00;">*</span></label>
+	                    <div class="ui-select">
+	                        <a id="evalTemplate-show-link" class="ui-btn ui-select-a" onclick="openSelectList('evalTemplate');" id="evalTemplate-validate">
+	                        	<span class="ui-select-txt" id="evalTemplate-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="evalTemplateId" name="en.evalTemplateId" required="required"/>
+	                        <input type="hidden" id="evalTemplateName" name="evalTemplateName" />
+	                        <input type="hidden" id="lastEvalTemplateId" name="lastEvalTemplateId"/><!-- 留作判断切换模板用，后台不使用 -->
+	                    </div>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">工况<span style="color: #f00;">*</span></label>
+	                    <div class="ui-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('machCondition');" id="machCondition-validate">
+	                        	<span class="ui-select-txt" id="machCondition-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="machConditionId" name="en.machConditionId"/>
+	                        <input type="hidden" id="machConditionName" name="machConditionName"/>
+	                        <input type="hidden" id="moreMonth" name="moreMonth"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="salvageRate" class="ui-input-text">车况剩余率（%）</label>
+	                    <a class="ui-btn ui-corners" onclick="jumpToEvalPage();">打分</a>
+	                    <div class="ui-body">
+	                    	<input type="text" id="salvageRate" name="en.salvageRate" readonly="readonly" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="deprecRate" class="ui-input-text">折旧率（%）</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="deprecRate" name="en.deprecRate" readonly="readonly" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="deprecReset" class="ui-input-text">折旧率微调（%）</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="deprecReset" name="deprecReset" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="deprecReset" name="en.deprecReset"/>
+	                    </div>
+	                </div>
+                    <div class="ui-field-contain">
+                        <label for="" class="ui-input-text">微调原因</label>
+                        <div class="ui-select" id="deprecCauseId-select">
+                            <a id="deprecCauseId-show-link" class="ui-btn ui-select-a" onclick="openSelectList('deprecCauseId');">
+                                <span class="ui-select-txt" id="deprecCauseId-list-selected">---请选择---</span>
+                                <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+                            </a>
+                            <input type="hidden" id="deprecCauseId" name="en.deprecCauseId" />
+                        </div>
+                    </div>
+	                <div class="ui-field-contain">
+	                    <label for="wSysEvalPrice" class="ui-input-text">系统参考价(万元)<span style="color: #f00;">*</span></label>
+	                    <a class="ui-btn ui-corners" onclick="calcEvalFormValues();">计算</a>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wSysEvalPrice" name="en.wSysEvalPrice" readonly="readonly" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="sysEvalPrice" name="en.sysEvalPrice"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="wEvalPrice" class="ui-input-text">评估价格(万元)<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wEvalPrice" name="en.wEvalPrice" required="required" placeholder="请输入评估价格" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="evalPrice" name="en.evalPrice"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="wEvalPrice" class="ui-input-text">市场参考价(万元)<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wMarketPrice" name="en.wMarketPrice" required="required" placeholder="请输入市场参考价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="marketPrice" name="en.marketPrice"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <div class="ui-body ui-checkbox-body">
+	                    	<input type="checkbox" id="isOnScene" name="en.isOnScene" class="ui-checkbox" value="1"/>
+	                    	<label for="isOnScene" class="ui-input-text">是否现场评估</label>
+	                    </div>
+	                </div>
+                    <div class="ui-field-contain">
+                        <label for="evalUserName" class="ui-input-text">评估师</label>
+                        <div>
+                            <div class="ui-body">
+                                <input type="text" id="evalUserName" name="evalUserName" readonly="readonly" onclick="getEvalUserList(0);" placeholder="请选择评估师" class="ui-input-text ui-body"/>
+                                <input type="hidden" id="evalUserId" name="en.evalUserId"/>
+                            </div>
+                        </div>
+                    </div>
+        		</div>
+        		<div id="dealinfo" style="width: 100%;" class="ui-hidden">
+        			<div class="ui-field-contain">
+	                    <label for="expTradeDate" class="ui-input-text">预计回购日期<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="expTradeDate" name="en.expTradeDate" required="required" placeholder="请填写预计回购日期" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="wCustExpPrice" class="ui-input-text">客户期望价(万元)<span style="color: #f00;">*</span></label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wCustExpPrice" name="en.wCustExpPrice" required="required" placeholder="请填写客户期望价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="custExpPrice" name="en.custExpPrice"/>
+	                    </div>
+	                </div>
+	                <div id="divReProduct" class="ui-field-contain">
+	                    <label for="reProduct-show-link" class="ui-input-text">置换新机产品</label>
+	                    <div class="ui-select">
+	                        <a id="reProduct-show-link" class="ui-btn ui-select-a" onclick="openSelectList('reProduct');">
+	                        	<span class="ui-select-txt" id="reProduct-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="reProductId" name="en.reProductId"/>
+	                        <input type="hidden" id="reProductName" name="reProductName"/>
+	                    </div>
+	                </div>
+	                <div id="divReModel" class="ui-field-contain">
+	                    <label for="reModel-show-link" class="ui-input-text">置换新机机型</label>
+	                    <div class="ui-select">
+	                        <a id="reModel-show-link" class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+	                        	<span class="ui-select-txt" id="reModel-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="reModelId" name="en.reModelId"/>
+	                        <input type="hidden" id="reModelName" name="reModelName"/>
+	                    </div>
+	                </div>
+        			<div id="divNewPrice" class="ui-field-contain">
+	                    <label for="wReMachinePrice" class="ui-input-text">置换新机报价(万元)</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wReMachinePrice" name="en.wReMachinePrice" placeholder="请填写置换新机报价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="reMachinePrice" name="en.reMachinePrice"/>
+	                    </div>
+	                </div>
+	        		<div id="divCompBrand" class="ui-field-contain">
+	                    <label for="compBrand-show-link" class="ui-input-text">竞对品牌</label>
+	                    <div class="ui-select">
+	                        <a id="compBrand-show-link" class="ui-btn ui-select-a" onclick="openSelectList('compBrand');">
+	                        	<span class="ui-select-txt" id="compBrand-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="compBrandId" name="en.compBrandId"/>
+	                        <input type="hidden" id="compBrandName" name="compBrandName"/>
+	                    </div>
+	                </div>
+	        		<div id="divCompProduct" class="ui-field-contain">
+	                    <label for="compProduct-show-link" class="ui-input-text">竞对产品</label>
+	                    <div class="ui-select">
+	                        <a id="compProduct-show-link" class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+	                        	<span class="ui-select-txt" id="compProduct-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="compProductId" name="en.compProductId"/>
+	                        <input type="hidden" id="compProductName" name="compProductName"/>
+	                    </div>
+	                </div>
+	        		<div id="divCompModel" class="ui-field-contain">
+	                    <label for="compModel-show-link" class="ui-input-text">竞对机型</label>
+	                    <div class="ui-select">
+	                        <a id="compModel-show-link" class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+	                        	<span class="ui-select-txt" id="compModel-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="compModelId" name="en.compModelId"/>
+	                        <input type="hidden" id="compModelName" name="compModelName"/>
+	                    </div>
+	                </div>
+	                <div id="divCompEvalPrice" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">竞对品牌评估价(万元)</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wCompPrice" name="en.wCompPrice" placeholder="请填写竞对品牌评估价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="compPrice" name="en.compPrice"/>
+	                    </div>
+	                </div>
+	                <div id="divCompNewPrice" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">竞对品牌新机价(万元)</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="wCompNewPrice" name="en.wCompNewPrice" placeholder="请填写竞对品牌新机价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="compNewPrice" name="en.compNewPrice"/>
+	                    </div>
+	                </div>
+        		</div>
+        		<div id="photoinfo" style="width: 90%; padding: 5%;" class="ui-hidden"></div>
+        		<input type="hidden" id="isEval" name="isEval" />
+        		<input type="hidden" id="machId" name="machId" />
+        		<input type="hidden" id="evalAffPrice" name="en.evalAffPrice" value="0" />
+        	</form>
+        </div>
+        </div>
+        <div class="ui-footer ui-bar-b" id="footer">
+        	<div class="ui-navbar">
+            	<div class="ui-navbar-group" id="navbar">
+                	<a id="abase" href="#" class="ui-navbar-item-d" onclick="initTabs('#theform', 'baseinfo', 0);refreshScroll('#content', false, true);return false">基本</a>
+                    <a id="aused" href="#" class="ui-navbar-item-d" onclick="initTabs('#theform', 'usedinfo', 1);refreshScroll('#content', false, true);return false">旧机</a>
+                    <a id="aidentity" href="#" class="ui-navbar-item-d" onclick="initTabs('#theform', 'identityinfo', 2);refreshScroll('#content', false, true);return false">评估</a>
+                    <a id="adeal" href="#" class="ui-navbar-item-d" onclick="initTabs('#theform', 'dealinfo', 3);refreshScroll('#content', false, true);return false">交易</a>
+                    <a id="aphoto" href="#" class="ui-navbar-item-d" onclick="initTabs('#theform', 'photoinfo', 4);refreshScroll('#content', false, true);return false">照片</a>
+                </div>
+            </div>
+        </div>
+        <!-- 申请查询POP START -->
+        <div id="appListShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="appListPop" class="ui-popup ui-hidden" style="padding: 0; overflow:hidden; height: 90%;">
+        	<div class="ui-pop-header">
+        		<p></p>
+        		<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="closePop();"></a>
+        	</div>
+        	<div style="width: 100%; heigth: 92%;">
+        		<div id="search_bar" style="height: 10%;">
+					<input type="text" id="app_keyword" class="search_input" placeholder="请输入关键字" />
+					<img src="../../img/magnifier.png" class="search_img" onclick="getAppList(1);"/>
+				</div>
+	        	<div class="ui-pop-data-wrapper scroll-wrapper">
+		        	<ul id="app_list" class="ui-pop-ul"></ul>
+	        	</div>
+				<div class="ui-pop-page-wrapper">
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-home" onclick="getAppList(-100);"><span>首 页</span></div>  
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-prev" onclick="getAppList(-1);"><span>上一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-next" onclick="getAppList(1);"><span>下一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-flush" onclick="getAppList(0);"><span>刷 新</span></div>
+				</div>
+        	</div>
+        </div>
+        <!-- 申请查询POP END -->
+        <!-- 客户查询POP START -->
+        <div id="custListShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="custListPop" class="ui-popup ui-hidden" style="padding: 0; overflow:hidden; height: 90%;">
+        	<div class="ui-pop-header">
+        		<p></p>
+        		<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="closePop();"></a>
+        	</div>
+        	<div style="width: 100%; heigth: 92%;">
+        		<div id="search_bar" style="height: 10%;">
+					<input type="text" id="cust_keyword" class="search_input" placeholder="请输入关键字" />
+					<img src="../../img/magnifier.png" class="search_img" onclick="getCustList(1);"/>
+				</div>
+	        	<div class="ui-pop-data-wrapper scroll-wrapper">
+		        	<ul id="cust_list" class="ui-pop-ul"></ul>
+	        	</div>
+				<div class="ui-pop-page-wrapper">
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-home" onclick="getCustList(-100);"><span>首 页</span></div>  
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-prev" onclick="getCustList(-1);"><span>上一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-next" onclick="getCustList(1);"><span>下一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-flush" onclick="getCustList(0);"><span>刷 新</span></div>
+				</div>
+        	</div>
+        </div>
+        <!-- 客户查询POP END -->
+        <!-- 评估师查询POP START -->
+        <div id="evalListShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="evalListPop" class="ui-popup ui-hidden" style="padding: 0; overflow:hidden; height: 90%;">
+            <div class="ui-pop-header">
+                <p></p>
+                <a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="closePop();"></a>
+            </div>
+            <div style="width: 100%; heigth: 92%;">
+                <div id="search_bar" style="height: 10%;">
+                    <input type="text" id="eval_keyword" class="search_input" placeholder="请输入关键字" />
+                    <img src="../../img/magnifier.png" class="search_img" onclick="getEvalUserList(1);"/>
+                </div>
+                <div class="ui-pop-data-wrapper scroll-wrapper">
+                    <ul id="eval_list" class="ui-pop-ul"></ul>
+                </div>
+                <div class="ui-pop-page-wrapper">
+                    <div class="ui-pop-tab-btn-common ui-pop-tab-btn-home" onclick="getEvalUserList(-100);"><span>首 页</span></div>
+                    <div class="ui-pop-tab-btn-common ui-pop-tab-btn-prev" onclick="getEvalUserList(-1);"><span>上一页</span></div>
+                    <div class="ui-pop-tab-btn-common ui-pop-tab-btn-next" onclick="getEvalUserList(1);"><span>下一页</span></div>
+                    <div class="ui-pop-tab-btn-common ui-pop-tab-btn-flush" onclick="getEvalUserList(0);"><span>刷 新</span></div>
+                </div>
+            </div>
+        </div>
+        <!-- 评估师查询POP END -->
+        <!-- 设备查询POP START -->
+        <div id="deviceListShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="deviceListPop" class="ui-popup ui-hidden" style="padding: 0; overflow:hidden; height: 90%;">
+        	<div class="ui-pop-header">
+        		<p></p>
+        		<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="closePop();"></a>
+        	</div>
+        	<div style="width: 100%; heigth: 92%;">
+        		<div id="search_bar" style="height: 10%;">
+					<input type="text" id="device_keyword" class="search_input" placeholder="请输入关键字" />
+					<img src="../../img/magnifier.png" class="search_img" onclick="getMachList(1);"/>
+				</div>
+	        	<div class="ui-pop-data-wrapper scroll-wrapper">
+		        	<ul id="device_list" class="ui-pop-ul"></ul>
+	        	</div>
+				<div class="ui-pop-page-wrapper">
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-home" onclick="getMachList(-100);"><span>首 页</span></div>  
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-prev" onclick="getMachList(-1);"><span>上一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-next" onclick="getMachList(1);"><span>下一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-flush" onclick="getMachList(0);"><span>刷 新</span></div>
+				</div>
+        	</div>
+        </div>
+        <!-- 设备查询POP END -->
+        <div id="deprecCauseId-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="deprecCauseId-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="brand-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="brand-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="product-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="product-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="model-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="model-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="sourceType-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="sourceType-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="machCondition-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="machCondition-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="evalTemplate-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="evalTemplate-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="compBrand-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="compBrand-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="compProduct-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="compProduct-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="compModel-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="compModel-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="reProduct-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="reProduct-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="reModel-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="reModel-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="saveDataShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="saveDataPop" class="ui-popup-savedata ui-hidden">
+			<a id="submit" class="ui-btn ui-corners ui-btn-block ui-btn-save-server" onclick="submitServer();">保存并提交</a> 
+			<a id="draft" class="ui-btn ui-corners ui-btn-block ui-btn-save-draft" onclick="saveDraft();">保存本地草稿</a> 
+			<a class="ui-btn ui-corners ui-btn-block ui-btn-save-cancel" onclick="dismissSavePop();">取消</a>
+		</div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"/></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

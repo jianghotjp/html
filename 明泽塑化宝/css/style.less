@@ -1,0 +1,130 @@
+/**
+     * less
+ */
+
+
+/*通用颜色*/
+@color-white: #fff; //白
+@color-black: #111;  //黑
+@color-red: #FFB4B4; //红
+@color-blue: #106DB2; //蓝
+@color-darkBlue: #28517B;  //菜单深蓝
+
+/*部件颜色*/
+@font-black: @color-black * 3;
+@font-grey:@color-black * 6;
+@border-black: #D8D8D8;  //border
+
+/*背景*/
+@bg-body:@color-white;//页面背景
+@bg-top: #F2F2F2;     //顶部背景
+@bg-table: #E8EFFD;   //table标题背景
+@bg-footer: #434343;  //footer背景
+@bg-bottom: #515151;  //底部背景
+
+
+/*圆角*/
+.border-radius (@radius: 4px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    -ms-border-radius: @radius;
+    -o-border-radius: @radius;
+    border-radius: @radius;
+}
+/*padding*/
+.padding(@vertical, @horizontal){
+    padding: @vertical @horizontal;
+}
+/*margin*/
+.margin(@vertical, @horizontal){
+    margin: @vertical @horizontal;
+}
+/*链接*/
+.link(@color: @font-black){
+    color: @color;
+    &:hover, &:active{
+        color: lighten(@color, 20%);
+    }
+}
+.link(@color: @font-black, @hover:@color){
+    color: @color;
+    &:hover, &:active{
+        color: @hover;
+    }
+}
+.border(left,@width,@type,@color:@border-black){
+    border-left: @arguments;
+}
+.border(right,@width,@type,@color:@border-black){
+    border-right: @arguments;
+}
+.border(hor,@width,@type,@color:@border-black){
+    .border(left,@arguments);
+    .border(right,@arguments);
+}
+.border(top,@width,@type,@color:@border-black){
+    border-top: @arguments;
+}
+.border(bottom,@width,@type,@color:@border-black){
+    border-bottom: @arguments;
+}
+.border(ver,@width,@type,@color:@border-black){
+    .border(top,@arguments);
+    .border(bottom,@arguments);
+}
+.border(all,@width,@type,@color:@border-black){
+    border: @arguments;
+}
+/*尺寸*/
+.size(@width, @height) {
+  width: @width;
+  height: @height;
+}
+.square(@size) {
+  .size(@size, @size);
+}
+.size(@width, @height, @line-height) {
+  .size(@width, @height);
+  line-height: @line-height;
+}
+/**
+    *站点通用 
+ */
+body {
+    font: 13px/1.5 'helvetica neue',tahoma,'hiragino sans gb',stheiti,
+    'wenquanyi micro hei', \5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+    background: @bg-body;
+    color: @font-black;
+    a{
+       .link;
+    }
+}
+
+
+.top{
+    .size(100%, 30px, 30px);
+    background: @bg-top;
+    a{
+        display: block;
+        float: left;
+    }
+    .top_l{
+        a{
+            .padding(0, 5px);
+        }
+        a.login,a{
+            .link(@color-blue);
+        }
+    }
+    .top_r{
+        a{
+            .padding(0, 5px)
+        }
+        a.help{
+            .border(all, 1px, solid);
+        }
+    }
+}
+
+
+

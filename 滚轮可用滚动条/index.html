@@ -1,0 +1,118 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JQuery模拟滚动条</title>
+
+
+<style type="text/css">
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+/* bd */
+.bd{width:362px;margin:0 auto;margin-top:50px;height:600px;}
+.top{border:1px solid #ccc;height:573px;width:250px;overflow:hidden;float:left;padding:0 5px 5px 5px;}
+.top ul{width:250px;padding-bottom:5px;}
+.top ul li{padding:2px;border:1px solid #ccc;font-size:0px;margin-top:5px;}
+.top ul .li{margin-top:5px}
+.top ul li img{width:244px;height:180px;}
+.scroll{width:11px;margin-left:10px;height:578px;float:left;background:url(img/scroll02.png);position:relative;}
+.scroll p{width:11px;height:61px;background:url(img/scroll01.png);cursor:auto;left:0;top:1px;position:absolute;}
+</style>
+
+<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+<script type="text/javascript">
+$(function(){
+	var Bool=false;
+	var Scro=$("#scroll");
+	var Scrp=$("#p");
+	var Scrobd=$("#bd");
+	var Scroul=$("#ul");
+	var Scrp_Height =Scrp.outerHeight()/2;
+	var Num2=Scro.outerHeight()-Scrp.outerHeight();
+	var offsetX=0;
+	var offsetY=0;
+	Scrp.mousedown(function(e){  
+		Bool=true;
+	});
+	$(document).mouseup(function(){
+		Bool=false;
+	});
+	$(document).mousemove(function(e){
+		if(Bool){
+			
+			var Num1= e.clientY - 50;
+			var y=Num1 - Scrp_Height;
+
+			if(y<=1){
+				Scrll(0);
+				Scrp.css("top",1);
+			}else if(y>=Num2){
+				Scrp.css("top",Num2);
+				Scrll(Num2);
+			}else{
+				Scrll(y);
+			}
+		}
+	});
+	function Scrll(y){
+		Scrp.css("top",y);
+		Scroul.css("margin-top",-(y/(Scro.outerHeight()-Scrp.outerHeight()))*(Scroul.outerHeight()-Scrobd.height()));
+	}
+	if(document.getElementById("scroll_bd").addEventListener) 
+	document.getElementById("scroll_bd").addEventListener('DOMMouseScroll',wheel,true);
+	document.getElementById("scroll_bd").onmousewheel=wheel;
+	var Distance=Num2*0.1;
+	function wheel(e){
+		var evt = e || window.event;
+		var wheelDelta = evt.wheelDelta || evt.detail;
+		if(wheelDelta == -120 || wheelDelta == 3){
+			var Distances=Scrp.position().top+Distance;
+			if(Distances>=Num2){
+				Scrp.css("top",Num2);
+				Scrll(Num2);
+			}else{
+				Scrll(Distances);
+			}
+			return false;
+		}else if (wheelDelta == 120 || wheelDelta == -3){
+			var Distances=Scrp.position().top-Distance;
+			if(Distances<=1){
+				Scrll(0);
+				Scrp.css("top",1);
+			}else{
+				Scrll(Distances);
+			}
+			return false;
+		}   
+	}
+});
+</script>
+
+</head>
+<body>
+
+<div class="bd" id="scroll_bd">
+	<div class="top" id="bd">
+		<ul id="ul">
+			<li><img src="images/1.jpg" /></li>
+			<li><img src="images/2.jpg" /></li>
+			<li><img src="images/3.jpg" /></li>
+			<li><img src="images/4.jpg" /></li>
+			<li><img src="images/5.jpg" /></li>
+			<li><img src="images/1.jpg" /></li>
+			<li><img src="images/2.jpg" /></li>
+			<li><img src="images/3.jpg" /></li>
+			<li><img src="images/4.jpg" /></li>
+			<li><img src="images/5.jpg" /></li>
+		</ul>
+	</div>
+	
+	<div class="scroll" id="scroll">
+		<p id="p"></p>
+	</div>
+</div>
+
+</body>
+</html>

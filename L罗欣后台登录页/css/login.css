@@ -1,0 +1,146 @@
+@charset "utf-8";
+
+
+html,button,input,select,textarea{ font: 13px/1.7 'helvetica neue',tahoma,'hiragino sans gb',stheiti,
+'wenquanyi micro hei', \5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif; }
+body{
+	overflow-x: hidden; 
+	color: #555;
+	background: #fff
+}
+a{
+	color: #686868;
+	text-decoration: none;
+}
+a:hover,a:active{
+	color: #ffa51c;
+	transition: .2s all;
+}
+a:focus{
+	outline: none;
+}
+img{
+	line-height: 0;
+}
+input,a{
+	outline: none;
+}
+ul,ol,h1,h2,p{
+	margin: 0;
+	padding: 0;
+}
+
+.dis-block{
+	display: block;
+}
+/* clear float */
+.clearfix {
+	*zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	line-height: 0;
+	content: "";
+}
+.clearfix:after {
+	clear: both;
+}
+.ml-5{
+	margin-left: 5px;
+}
+.fl { float: left;}.fr { float: right;}
+.fl,.fr{_display:inline;}
+.wrap{
+	width: 1200px;
+}
+.b-center{
+	margin:0 auto;
+}
+*{
+	margin: 0;
+	padding: 0;
+}
+html,body{
+	height: 100%;
+}
+body{
+	background: url(../images/login_bg.jpg) center center no-repeat;
+}
+.header{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 108px;
+	z-index: 1;
+	background: #fff;
+}
+.footer{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	z-index: 1;
+	background: #fff;
+}
+.login{
+	position: absolute;
+	left: 50%;
+	top:50%;
+	width: 564px;
+	height: 406px;
+	margin-left: -282px;
+	margin-top: -203px;
+	background: url(../images/login_form_bg.png) left top repeat;
+	background: rgba(255,255,255,0.8);
+}
+.login .title{
+	height: 125px;
+	line-height: 125px;
+	font-size: 32px;
+	font-weight: bold;
+	text-align: center;
+}
+.login .title img{
+	vertical-align: middle;
+}
+.login input{
+	display: block;
+	margin: 0 auto;
+	width: 390px;
+	height: 52px;
+	margin-top: 20px;
+	color: #969696;
+	font-size: 16px;
+	border: solid 1px #d0d0d0;
+	transition: all .2;
+}
+.login input:focus{
+	color: #333;
+	transition: all .2;
+	border-color: #0cb95f;
+	box-shadow: 0 0 1px #17C76C;
+}
+.login input.username{
+	background: #fff url(../images/username_bg.jpg) left center no-repeat;
+	text-indent: 55px;
+}
+.login input.password{
+	background: #fff url(../images/password_bg.jpg) left center no-repeat;
+	text-indent: 55px;
+}
+.login input.submit{
+	margin-top: 40px;
+	background: #0cb95f;
+	border: 0;
+	color: #fff;
+	font-size: 20px
+}
+.login input.submit:hover,.login input.submit:active{
+	background: #17c76c;
+	border: 0;
+}

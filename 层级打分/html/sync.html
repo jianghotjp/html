@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+	<title>同步数据</title>
+	
+	<link type="text/css" rel="stylesheet" href="../css/styles.css" />
+	<script type="text/javascript" src="../js/cordova.js"></script>
+	<script type="text/javascript" src="../js/db.js"></script>
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
+	<script type="text/javascript" src="../js/app/sync.js"></script>
+</head>
+<body>
+	<div class="ui-page" id="sync" style="background: url(../img/sync.jpg) no-repeat; background-size: 100% 100%;">
+		<div class="sync-bottom-bg">
+			<p class="sync-bottom-title">正在同步数据...</p>
+			<p class="sync-bottom-desc">&nbsp;&nbsp;欢迎使用斗山二手机管理系统，现在正在初始化基础数据，请耐心等待...</p>
+		</div>
+		<div class="ui-progressbar-wrapper">
+			<span id="current_progress_number" class="ui-progressbar-txt">正在同步数据:0%</span>
+			<div class="ui-progressbar-bg">
+				<span id="current_progress_bar" class="ui-progressbar">&nbsp;</span>
+			</div>
+		</div>
+		<div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

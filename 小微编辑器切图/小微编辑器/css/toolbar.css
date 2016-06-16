@@ -1,0 +1,514 @@
+@charset "utf-8";
+
+html{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #fff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #fff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #fff;
+}
+.editer-content{
+    padding-top: 48px;
+}
+.toolbar-box{
+    height: 100%;
+    position: fixed;
+}
+.toolbar-box .toolbar-title{
+    width: 100%;
+    height: 22px;
+    line-height: 22px;
+    border-top: solid 2px #705d0a;
+    font-size: 13px;
+    color: #fff;
+    text-align: center;
+}
+/*内容区域背景颜色*/
+.content-bg{
+    background-color: #454545;
+}
+/*标题部分背景颜色*/
+.tilte-bg{
+    background-color: #101010;
+}
+.toolbar-left{
+    width: 64px;
+    left: 0;
+}
+.toolbar-left ul li{
+    display: block;
+    width: 100%;
+    height: 64px;
+    position: relative;
+}
+.toolbar-left ul li a{
+    display: block;
+    width: 100%;
+    height: 57px;
+    color: #bfbfbf;
+    text-align: center;
+    padding-top: 7px;
+    cursor: pointer;
+}
+.toolbar-left ul li:not(:last-child) a:after{
+    content: "";
+    width: 48px;
+    height: 1px;
+    background-color: #bebebe;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -24px;
+}
+.toolbar-left ul li .btn-icon{
+    font-size: 24px;
+}
+.toolbar-left ul li .btn-word{
+    line-height: 13px;
+    font-size: 13px;
+}
+/*指向状态字体颜色及背景颜色*/
+.toolbar-left ul li.hover_bg a{
+    color: #fdcd11;
+    background-color: #303030;
+}
+.toolbar-left ul li.hover_bg i.wx_editor{
+    color: #fdcd11;
+}
+.toolbar-left ul li.hover_bg a:after{
+    display: none;
+}
+.toolbar-left ul li.remove_line a:after{
+    display: none;
+}
+/*选中状态字体颜色及背景颜色*/
+.toolbar-left ul li.picked_bg a{
+    color: #fdcd11;
+    background-color: #303030;
+}
+.toolbar-left ul li.picked_bg i.wx_editor{
+    color: #fdcd11;
+}
+.toolbar-left ul li.picked_bg a:after{
+    display: none;
+}
+.toolbar-left ul li.remove_prev a:after{
+    display: none;
+}
+.extend{
+    position: absolute;
+    bottom: 5px;
+    right: 6px;
+    font-size: 6px;
+    color: #bfbfbf;
+    cursor: pointer;
+}
+/*右侧工具栏css开始*/
+.toolbar-right{
+    right: 0;
+    width: 180px;
+}
+.toolbar-right-nav{
+    width: 100%;
+    height: 32px;
+    display: table-cell;
+    vertical-align: middle;
+    border-bottom: solid 1px rgba(190,190,190,0.2);
+    padding-right: 15px;
+}
+.toolbar-right-nav a{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 3px;
+    text-align: center;
+    margin-left: 13px;
+    border: solid 1px #454545;
+}
+.toolbar-right-nav a i.wx_editor{
+    color: #bfbfbf;
+    font-size: 14px;
+}
+.toolbar-right-nav a:hover{
+    border-color: #303030;
+    background-color: #6c6c6c;
+}
+.toolbar-right-nav a:hover i.wx_editor{
+    color: #fdcd11;
+}
+.toolbar-right-nav a:active i.wx_editor{
+    color: #fdcd11;
+}
+.toolbar-right-nav a:active{
+    background-color: #303030;
+}
+.toolbar-right-content li{
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 40px;
+    border-bottom: solid 1px rgba(190,190,190,0.2);
+    cursor: pointer;
+    position: relative;
+}
+.toolbar-right-content li i.wx_editor{
+    color: #bfbfbf;
+}
+.toolbar-right-content li .show-layer{
+    width: 28px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-right: solid 1px rgba(190,190,190,0.2);
+    float: left;
+}
+.toolbar-right-content li.hide_layer .layer{
+    color: #6a6a6a;
+}
+.toolbar-right-content li.hide_layer i.wx_editor{
+    color: #6a6a6a;
+}
+.toolbar-right-content li.layer_picked{
+    background-color: #303030;
+}
+.toolbar-right-content li.layer_picked .layer,
+.toolbar-right-content li.layer_picked .layer i.wx_editor{
+    color: #fdcd11;
+}
+.toolbar-right-content li .copy,
+.toolbar-right-content li .delete{
+    display: none;
+}
+.toolbar-right-content li.layer_picked .copy,
+.toolbar-right-content li.layer_picked .delete{
+    display: block;
+    position: absolute;
+    color: #fdcd11;
+    font-size: 16px;
+    top: 11px;
+}
+.toolbar-right-content li.layer_picked .delete{
+    right: 11px;
+}
+.toolbar-right-content li.layer_picked .copy{
+    right: 34px;
+}
+.toolbar-right-content li.layer_picked i.layer-name{
+    width: 75px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.toolbar-right-content li .layer{
+    float: left;
+    width: 151px;
+    height: 100%;
+    line-height: 40px;
+    color: #fff;
+    font-size: 13px;
+}
+.toolbar-right-content li .layer i.wx_editor,
+.toolbar-right-content li .layer i.layer-name{
+    float: left;
+    font-style: normal;
+}
+.toolbar-right-content li .layer i.wx_editor{
+    margin:0 6px;
+}
+.toolbar-right-content .layer.layer_hover_bg .layer-icon,
+.toolbar-right-content .layer.layer_hover_bg .layer-name{
+    color: #fdcd11;
+}
+.toolbar-right-hide{
+    width: 12px;
+    height: 60px;
+    line-height: 60px;
+    background-color: #101010;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    margin-top: -6px;
+    left: -12px;
+    cursor: pointer;
+}
+.toolbar-right-hide i.wx_editor{
+    color: #fff;
+    font-size: 12px;
+}
+.animate{
+    -webkit-animation-duration: 0.25s;
+          animation-duration: 0.25s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+@-webkit-keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+          animation-name: fadeInRight;
+}
+/*顶部工具栏css*/
+.toolbar-top{
+    width: 100%;
+    min-width: 1114px;
+    height: 48px;
+    position: fixed;
+    top: 0;
+    clear: both;
+}
+.top-bg{
+    background-color: #454545;
+}
+.editor-logo{
+    float: left;
+}
+.alert-tool{
+    width: 208px;
+    height: 100%;
+    float: left;
+    position: relative;
+}
+.right-line:after{
+    content: "";
+    height: 30px;
+    width: 1px;
+    background-color: rgba(255,255,255,0.2);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -15px;
+}
+.left-line:before{
+    content: "";
+    height: 30px;
+    width: 1px;
+    background-color: rgba(255,255,255,0.2);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -15px;
+}
+.alert-tool ul li{
+    display: block;
+    width: 52px;
+    height: 100%;
+    float: left;
+}
+.alert-tool ul li a{
+    display: block;
+    width: 48px;
+    height: 46px;
+    line-height: 44px;
+    margin: 0 auto;
+    color: #d2d6db;
+    text-align: center;
+    position: relative;
+    border-top: solid 2px #303030;
+    font-size: 18px;
+}
+.toolbar-top-fs i.wx_editor{
+    font-size: 18px;
+}
+.alert-tool ul li a:hover{
+    border-color: #ffd000;
+    background-color: #303030;
+    color: #ffd000;
+}
+.alert-tool ul li a .js_alert_box{
+    width: 52px;
+    height: 33px;
+    line-height: 43px;
+    background-image: url(../img/alert_bg.png);
+    font-size: 13px;
+    color: #fff;
+    position: absolute;
+    left: -2px;
+    bottom: -22px;
+    display: none;
+}
+.scales{
+    width: 146px;
+    height: 100%;
+    float: left;
+    position: relative;
+}
+.scales .scales-icon,
+.scales input{
+    float: left;
+}
+.scales-icon{
+    width: 48px;
+    height: 48px;
+}
+.scales a{
+    display: block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    margin: 9px auto;
+    color: #d2d6db;
+    border-radius: 3px;
+    font-size: 18px;
+    border: solid 1px #454545;
+}
+.scales a i.wx_editor{
+    line-height: 16px;
+}
+.scales a:hover{
+    color: #ffd000;
+    border: solid 1px #303030;
+    background-color: #6c6c6c;
+}
+.scales a:active{
+    background-color: #303030;
+}
+.scales input{
+    width: 50px;
+    height: 24px;
+    line-height: 24px;
+    border: none;
+    margin-top: 12px;
+    background-color: #454545;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 4px;
+}
+.scales input:focus{
+    border-color: #454545;
+    background-color: #303030;
+    outline: none;
+}
+.other-tool{
+    float: left;
+    width: 208px;
+    height: 100%;
+}
+.other-tool ul li{
+    display: block;
+    float: left;
+    width: 50px;
+    height: 100%;
+}
+.other-tool ul li a,
+.layer-list-box .property,
+.other-tool ul li p{
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 9px auto;
+    color: #d2d6db;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 18px;
+    border: solid 1px #454545;
+    cursor: pointer;
+}
+.js_click.on{
+    background-color: #303030;
+    color: #ffd000;
+}
+.other-tool ul li a:hover i.wx_editor{
+    color: #ffd000;
+}
+.other-tool ul li a:hover{
+    border-color:#303030 ;
+    background-color: #6c6c6c;
+}
+.other-tool ul li a:active{
+    background-color: #303030;
+}
+.help{
+    display: block;
+    width: 154px;
+    height: 48px;
+    line-height: 48px;
+    position: relative;
+    font-size: 13px;
+    color: #fff;
+    text-align: right;
+    float: right;
+    padding-right: 26px;
+    cursor: pointer;
+}
+.help:hover{
+    color: #ffd000;
+}
+.layer-list-box{
+    width: 257px;
+    height: 100%;
+    float:right;
+    position: relative;
+    cursor: pointer;
+}
+.layer-list-box .layer-list,
+.layer-list-box .property{
+    float: left;
+}
+.layer-list-box .layer-list{
+    width: 176px;
+    height: 28px;
+    line-height: 28px;
+    background-color: #303030;
+    border: solid 1px #222;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-left:12px;
+}
+.layer-list-box .layer-list i.wx_editor{
+    color: #bfbfbf;
+}
+.layer-list-box .layer-list .layer-item-name{
+    font-style: normal;
+    color: #fff;
+    font-size: 13px;
+}
+.layer-list-box .property{
+    margin-left: 15px;
+}
+.layer-list-box a.property:hover{
+    color: #ffd000;
+}
+.layer-list-box a.property:active{
+    background-color: #303030;
+}

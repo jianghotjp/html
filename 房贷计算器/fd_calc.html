@@ -1,0 +1,469 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="房贷计算器"/>
+<title> 房贷计算器 </title>
+<link type="text/css" rel="stylesheet" href="css/calculator_fuceng.css">
+<link type="text/css" rel="styleSheet" href="css/calculator.css" />
+	<script>
+	var g_info = {"actname":"calculator","title":"\u8ba1\u7b97\u5668","houseName":"\u4e0a\u6d77\u6ee9\u82b1\u56ed","coverPicUrl":"http:\/\/p3.qpic.cn\/estate\/0\/3d7f662e92fdeb8e5e526753b24666ab.jpg\/450"};
+	</script>
+</head>
+<body>
+<div class="warp">
+    <!--<header>
+    	<h1>房贷计算器</h1>
+        <a href="javascript:history.go(-1);"><span></span></a>
+    </header>-->
+
+	<nav class="nav">
+		<ul>
+			<li class="nav1 hover"><a href="javascript:;" class="over" bosszone="shangdai">商贷</a></li>
+			<li class="nav2"><a href="javascript:;" bosszone="gjj">公积金</a></li>
+			<li class="nav3"><a href="javascript:;" bosszone="zh">组合</a></li>
+		</ul>
+	</nav>
+
+    <section class="choose">
+		<div class="chooseBox" style="display:block;" id="sdgjj">
+			<form name="sdgjjForm" method="post" id="sdgjjForm" action="index.php">
+				<input type="hidden" name="mod" value="houseweixin"/>
+				<input type="hidden" name="act" value="calculatorresult"/>
+				<input type="hidden" name="aid" value="5199"/>
+				<input type="hidden" name="hkfs" id="hkfs" value=""/>
+				<input type="hidden" name="submitType" value=1 />
+				<input type="hidden" name="selectedNsInput" id="selectedNsInput" value="" />
+				<input type="hidden" name="curTypeInput" id="curTypeInput" value="" />
+				<input type="hidden" name="selectedInterrestInput" id="selectedInterrestInput" value="" />
+				<input type="hidden" name="curNsTypeInput" id="curNsTypeInput" value="" />
+				<input type="hidden" name="jsfsInput" id="jsfsInput" value="" />
+				<input type="hidden" name="selectedCsInput" id="selectedCsInput" value="" />
+				<ul>
+					<li><span class="tt">还款方式</span></li>
+					<li><span class="select on"><em></em></span>
+						等额本息
+					</li>
+					<li><span class="select off"><em></em></span>
+						等额本金
+					</li>
+				</ul>
+				<ul>
+					<li><span class="tt">计算方式</span></li>
+					<li><span class="select on"><em></em></span>
+						按单价计算
+					</li>
+					<li><span class="select off"><em></em></span>
+						按贷款总额
+					</li>
+				</ul>
+				<!--按单价计算or按贷款总额-->
+				<div id="adj" style="display:block;">
+					<ul>
+						<li><span class="tt">单价</span></li>
+						<li class="detail"><div><span class="txt"><input type="text" value="" id="price" name="price" maxlength="8" onKeyPress="if (event.keyCode!=46 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false"/> 元/平米</span></div></li>
+					</ul>
+					<ul class="lookfocus">
+						<li><span class="tt">面积</span></li>
+						<li class="detail"><div><span class="txt"><input type="text" value="" id="size" name="size" maxlength="8" onKeyPress="if (event.keyCode!=46 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false"/>&nbsp;平米</span></div></li>
+					</ul>
+					<ul id="ajcs">
+						<li><span class="tt">按揭成数</span></li>
+						<li class="detail"><div><span class="txt"><em id="selectedCs"></em>&nbsp;成&nbsp;<img src="images/arrow_s.png" /></span></div></li>
+					</ul>
+				</div>
+				<div id="aze" style="display:none;">
+					<ul class="lookfocus">
+						<li><span class="tt">贷款总额</span></li>
+						<li class="detail"><div><span class="txt"><input type="text" value="" name="dkze" id="dkze" maxlength="8" onKeyPress="if (event.keyCode!=46  && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false"/>&nbsp;万元</span></div></li>
+					</ul>
+				</div>
+				<ul id="ajns">
+					<li><span class="tt">按揭年数</span></li>
+					<li class="detail"><div><span class="txt"><em id="selectedNs">1年(12期)</em> <img src="images/arrow_s.png" /></span></div></li>
+				</ul>
+				<ul id="lilv">
+					<li class="llTitle"><span class="tt">利率</span></li>
+					<li class="detail llTxt"><div><span class="txt"><em id="lilvtext"></em></span></div></li>
+					<li class="llInput"><div class="interestRate"><input type="text" readonly="readonly" value="" id="sdgjjinterrest"/>%</div><img src="images/arrow_s.png" style="width:6px;height:11px;"/></li>
+				</ul>	
+				<a id="calculateBtn" onclick="calSubmit()" bosszone="sdgjjcal">计算</a>
+			</form>
+		</div>
+		<div class="chooseBox" id="zh">
+			<form action="index.php" method="post" name="zhForm" id="zhForm">
+				<input type="hidden" name="mod" value="houseweixin"/>
+				<input type="hidden" name="act" value="calculatorresult"/>
+				<input type="hidden" name="aid" value="5199"/>
+				<input type="hidden" name="zhhkfs" id="zhhkfs" value=""/>
+				<input type="hidden" name="submitType" value=2 />
+				<input type="hidden" name="zhselectedNsInput" id="zhselectedNsInput" value="" />
+				<input type="hidden" name="zhcurTypeInput" id="zhcurTypeInput" value="" />
+				<input type="hidden" name="zhselectedInterrestInput" id="zhselectedInterrestInput" value="" />
+				<input type="hidden" name="zhcurNsTypeInput" id="zhcurNsTypeInput" value="" />
+				<ul>
+					<li><span class="tt">还款方式</span></li>
+					<li><span class="select on"><em></em></span>
+						等额本息
+					</li>
+					<li><span class="select off"><em></em></span>
+						等额本金
+					</li>
+				</ul>
+				<ul>
+					<li><span class="tt">公积金贷款</span></li>
+					<li class="detail"><div><span class="txt"><input type="text" value="" name="zhgjjdk" id="zhgjjdk" maxlength="8" onKeyPress="if (event.keyCode!=46 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false"/>&nbsp;万元</span></div></li>
+				</ul>
+				<ul>
+					<li><span class="tt">商业贷款</span></li>
+					<li class="detail"><div><span class="txt"><input type="text" value="" name="zhsydk" id="zhsydk"  maxlength="8" onKeyPress="if (event.keyCode!=46 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false"/>&nbsp;万元</span></div></li>
+				</ul>
+				<ul id="zhajns">
+					<li><span class="tt">按揭年数</span></li>
+					<li class="detail"><div><span class="txt"><em id="zhSelectedNs"></em> <img src="images/arrow_s.png" /></span></div></li>
+				</ul>
+				<ul id="zhlilv">
+					<li class="llTitle"><span class="tt">利率</span></li>
+					<li class="detail llTxt"><div><span class="txt"><em id="zhlilvtext"></em> <img src="images/arrow_s.png" /></span></div></li>
+				</ul>
+				<ul class="nosame">
+					<li class="llTitle"><span class="tt"></span></li>
+					<li class="detail llTxt"></li>
+					<li class="llInput">
+						<div class="interestRateBox clearFix">
+							<div class="interestRate"><input type="text" readonly="readonly" value="" id="zhgjjinterrest" />%</div>
+							<span style="">公积金利率</span>
+						</div>
+						<div class="interestRateBox clearFix">
+							<div class="interestRate"><input type="text" readonly="readonly" value="" id="zhsdinterrest"/>%</div>
+							<span style="">商贷利率</span>
+						</div>
+					</li>
+				</ul>
+				<a id="calculateBtn" onclick="calSubmit()" bosszone="zhcal">计算</a>
+			</form>
+		</div>
+    </section>
+    
+</div>
+<!--遮罩--->
+<div id="mask"></div>
+<!--遮罩--->
+<!--弹出提示--->
+<div class="popBox" id="popBox">
+	<div class="popBg"></div>
+	<div class="popCont">
+		<span>!</span>
+		<p></p>
+	</div>
+</div>
+
+<script>
+	var lilv_array_json = {"1":["2015-10-24",{"5":0.0475,"10":0.049},{"5":0.0275,"10":0.0325},"\u57fa\u51c6\u5229\u7387"],"2":["2015-10-24",{"5":0.03325,"10":0.0343},{"5":0.0275,"10":0.0325},"(7\u6298)"],"3":["2015-10-24",{"5":0.040375,"10":0.04165},{"5":0.0275,"10":0.0325},"(85\u6298)"],"4":["2015-10-24",{"5":0.05225,"10":0.0539},{"5":0.0275,"10":0.0325},"(1.1\u500d)"],"5":["2015-08-26",{"5":0.05,"10":0.0515},{"5":0.0275,"10":0.0325},"\u57fa\u51c6\u5229\u7387"],"6":["2015-08-26",{"5":0.035,"10":0.03605},{"5":0.0275,"10":0.0325},"(7\u6298)"],"7":["2015-08-26",{"5":0.0425,"10":0.043775},{"5":0.0275,"10":0.0325},"(85\u6298)"],"8":["2015-08-26",{"5":0.055,"10":0.05665},{"5":0.0275,"10":0.0325},"(1.1\u500d)"],"9":["2015-06-28",{"5":0.0525,"10":0.054},{"5":0.03,"10":0.035},"\u57fa\u51c6\u5229\u7387"],"10":["2015-06-28",{"5":0.03675,"10":0.0378},{"5":0.03,"10":0.035},"(7\u6298)"],"11":["2015-06-28",{"5":0.044625,"10":0.0459},{"5":0.03,"10":0.035},"(85\u6298)"],"12":["2015-06-28",{"5":0.05775,"10":0.0594},{"5":0.03,"10":0.035},"(1.1\u500d)"],"13":["2015-05-11",{"5":0.055,"10":0.0565},{"5":0.0325,"10":0.0375},"\u57fa\u51c6\u5229\u7387"],"14":["2015-05-11",{"5":0.0385,"10":0.03955},{"5":0.0325,"10":0.0375},"(7\u6298)"],"15":["2015-05-11",{"5":0.04675,"10":0.048025},{"5":0.0325,"10":0.0375},"(85\u6298)"],"16":["2015-05-11",{"5":0.0605,"10":0.06215},{"5":0.0325,"10":0.0375},"(1.1\u500d)"],"17":["2015-03-01",{"5":0.0575,"10":0.059},{"5":0.035,"10":0.04},"\u57fa\u51c6\u5229\u7387"],"18":["2015-03-01",{"5":0.04025,"10":0.0413},{"5":0.035,"10":0.04},"(7\u6298)"],"19":["2015-03-01",{"5":0.048875,"10":0.05015},{"5":0.035,"10":0.04},"(85\u6298)"],"20":["2015-03-01",{"5":0.06325,"10":0.0649},{"5":0.035,"10":0.04},"(1.1\u500d)"],"21":["2014-11-21",{"5":0.06,"10":0.0615},{"5":0.0375,"10":0.0425},"\u57fa\u51c6\u5229\u7387"],"22":["2014-11-21",{"5":0.042,"10":0.04305},{"5":0.0375,"10":0.0425},"(7\u6298)"],"23":["2014-11-21",{"5":0.051,"10":0.052275},{"5":0.0375,"10":0.0425},"(85\u6298)"],"24":["2014-11-21",{"5":0.066,"10":0.06765},{"5":0.0375,"10":0.0425},"(1.1\u500d)"],"25":["2012-07-06",{"5":0.064,"10":0.0655},{"5":0.04,"10":0.045},"\u57fa\u51c6\u5229\u7387"],"26":["2012-07-06",{"5":0.0448,"10":0.04585},{"5":0.04,"10":0.045},"(7\u6298)"],"27":["2012-07-06",{"5":0.0544,"10":0.055675},{"5":0.04,"10":0.045},"(85\u6298)"],"28":["2012-07-06",{"5":0.0704,"10":0.07205},{"5":0.04,"10":0.045},"(1.1\u500d)"],"29":["2012-06-08",{"5":0.0665,"10":0.068},{"5":0.042,"10":0.047},"\u57fa\u51c6\u5229\u7387"],"30":["2012-06-08",{"5":0.04655,"10":0.0476},{"5":0.042,"10":0.047},"(7\u6298)"],"31":["2012-06-08",{"5":0.056525,"10":0.0578},{"5":0.042,"10":0.047},"(85\u6298)"],"32":["2012-06-08",{"5":0.07315,"10":0.0748},{"5":0.042,"10":0.047},"(1.1\u500d)"],"33":["2011-07-06",{"5":0.069,"10":0.0705},{"5":0.0445,"10":0.049},"\u57fa\u51c6\u5229\u7387"],"34":["2011-07-06",{"5":0.0483,"10":0.04935},{"5":0.0445,"10":0.049},"(7\u6298)"],"35":["2011-07-06",{"5":0.05865,"10":0.059925},{"5":0.0445,"10":0.049},"(85\u6298)"],"36":["2011-07-06",{"5":0.0759,"10":0.07755},{"5":0.0445,"10":0.049},"(1.1\u500d)"],"37":["2011-04-05",{"5":0.0665,"10":0.068},{"5":0.042,"10":0.047},"\u57fa\u51c6\u5229\u7387"],"38":["2011-04-05",{"5":0.04655,"10":0.0476},{"5":0.042,"10":0.047},"(7\u6298)"],"39":["2011-04-05",{"5":0.056525,"10":0.0578},{"5":0.042,"10":0.047},"(85\u6298)"],"40":["2011-04-05",{"5":0.07315,"10":0.0748},{"5":0.042,"10":0.047},"(1.1\u500d)"],"41":["2011-02-09",{"5":0.0645,"10":0.066},{"5":0.04,"10":0.045},"\u57fa\u51c6\u5229\u7387"],"42":["2011-02-09",{"5":0.04515,"10":0.0462},{"5":0.04,"10":0.045},"(7\u6298)"],"43":["2011-02-09",{"5":0.054825,"10":0.0561},{"5":0.04,"10":0.045},"(85\u6298)"],"44":["2011-02-09",{"5":0.07095,"10":0.0726},{"5":0.04,"10":0.045},"(1.1\u500d)"],"45":["2010-12-26",{"5":0.0622,"10":0.064},{"5":0.0375,"10":0.043},"\u57fa\u51c6\u5229\u7387"],"46":["2010-12-26",{"5":0.04354,"10":0.0448},{"5":0.0375,"10":0.043},"(7\u6298)"],"47":["2010-12-26",{"5":0.05287,"10":0.0544},{"5":0.0375,"10":0.043},"(85\u6298)"],"48":["2010-12-26",{"5":0.06842,"10":0.0704},{"5":0.0375,"10":0.043},"(1.1\u500d)"]};
+	var interrestjson = {"1":"15\u5e7410\u670824\u65e5\u57fa\u51c6\u5229\u7387","2":"15\u5e7410\u670824\u65e5(7\u6298)","3":"15\u5e7410\u670824\u65e5(85\u6298)","4":"15\u5e7410\u670824\u65e5(1.1\u500d)","5":"15\u5e7408\u670826\u65e5\u57fa\u51c6\u5229\u7387","6":"15\u5e7408\u670826\u65e5(7\u6298)","7":"15\u5e7408\u670826\u65e5(85\u6298)","8":"15\u5e7408\u670826\u65e5(1.1\u500d)","9":"15\u5e7406\u670828\u65e5\u57fa\u51c6\u5229\u7387","10":"15\u5e7406\u670828\u65e5(7\u6298)","11":"15\u5e7406\u670828\u65e5(85\u6298)","12":"15\u5e7406\u670828\u65e5(1.1\u500d)","13":"15\u5e7405\u670811\u65e5\u57fa\u51c6\u5229\u7387","14":"15\u5e7405\u670811\u65e5(7\u6298)","15":"15\u5e7405\u670811\u65e5(85\u6298)","16":"15\u5e7405\u670811\u65e5(1.1\u500d)","17":"15\u5e7403\u670801\u65e5\u57fa\u51c6\u5229\u7387","18":"15\u5e7403\u670801\u65e5(7\u6298)","19":"15\u5e7403\u670801\u65e5(85\u6298)","20":"15\u5e7403\u670801\u65e5(1.1\u500d)"};
+	var interrestNum = 20;
+	var ajcs = {"1":"2\u6210","2":"3\u6210","3":"4\u6210","4":"5\u6210","5":"6\u6210","6":"7\u6210","7":"8\u6210","8":"9\u6210"};
+	var ajcsNum = 8;
+	var ajns = {"1":"1\u5e74(12\u671f)","2":"2\u5e74(24\u671f)","3":"3\u5e74(36\u671f)","4":"4\u5e74(48\u671f)","5":"5\u5e74(60\u671f)","6":"6\u5e74(72\u671f)","7":"7\u5e74(84\u671f)","8":"8\u5e74(96\u671f)","9":"9\u5e74(108\u671f)","10":"10\u5e74(120\u671f)","11":"11\u5e74(132\u671f)","12":"12\u5e74(144\u671f)","13":"13\u5e74(156\u671f)","14":"14\u5e74(168\u671f)","15":"15\u5e74(180\u671f)","16":"16\u5e74(192\u671f)","17":"17\u5e74(204\u671f)","18":"18\u5e74(216\u671f)","19":"19\u5e74(228\u671f)","20":"20\u5e74(240\u671f)","21":"25\u5e74(300\u671f)","22":"30\u5e74(360\u671f)"};
+	var ajnsNum = 22;
+			
+	//选择的按揭成数下标		
+	var	selectedCs = 6;
+	//选择的按揭年数下标
+	var	selectedNs = 20;
+	//选择的利率下标
+	var	selectedInterrest = 1;
+			
+	//当前类别
+	var curType = 1;//1为商贷，2为公积金，页面初始化为商贷
+	
+	//当前按揭年数类型1-5年和5到30年
+	var curNsType = 10;
+			
+	//保留指定的小数		
+	function get_num_round(num, p) {
+		var t = 1;
+		while (p > 0) {
+			t *= 10;
+			p--;
+		}
+		return Math.round(num * t) / t;
+	}		
+</script>
+<!--<script type="text/javascript" src="js/storm_v20131122.js"></script>-->
+<script src="js/calculator_fuceng.js"></script>
+<script>
+   var cityId = 72;
+   var houseId = 109834;
+   var aid = 5199;
+</script>
+<script src="js/houseweixin_v13.js"></script>
+
+<script>
+	//页面初始化操作
+	$('#sdgjjinterrest').val(get_num_round(lilv_array_json[selectedInterrest][curType][curNsType]*100,2));
+	$('#lilvtext').html(interrestjson[selectedInterrest]);
+	$('#zhlilvtext').html(interrestjson[selectedInterrest]);
+	$('#selectedCs').html(selectedCs+1);
+	$('#selectedNs').html(ajns[selectedNs]);
+	$('#zhSelectedNs').html(ajns[selectedNs]);
+
+	//绑定滚动
+	$('#lilv').one('click', function(){
+		//$(document.body).css({
+		//	 "overflow-x":"hidden",
+   		//	"overflow-y":"hidden"
+ 		//});
+		$.ui.interrestpicker({bindId:'lilv'});
+	});
+	$('#zhlilv').one('click',function(){
+		$.ui.interrestpicker({bindId:'zhlilv'});
+	});
+	$('#ajcs').one('click', function(){
+		$.ui.ajcspicker({bindId:'ajcs'});
+	});
+	$('#ajns').one('click', function(){
+		$.ui.ajnspicker({bindId:'ajns'});
+	});
+	$('#zhajns').one('click',function(){
+		$.ui.ajnspicker({bindId:'zhajns'});
+	});
+</script>
+		
+<script>
+//还款方式
+var hkfs = 1;
+			
+//计算方式
+var jsfs = 1;
+
+window.onload=function(){
+	//计算器选项卡切换
+	var nav=document.getElementsByClassName("nav")[0].getElementsByTagName("li");
+	var box=document.getElementsByClassName("chooseBox");
+	for(var j=0;j<nav.length;j++){
+		nav[j].onclick=function(){
+			var num=this.className.substring(3,4)-1;
+			for(var n=0;n<box.length;n++){
+				if(box[n].style.display=="block"){
+					box[n].style.display="none";
+
+					break;
+				}
+			}
+			for(var k=0;k<nav.length;k++)
+			{
+				nav[k].className="nav" + (k+1);
+				nav[k].children[0].className="";
+			}
+			if(num == 0 || num == 1)
+			{
+				if(num == 0)
+				{
+					curType = 1;
+				}
+				else if(num == 1)
+				{
+					curType = 2;
+				}
+				$('#sdgjjinterrest').val(get_num_round(lilv_array_json[selectedInterrest][curType][curNsType]*100,2));
+				document.getElementById("sdgjj").style.display="block";
+				document.getElementById("zh").style.display="none";
+				if(hkfs == 1)
+				{
+					document.getElementById("sdgjj").getElementsByClassName("select")[0].className = "select on";
+					document.getElementById("sdgjj").getElementsByClassName("select")[1].className = "select off";
+				}
+				else if(hkfs == 2)
+				{
+					document.getElementById("sdgjj").getElementsByClassName("select")[0].className = "select off";
+					document.getElementById("sdgjj").getElementsByClassName("select")[1].className = "select on";
+				}
+			}
+			else if(num == 2)
+			{
+				curType = 3;
+				$('#zhgjjinterrest').val(get_num_round(lilv_array_json[selectedInterrest][2][curNsType]*100,2));
+				$('#zhsdinterrest').val(get_num_round(lilv_array_json[selectedInterrest][1][curNsType]*100,2));
+				document.getElementById("sdgjj").style.display="none";
+				document.getElementById("zh").style.display="block";
+				if(hkfs == 1)
+				{
+					document.getElementById("zh").getElementsByClassName("select")[0].className = "select on";
+					document.getElementById("zh").getElementsByClassName("select")[1].className = "select off";
+				}
+				else if(hkfs == 2)
+				{
+					document.getElementById("zh").getElementsByClassName("select")[0].className = "select off";
+					document.getElementById("zh").getElementsByClassName("select")[1].className = "select on";
+				}
+			}
+			this.className = this.className +" hover";
+			this.children[0].className="over";
+		}
+	}
+	//圆圈选择按钮
+	var sary=document.getElementsByClassName("select");
+	for(var k=0;k<sary.length;k++){
+		sary[k].parentNode.onclick=function(){
+			var n_p=this.parentNode.getElementsByClassName("on")[0];
+			if(n_p!==this.children[0]){
+			this.children[0].className="select on";
+			n_p.className="select off";
+			if(this.innerText == '等额本息')
+			{
+				hkfs = 1;
+			}
+			else if(this.innerText == '等额本金')
+			{
+				hkfs = 2;
+			}
+			
+			if(this.innerText == '按单价计算')
+			{
+				jsfs = 1;
+				document.getElementById('adj').style.cssText="display:block;";
+				document.getElementById('aze').style.cssText="display:none;";
+			}
+			else if(this.innerText == '按贷款总额')
+			{
+				jsfs = 2;
+				document.getElementById('aze').style.cssText="display:block;";
+				document.getElementById('adj').style.cssText="display:none;";
+			}
+
+			}
+			
+		}
+	}
+
+function findparent(input){
+	var _p=input.parentNode;
+	while(_p.nodeName.toLowerCase()!=="ul"){
+		_p=_p.parentNode;
+	}
+	return _p;
+}
+//input 焦点
+// var inputs=document.getElementsByTagName("input");
+// for(var iu=0;iu<inputs.length;iu++){
+// 	inputs[iu].onfocus=function(){
+// 		var parent=findparent(this);
+// 		//alert(!!parent.getElementsByClassName("active"));
+// 		if(parent.parentNode.getElementsByClassName("active").length>0){
+// 			var occ=parent.parentNode.getElementsByClassName("active")[0];
+// 			if(occ.className=="active"){
+// 				occ.removeAttribute("class");
+// 			}
+// 			else{
+// 				occ.className=occ.className.substring(0,occ.className.indexOf("active")-1);
+// 			}
+			
+// 		}
+// 		parent.className=="nosame"?parent.className+=" active":parent.className="active";
+// 		return false;
+// 	}
+// }
+
+}
+			
+function calSubmit()
+{
+	$("#hkfs").val(hkfs);
+	$("#zhhkfs").val(hkfs);
+			
+	$('#selectedNsInput').val(selectedNs);
+	$('#zhselectedNsInput').val(selectedNs);
+			
+	$('#curTypeInput').val(curType);
+	$('#zhcurTypeInput').val(curType);
+			
+	$('#selectedInterrestInput').val(selectedInterrest);
+	$('#zhselectedInterrestInput').val(selectedInterrest);
+			
+	$('#curNsTypeInput').val(curNsType);
+	$('#zhcurNsTypeInput').val(curNsType)
+			
+	$('#jsfsInput').val(jsfs);
+			
+	$('#selectedCsInput').val(selectedCs);
+	//商贷或公积金提交
+	if(curType == 1 || curType == 2)
+	{
+		if(jsfs == 1)
+		{
+			if(check_input($('#price').val()) || check_input($('#size').val()))
+			{
+				openPOP('所有项均为必填项');
+				return false;
+			}
+			if (!check_num($('#price').val()) || !check_num($('#size').val())) {
+				openPOP('请输入正确的数字');
+				return false;
+			}
+		}
+		if(jsfs == 2)
+		{
+			if(check_input($('#dkze').val()))
+			{
+				openPOP('所有项均为必填项');
+				return false;
+			}
+			if (!check_num($('#dkze').val())) {
+				openPOP('请输入正确的数字');
+				return false;
+			}
+		}
+		$('#sdgjjForm').submit();		
+	}
+	//组合提交
+	else
+	{
+		if(check_input($('#zhgjjdk').val()) || check_input($('#zhsydk').val()))
+		{
+			openPOP('所有项均为必填项');
+			return false;
+		}
+		if (!check_num($('#zhgjjdk').val()) || !check_num($('#zhsydk').val())) {
+			openPOP('请输入正确的数字');
+			return false;
+		}
+		$('#zhForm').submit();
+	}
+	
+}
+
+function check_input(input) {
+	if (input.trim() == "") {
+		return true;
+	} else {
+		return false;
+	}
+}
+			
+function check_num(num_str) {
+	var pattern = /^[0-9]*\.?[0-9]*$/;
+	return pattern.test(num_str);
+}
+
+function openPOP(txt){
+	if(!txt){return false;}
+	var mask=document.getElementById("mask"),
+		popbox=document.getElementById("popBox"),
+		pop_p=popbox.getElementsByTagName("p")[0];
+		scl_top=document.body.scrollTop,
+		page_height=document.body.offsetHeight;
+	mask.style.height=page_height+"px";
+	mask.style.display="block";
+	pop_p.innerHTML=txt;
+	popbox.style.marginTop=scl_top-50+"px";
+	popbox.style.display="block";
+	setTimeout(function(){
+		mask.style.cssText = '';
+		popbox.style.cssText = '';
+	},1500)
+}
+</script>
+</body>
+</html>

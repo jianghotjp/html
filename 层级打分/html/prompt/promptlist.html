@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>消息列表</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+	<script type="text/javascript">
+		var init = 1, total = 0;
+		document.addEventListener('deviceready', function() {
+			document.addEventListener('backbutton', back, false);
+			$(function() {
+				page = 1;
+				setTimeout(getPromptList(), 200);
+				applyScroll(".scroll-wrapper", false);
+			});
+		});
+		
+		function getPromptList() {
+			showPageLoading();
+			$("#loadmore").html("正在加载...");
+			var param = { "page" : page, "rows" : rows, "sort" : "create_date", "order" : "desc" };
+			getDataFromServer("other/commPromptInfoListJson.action", param, buildPageData);
+		}
+		
+		function pullUpAction() {
+			page += 1;
+			$("#loadmore").html("正在加载...");
+			setTimeout(getPromptList(), 200);
+		}
+		
+		function buildPageData(data) {
+			data = eval("(" + data + ")");
+			var html = '';
+			var len = data.rows.length;
+			total += len;
+			if (len == 0 && init == 1) {
+				html += '<li class="ui-li">';
+				html += '<div class="ui-li-wrapper-a ui-txt-inner">';
+				html += '<span class="ui-li-txt">没有查询到相应数据</span></div></li>';
+				$("#loadmore").html("共查询到0条数据");
+				$("#prompt_list").empty().append(html);
+			} else {
+				for (var i = 0; i < len; i++) {
+					var prompt = data.rows[i];
+					html += '<li class="ui-li" onclick="getPromptDetail(' + prompt.prompt_id + ');">';
+					html += '<div class="ui-li-wrapper-b">';
+					html += '<span class="ui-li-txt ui-txt-inner">' + prompt.title + '</span><br />';
+					html += '<span class="ui-li-txt-desc ui-txt-inner">' + prompt.summary + '</span></div></li>';
+				}
+				$("#loadmore").html("共查询到" + total + "条数据，点击加载更多...");
+				if (total > len) {
+					$("#prompt_list").append(html);
+				} else {
+					$("#prompt_list").empty().append(html);
+				}
+			}
+			init = 0;
+			refreshScroll("#apply_wrapper", true, false);
+			hidePageLoading();
+		}
+		
+		function getPromptDetail(pid) {
+			insertStore("CURR_PROMPT_ID", pid);
+			window.location.href = "promptdetail.html";
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="promptlist">
+    	<div class="ui-header ui-bar-t">
+        	<h1>消息列表</h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content" id="content" style="bottom: 0;">
+        <div id="list">
+			<div id="apply_wrapper" class="scroll-wrapper" style="left:0;right:0;bottom:0;top:0;">
+				<div style="padding-bottom:.2em;">
+        			<ul id="prompt_list"></ul>
+            		<div class="pull-up ui-corners" onclick="pullUpAction();"><span id="loadmore">点击加载更多...</span></div>
+            	</div>
+            </div>
+         </div>
+        </div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</body>
+</html>

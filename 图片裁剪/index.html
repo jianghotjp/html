@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN" id="index">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>图片裁剪</title>
+<link rel="stylesheet" type="text/css" href="css/mui.css"/>
+<style>
+#view {
+	margin: 0 auto;
+	width: 100px;
+	height: 100px;
+}
+.upload-img-btn-block{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+.upload-img-bg{
+	background: rgba(0,0,0,0.8);
+	box-shadow: 0 0 5px 0 #000;
+	display: none;
+}
+.upload-img-btn{
+	width: 29%;
+	height: 35px;
+	margin: 2%;
+	position: relative;
+	overflow: hidden;
+	background: #fff;
+	font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    -webkit-transition: all;
+    transition: all;
+    -webkit-transition-timing-function: linear;
+    transition-timing-function: linear;
+    -webkit-transition-duration: .2s;
+    transition-duration: .2s;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #fff;
+    background-clip: padding-box;
+}
+.upload-img-btn p{
+	line-height: 35px;
+	text-align: inherit;
+	z-index: 0;
+	color: inherit;
+}
+.upload-img-btn input[type=file]{
+	opacity:0;
+	z-index: 1;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+</style>
+</head>
+<body>
+	<div class="mui-fullscreen upload-img-bg">
+		<div class="mui-fullscreen" id="clipArea"></div>
+		<div class="upload-img-btn-block">
+			<button class="upload-img-btn fl" id="cancelBtn">取消</button>
+			<div class="upload-img-btn fl">
+				<p class="mui-fullscreen">选择文件</p>
+				<input class="mui-fullscreen" type="file" id="file">
+			</div>
+			<button class="upload-img-btn fl" id="clipBtn">截取</button>
+		</div>
+	</div>
+
+<div id="view"></div>
+
+<script src="js/jquery-2.1.3.min.js"></script>
+<script src="js/iscroll-zoom.js"></script>
+<script src="js/hammer.js"></script>
+<script src="js/lrz.all.bundle.js"></script>
+<script src="js/jquery.photoClip.js"></script>
+<script>
+var uploadComponent = {
+	_view:"#view",
+	_fileBtn:"#file",
+	_okBtn:"#clipBtn",
+	_cancelBtn:"#cancelBtn",
+	_el:".upload-img-bg",
+	_options:{
+		width: 150,
+		height: 150,
+		loadStart: function() {
+			console.log("照片读取中");
+		},
+		loadComplete: function() {
+			console.log("照片读取完成");
+		},
+		clipFinish: function(dataURL) {
+			console.log(dataURL);
+			uploadComponent.elHide();
+		}
+	},
+	elShow:function (){
+		$(this._el).fadeIn();
+	},
+	elHide:function (){
+		$(this._el).fadeOut();
+	},
+	init:function (){
+		$("#clipArea").photoClip($.extend({
+			file: this._fileBtn,
+			view: this._view,
+			ok: this._okBtn
+		},this._options));
+		$(this._cancelBtn).click(function(){
+			uploadComponent.elHide();
+		})
+	}
+}
+
+$(function(){
+	uploadComponent.init();
+	$("#view").click(function(){
+		uploadComponent.elShow();
+	})
+})
+</script>
+
+</body>
+</html>

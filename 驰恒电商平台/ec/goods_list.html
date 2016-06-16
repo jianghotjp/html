@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>商品列表</title>
+    <script type="text/javascript" src="../resources/js/muiInit.js"></script>
+    <script type="text/javascript" src="js/goods_list.js"></script>
+</head>
+<body class="goods-list">
+	<header id="header" class="mui-bar mui-bar-nav trans">
+		<a class="mui-pull-left c-fff" href="sort.html"><i class="iconfont icon-left c-fff"></i><span class="fs-10 c-fff"></span></a>
+		<h1 class="mui-title"><input type="search" name="" id="" value="" placeholder="搜索商品/店铺关键词" /></h1>
+		<a class="mui-pull-right c-fff" href="user_msg.html"><i class="iconfont icon-msg c-fff fs-20"></i></a>
+	</header>
+	<div class="tools-bar clearfix fs-13">
+		<div class="tools-bar-content">
+			<div class="goods-sort fl pos-relative">
+				<a class="goods-sort-btn" href="javascript:void(0)"><span>综合排序</span><i class="iconfont icon-jiantou"></i></a>
+				<div class="goods-sort-list" style="display: none;">
+					<ul>
+						<li class="on"><span>综合排序</span><i class="iconfont icon-duihao"></i></li>
+						<li><span>价格从低到高</span><i class="iconfont"></i></li>
+						<li><span>价格从高到低</span><i class="iconfont"></i></li>
+						<li><span>信用排序</span><i class="iconfont"></i></li>
+					</ul>
+				</div>
+			</div>
+			<div class="change-view fr">
+				<i class="iconfont icon-liebiao"></i>
+			</div>
+			<div class="tools-sort fr">
+				筛选<i class="iconfont icon-jiantou"></i>
+			</div>
+		</div>
+		<div class="sort-form">
+			<form action="" method="post">
+				<div class="sort-form-content">
+					<div class="form-block">
+						<span class="form-block-tit">
+							价格区间（元）
+						</span>
+						<input class="sort-form-ipt" type="number" id="" value="" />
+						<span class="form-block-tit">-</span>
+						<input class="sort-form-ipt" type="number" id="" value="" />
+					</div>
+					<div class="form-block items">
+						<span class="form-block-tit">
+							折扣和服务
+						</span>
+						<i class="form-block-btn iconfont icon-xia"></i>
+						<div class="clr"></div>
+						<ul class="middle-block clearfix">
+							<li class="on"><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+							<li><a href="#">免运费</a></li>
+						</ul>
+					</div>
+					<a class="reset-form fs-15 mui-text-center" href="#">重置</a>
+					<a class="send-form fs-15 mui-text-center" href="#">确认</a>
+				</div>
+			</form>
+		</div>
+		<div class="tools-cover" style="display: none;"></div>
+		<div class="back-to-top" style="display: none;"><i class="iconfont icon-shang"></i></div>
+	</div>
+		<div class="goods-list-content">
+		<!--工具条结束，内容开始--> 
+			<div class="good-lists-list mui-scroll-wrapper" id="pullrefresh">
+				<div class="mui-scroll">
+				<ul class="mui-table-view clearfix">
+					<li > 
+						<a class="clearfix" href="goods_view.html" >
+							<img src="../resources/img/ec/tmpl1/product_img.png"/>
+							<div class="goods-info">
+								<span class="goods-tit fs-13">
+								Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+							</span>
+							<span class="sale-price fs-15 c-ff5b53">
+								￥56998
+							</span>
+							<span class="old-price fs-11">
+								￥9999
+							</span>
+							</div>
+							
+						</a>
+					</li>
+					<li>
+						<a class="clearfix" href="goods_view.html">
+							<img src="../resources/img/ec/tmpl1/product_img.png"/>
+							<div class="goods-info">
+								<span class="goods-tit fs-13">
+								Kixx PAODX液压油VG46斗山正品配件ZZ0196-DOG
+							</span>
+							<span class="sale-price fs-15 c-ff5b53">
+								￥56998
+							</span>
+							<span class="old-price fs-11">
+								￥9999
+							</span>
+							</div>
+							
+						</a>
+					</li>
+				</ul>
+
+				</div>
+			</div>
+		</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+
+@font-face {font-family: "iconfont";
+  src: url('../fonts/iconfont.eot'); /* IE9*/
+  src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/iconfont.woff') format('woff'), /* chrome、firefox */
+  url('../fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('../fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-shang:before { content: "\e600"; }/**上三角**/
+.icon-jiahao:before { content: "\e602"; }/**加号**/
+.icon-biaozhu:before { content: "\e605"; }/**标注**/
+.icon-qushitu:before { content: "\e608"; }/**趋势图**/
+.icon-jingshi:before { content: "\e609"; }/**警示**/
+.icon-shuminghao:before { content: "\e606"; }/**书名号**/
+.icon-siji:before { content: "\e60a"; }/**司机**/
+.icon-xia:before { content: "\e601"; }/**下三角**/
+.icon-shanghu:before { content: "\e60b"; }/**上户**/
+.icon-kongxing:before { content: "\e603"; }/**空星**/
+.icon-daiquanduihao:before { content: "\e607"; }/**带全对号**/
+.icon-dianhua:before { content: "\e604"; }/**电话**/
+.icon-xinwen:before { content: "\e60c"; }/**新闻**/
+.icon-baoxian:before { content: "\e60d"; }/**我要投标**/
+.icon-shenqingjilu:before { content: "\e60e"; }/**申请记录**/

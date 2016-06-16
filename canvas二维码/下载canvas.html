@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript">
+		window.onload = function() {  
+            draw();  
+            var saveButton = document.getElementById("saveImageBtn");  
+            bindButtonEvent(saveButton, "click", saveImageInfo);  
+            var dlButton = document.getElementById("downloadImageBtn");  
+            bindButtonEvent(dlButton, "click", saveAsLocalImage);  
+        };  
+            function draw(){  
+                var canvas = document.getElementById("thecanvas");  
+                var ctx = canvas.getContext("2d");  
+                ctx.fillStyle = "rgba(125, 46, 138, 0.5)";  
+                ctx.fillRect(25,25,100,100);   
+                ctx.fillStyle = "rgba( 0, 146, 38, 0.5)";  
+                ctx.fillRect(58, 74, 125, 100);  
+                ctx.fillStyle = "rgba( 0, 0, 0, 1)"; // black color  
+                ctx.fillText("Gloomyfish - Demo", 50, 50);  
+            }  
+              
+            function bindButtonEvent(element, type, handler)  
+            {  
+                   if(element.addEventListener) {  
+                      element.addEventListener(type, handler, false);  
+                   } else {  
+                      element.attachEvent('on'+type, handler);  
+                   }  
+            }  
+              
+            function saveImageInfo ()   
+            {  
+                var mycanvas = document.getElementById("thecanvas");  
+                var image    = mycanvas.toDataURL("image/png");  
+                var w=window.open('about:blank','image from canvas');  
+                w.document.write("<img src='"+image+"' alt='from canvas'/>");  
+            }  
+  
+            function saveAsLocalImage () {  
+            	var type = "png"
+                var myCanvas = document.getElementById("thecanvas");  
+                
+                var image = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");  
+                
+                window.location.href = image+"."+type; // it will save locally  
+                // 下载后的问题名
+				var filename = 'baidufe_' + (new Date()).getTime() + '.' + type;
+				// download
+				saveFile(imgData,filename);
+            }  
+			
+/**
+ * 在本地进行文件保存
+ * @param  {String} data     要保存到本地的图片数据
+ * @param  {String} filename 文件名
+ */
+var saveFile = function(data, filename){
+    var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+    save_link.href = data;
+    save_link.download = filename;
+   
+    var event = document.createEvent('MouseEvents');
+    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    save_link.dispatchEvent(event);
+};
+   
+
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

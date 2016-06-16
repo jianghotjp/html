@@ -1,0 +1,182 @@
+@charset "utf-8";
+
+html,body{
+	height: 100%;
+	moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+.dpo-block{
+	position: relative;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	min-width: 1000px;
+	background: #000;
+	overflow: hidden;
+	z-index: 0;
+}
+.dpo-main{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	
+}
+.dpo-main .dpo-img{
+	display: none;
+}
+.dpo-main .dpo-img img{
+	width: 100%;
+}
+.dpo-slide{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 50px;
+	z-index: 2;
+	border-bottom: solid 1px #fff;
+	background: url(../images/slider-bg.png);
+	/*background: rgba(0,0,0,0.5);*/
+	color: #fff;
+	box-shadow: 0 0 5px #fff;
+	
+}
+.dpo-slide .slide-tools{
+	/*height: 50px;*/
+}
+.dpo-slide .slide-content{
+	padding: 0 10px;
+}
+.dpo-slide .slide-tools ul{
+	font-size: 14px;
+	padding: 10px 0;
+}
+.dpo-slide .slide-tools ul li{
+	float: left;
+	
+}
+.dpo-slide .slide-tools ul li a.tools-btn{
+	display: block;
+	color: #fff;
+	padding: 0 5px;
+	margin:0 5px;
+}
+.tools-btn{
+	margin: 5px;
+	padding: 5px;
+	height: 30px;
+	line-height: 30px;
+	color: #fff;
+	display: inline-block;
+    border-radius: 3px;
+    text-align: center;
+    margin-left: 13px;
+    border: solid 1px #454545;
+}
+.tools-btn:hover{
+	border-color: #303030;
+    background-color: #6c6c6c;
+}
+.dpo-slide .slide-edit{
+	
+}
+.dpo-slide .slide-edit ul li.human{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+}
+.dpo-slide .slide-edit.edit ul li.human a.info{
+	width: 260px;
+	height: 50px;
+}
+.dpo-slide .slide-edit.edit ul li.human a.position{
+	color: #ccc;
+	
+}
+.dpo-slide .slide-edit.edit ul li.human a.position:active{
+	color: #ff5b53;
+}
+.dpo-slide .slide-edit.edit ul li.human a.position.active{
+	color: #ff5b53;
+}
+/*等待框*/
+.wait_bg{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 9999999;
+	background: url(../images/loading.gif) center center no-repeat;
+}
+/*展示部分*/
+.dpo-img .human-info{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	background: #fff;
+	border: solid 1px #ccc;
+	z-index: 2;
+}
+.dpo-img .human-info img{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	z-index: 2;
+}
+.dpo-img .human-info .human-slide{
+	display: none;
+	position: absolute;
+	left: -10px;
+	top: -10px;
+	width: 280px;
+	height: 280px;
+	border-radius: 5px;
+	background: #fff;
+	z-index:1;
+	
+}
+.dpo-img .human-info .human-slide .human-top{
+	padding:10px 10px 10px 75px;
+	height: 70px;
+	background-color: #132288;
+	color: #fff;
+	line-height: 50px;
+	
+}
+.dpo-img .human-info .human-slide .human-slide-content{
+	width: 280px;
+	height: 280px;
+	padding:10px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+.dpo-img .human-info .human-slide dl{
+	width: 280px;
+	overflow: hidden;
+	font-size: 14px;
+	line-height: 30px;
+}
+.dpo-img .human-info .human-slide dl dt{
+	float: left;
+	width: 50px;
+}
+.dpo-img .human-info .human-slide dl dd{
+	float: left;
+	width: 230px;
+}
+.w100{
+	width: 100%!important;
+}
+.dpo-img .human-info .human-slide .human-slide-content li{
+	list-style: square;
+	text-indent: 10px;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <title>服务网点查询</title>
+	    <script type="text/javascript" src="../resources/js/muiInit_server.js"></script>
+	    <link rel="stylesheet" type="text/css" href="../resources/css/mui/mui.picker.min.css" />
+	    <script src="../resources/js/mui/mui.picker.js"></script>
+		<script src="../resources/js/mui/mui.poppicker.js"></script>
+	    <script src="../resources/js/mui/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="js/serv_point.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="hav-top mui-fullscreen">
+		<header id="header" class="mui-bar mui-bar-nav trans">
+			<a class="mui-pull-left c-fff" href="login.html"><i class="iconfont icon-left c-fff"></i><span class="fs-10 c-fff"></span></a>
+			<h1 class="mui-title c-fff">服务网点查询</h1>
+			<a class="mui-pull-right c-fff" href="#"><span class="fs-10 c-fff">重新定位</span> <i class="iconfont c-fff fs-20">&#xe61f;</i></a>
+		</header>
+		<div class="find-engineer-content warp">
+			<div class="positon" id="js-showCity">
+				<i class="ch2">&#xe60e;</i> <span id="cityResult" class="fs-13">山东省 烟台市 莱山区</span>
+				<a class="fr fs-14 c-3b97f1" href="javascript:void(0)">修改</a>
+			</div>
+		</div>
+		<div class="fw_search_scroll mui-scroll-warp mui-fullscreen" id="pullrefresh">
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell fs-13">
+			            <a class="mui-navigate-right" href="#">
+			                <h5 class="c-333 mui-ellipsis">XXX大修厂</h4>
+			                <p class="mui-h6 mui-ellipsis">距您：222km</p>
+			                <p class="mui-h6 mui-ellipsis">地址：江西省九江市秀水县秀水三都车展</p>
+			                <p class="mui-h6 mui-ellipsis">联系人：xxxx</p>
+			                <p class="mui-h6 mui-ellipsis">主营业务：汽车修理厂</p>
+			            </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+				
+	</body>
+</html>

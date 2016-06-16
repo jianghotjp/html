@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>评估打分</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    
+    <script type="text/javascript" src="../../js/app/report.js"></script>
+    <script type="text/javascript" src="../../js/app/report_calc.js"></script>
+	<script type="text/javascript">
+	    window._back = window.back;
+	    window.back = function() {
+	    	removeStore("CURR_REPORT_ID");
+	    	removeStore("CURR_IN_MODE");
+	    	window._back();
+	    }
+
+		document.addEventListener('deviceready', function() {
+			document.addEventListener('backbutton', back, false);
+			$(function() {
+				loadEvalItemData();
+				applyScroll("#content", false);
+			});
+        });
+
+
+			var evalTemplate = null;
+			var evalItemMap = {};
+
+			function loadEvalItemData() {
+				showPageLoading();
+				var template = getCurrentTemplate();
+<!--				eval("template = {\"evalTemplateId\":12,\"evalTemplateName\":\"新模板开发测试\",\"details\":[],\"details2\":[{\"evalItemId\":19,\"evalItemName\":\"外观\",\"parentItemId\":null,\"levelId\":1,\"newRate\":0,\"value1\":null,\"value2\":null,\"value3\":null,\"value4\":null,\"value5\":null,\"mark1\":null,\"mark2\":null,\"mark3\":null,\"mark4\":null,\"mark5\":null,\"children\":[{\"evalItemId\":20,\"evalItemName\":\"驾驶室\",\"parentItemId\":19,\"levelId\":2,\"newRate\":0,\"value1\":null,\"value2\":null,\"value3\":null,\"value4\":null,\"value5\":null,\"mark1\":null,\"mark2\":null,\"mark3\":null,\"mark4\":null,\"mark5\":null,\"children\":[{\"evalItemId\":21,\"evalItemName\":\"钣金件\",\"parentItemId\":20,\"levelId\":3,\"newRate\":3.1,\"value1\":3.1,\"value2\":2.5,\"value3\":2,\"value4\":1,\"value5\":0,\"mark1\":\"状态良好\",\"mark2\":\"轻微变形\",\"mark3\":\"中度变形\",\"mark4\":\"变形严重\",\"mark5\":\"需更换\",\"children\":null},{\"evalItemId\":22,\"evalItemName\":\"内饰板\",\"parentItemId\":20,\"levelId\":3,\"newRate\":0.2,\"value1\":0.2,\"value2\":0.15,\"value3\":0.1,\"value4\":0.05,\"value5\":0.2,\"mark1\":\"状态良好\",\"mark2\":\"污染\",\"mark3\":\"变形裂纹\",\"mark4\":\"少量破损缺失\",\"mark5\":\"破损缺失严重\",\"children\":null}],\"salvageValue\":0.5,\"salvageRate\":0},{\"evalItemId\":24,\"evalItemName\":\"操纵台\",\"parentItemId\":19,\"levelId\":2,\"newRate\":0,\"value1\":null,\"value2\":null,\"value3\":null,\"value4\":null,\"value5\":null,\"mark1\":null,\"mark2\":null,\"mark3\":null,\"mark4\":null,\"mark5\":null,\"children\":[{\"evalItemId\":25,\"evalItemName\":\"座椅\",\"parentItemId\":24,\"levelId\":3,\"newRate\":0.6,\"value1\":0.6,\"value2\":0.5,\"value3\":0.4,\"value4\":0.05,\"value5\":0.1,\"mark1\":\"状态良好\",\"mark2\":\"污染严重\",\"mark3\":\"椅面破损\",\"mark4\":\"功能件缺失\",\"mark5\":\"手柄漏油\",\"children\":null},{\"evalItemId\":26,\"evalItemName\":\"左操纵台\",\"parentItemId\":24,\"levelId\":3,\"newRate\":0.3,\"value1\":0.3,\"value2\":0.15,\"value3\":0.1,\"value4\":0.05,\"value5\":0.1,\"mark1\":\"状态良好\",\"mark2\":\"盖板破损\",\"mark3\":\"盖板缺失\",\"mark4\":\"功能 件缺失\",\"mark5\":\"手柄漏油\",\"children\":null}],\"salvageValue\":0.5,\"salvageRate\":0}],\"salvageValue\":0.7,\"salvageRate\":0},{\"evalItemId\":20,\"evalItemName\":\"驾驶室\",\"parentItemId\":19,\"levelId\":2,\"newRate\":0,\"value1\":null,\"value2\":null,\"value3\":null,\"value4\":null,\"value5\":null,\"mark1\":null,\"mark2\":null,\"mark3\":null,\"mark4\":null,\"mark5\":null,\"children\":[{\"evalItemId\":21,\"evalItemName\":\"钣金件\",\"parentItemId\":20,\"levelId\":3,\"newRate\":3.1,\"value1\":3.1,\"value2\":2.5,\"value3\":2,\"value4\":1,\"value5\":0,\"mark1\":\"状态良好\",\"mark2\":\"轻微变形\",\"mark3\":\"中度变形\",\"mark4\":\"变形严重\",\"mark5\":\"需更换\",\"children\":null},{\"evalItemId\":22,\"evalItemName\":\"内饰板\",\"parentItemId\":20,\"levelId\":3,\"newRate\":0.2,\"value1\":0.2,\"value2\":0.15,\"value3\":0.1,\"value4\":0.05,\"value5\":0.2,\"mark1\":\"状态良好\",\"mark2\":\"污染\",\"mark3\":\"变形裂纹\",\"mark4\":\"少量破损缺失\",\"mark5\":\"破损缺失严重\",\"children\":null}],\"salvageValue\":0.2,\"salvageRate\":0},{\"evalItemId\":21,\"evalItemName\":\"钣金件\",\"parentItemId\":20,\"levelId\":3,\"newRate\":3.1,\"value1\":3.1,\"value2\":2.5,\"value3\":2,\"value4\":1,\"value5\":0,\"mark1\":\"状态良好\",\"mark2\":\"轻微变形\",\"mark3\":\"中度变形\",\"mark4\":\"变形严重\",\"mark5\":\"需更换\",\"children\":null},{\"evalItemId\":22,\"evalItemName\":\"内饰板\",\"parentItemId\":20,\"levelId\":3,\"newRate\":0.2,\"value1\":0.2,\"value2\":0.15,\"value3\":0.1,\"value4\":0.05,\"value5\":0.2,\"mark1\":\"状态良好\",\"mark2\":\"污染\",\"mark3\":\"变形裂纹\",\"mark4\":\"少量破损缺失\",\"mark5\":\"破损缺失严重\",\"children\":null},{\"evalItemId\":24,\"evalItemName\":\"操纵台\",\"parentItemId\":19,\"levelId\":2,\"newRate\":0,\"value1\":null,\"value2\":null,\"value3\":null,\"value4\":null,\"value5\":null,\"mark1\":null,\"mark2\":null,\"mark3\":null,\"mark4\":null,\"mark5\":null,\"children\":[{\"evalItemId\":25,\"evalItemName\":\"座椅\",\"parentItemId\":24,\"levelId\":3,\"newRate\":0.6,\"value1\":0.6,\"value2\":0.5,\"value3\":0.4,\"value4\":0.05,\"value5\":0.1,\"mark1\":\"状态良好\",\"mark2\":\"污染严重\",\"mark3\":\"椅面破损\",\"mark4\":\"功能件缺失\",\"mark5\":\"手柄漏油\",\"children\":null},{\"evalItemId\":26,\"evalItemName\":\"左操纵台\",\"parentItemId\":24,\"levelId\":3,\"newRate\":0.3,\"value1\":0.3,\"value2\":0.15,\"value3\":0.1,\"value4\":0.05,\"value5\":0.1,\"mark1\":\"状态良好\",\"mark2\":\"盖板破损\",\"mark3\":\"盖板缺失\",\"mark4\":\"功能 件缺失\",\"mark5\":\"手柄漏油\",\"children\":null}],\"salvageValue\":0.5,\"salvageRate\":0},{\"evalItemId\":25,\"evalItemName\":\"座椅\",\"parentItemId\":24,\"levelId\":3,\"newRate\":0.6,\"value1\":0.6,\"value2\":0.5,\"value3\":0.4,\"value4\":0.05,\"value5\":0.1,\"mark1\":\"状态良好\",\"mark2\":\"污染严重\",\"mark3\":\"椅面破损\",\"mark4\":\"功能件缺失\",\"mark5\":\"手柄漏油\",\"children\":null},{\"evalItemId\":26,\"evalItemName\":\"左操纵台\",\"parentItemId\":24,\"levelId\":3,\"newRate\":0.3,\"value1\":0.3,\"value2\":0.15,\"value3\":0.1,\"value4\":0.05,\"value5\":0.1,\"mark1\":\"状态良好\",\"mark2\":\"盖板破损\",\"mark3\":\"盖板缺失\",\"mark4\":\"功能 件缺失\",\"mark5\":\"手柄漏油\",\"children\":null}],\"photos\":[{\"photoPartId\":16000901,\"photoPartName\":\"机型机号铭牌\"},{\"photoPartId\":16000902,\"photoPartName\":\"整机左侧前方\"},{\"photoPartId\":16000903,\"photoPartName\":\"整机右侧前方\"},{\"photoPartId\":16000904,\"photoPartName\":\"整机左侧后方\"},{\"photoPartId\":16000905,\"photoPartName\":\"铲斗侧前方\"},{\"photoPartId\":16000906,\"photoPartName\":\"铲斗侧后方\"},{\"photoPartId\":16000907,\"photoPartName\":\"右侧引导轮\"},{\"photoPartId\":16000908,\"photoPartName\":\"右侧链接套\"},{\"photoPartId\":16000909,\"photoPartName\":\"右侧驱动轮\"},{\"photoPartId\":16000910,\"photoPartName\":\"左侧引导轮\"},{\"photoPartId\":16000911,\"photoPartName\":\"左侧链接套\"},{\"photoPartId\":16000912,\"photoPartName\":\"左侧驱动轮\"},{\"photoPartId\":16000913,\"photoPartName\":\"小时表\"},{\"photoPartId\":16000914,\"photoPartName\":\"驾驶室\"},{\"photoPartId\":16000915,\"photoPartName\":\"发动机\"},{\"photoPartId\":16000916,\"photoPartName\":\"液压泵\"}],\"levels\":[],\"deprecs\":[{\"evalDeprecId\":65,\"leaveMonth\":12,\"minWorkHour\":0,\"maxWorkHour\":2000,\"deprecRate\":25},{\"evalDeprecId\":66,\"leaveMonth\":24,\"minWorkHour\":2001,\"maxWorkHour\":4000,\"deprecRate\":36},{\"evalDeprecId\":67,\"leaveMonth\":36,\"minWorkHour\":4001,\"maxWorkHour\":6000,\"deprecRate\":43},{\"evalDeprecId\":68,\"leaveMonth\":48,\"minWorkHour\":6001,\"maxWorkHour\":8000,\"deprecRate\":48},{\"evalDeprecId\":69,\"leaveMonth\":60,\"minWorkHour\":8001,\"maxWorkHour\":10000,\"deprecRate\":54},{\"evalDeprecId\":70,\"leaveMonth\":72,\"minWorkHour\":10001,\"maxWorkHour\":10500,\"deprecRate\":58},{\"evalDeprecId\":71,\"leaveMonth\":84,\"minWorkHour\":12001,\"maxWorkHour\":12500,\"deprecRate\":62},{\"evalDeprecId\":72,\"leaveMonth\":96,\"minWorkHour\":14001,\"maxWorkHour\":16000,\"deprecRate\":66},{\"evalDeprecId\":73,\"leaveMonth\":108,\"minWorkHour\":16001,\"maxWorkHour\":18000,\"deprecRate\":70},{\"evalDeprecId\":74,\"leaveMonth\":120,\"minWorkHour\":18001,\"maxWorkHour\":20000,\"deprecRate\":72},{\"evalDeprecId\":75,\"leaveMonth\":73,\"minWorkHour\":10501,\"maxWorkHour\":12000,\"deprecRate\":59},{\"evalDeprecId\":76,\"leaveMonth\":85,\"minWorkHour\":12501,\"maxWorkHour\":14000,\"deprecRate\":63}]}");-->
+				if (!template) {
+					alert("请先选择评估模板");
+					return back();
+				}
+				evalTemplate = template;
+<!--				template.details2.push({-->
+<!--							"evalItemId": 119,-->
+<!--							"evalItemName": "外观a",-->
+<!--							"parentItemId": null,-->
+<!--							"levelId": 1,-->
+<!--							"newRate": 0,-->
+<!--							"value1": null,-->
+<!--							"value2": null,-->
+<!--							"value3": null,-->
+<!--							"value4": null,-->
+<!--							"value5": null,-->
+<!--							"mark1": null,-->
+<!--							"mark2": null,-->
+<!--							"mark3": null,-->
+<!--							"mark4": null,-->
+<!--							"mark5": null,-->
+<!--							"children": [{-->
+<!--								"evalItemId": 120,-->
+<!--								"evalItemName": "驾驶室a",-->
+<!--								"parentItemId": 119,-->
+<!--								"levelId": 2,-->
+<!--								"newRate": 0,-->
+<!--								"value1": null,-->
+<!--								"value2": null,-->
+<!--								"value3": null,-->
+<!--								"value4": null,-->
+<!--								"value5": null,-->
+<!--								"mark1": null,-->
+<!--								"mark2": null,-->
+<!--								"mark3": null,-->
+<!--								"mark4": null,-->
+<!--								"mark5": null,-->
+<!--								"children": [{-->
+<!--									"evalItemId": 121,-->
+<!--									"evalItemName": "钣金件a",-->
+<!--									"parentItemId": 120,-->
+<!--									"levelId": 3,-->
+<!--									"newRate": 3.1,-->
+<!--									"value1": 3.1,-->
+<!--									"value2": 2.5,-->
+<!--									"value3": 2,-->
+<!--									"value4": 1,-->
+<!--									"mark1": "状态良好",-->
+<!--									"mark2": "轻微变形",-->
+<!--									"mark3": "中度变形",-->
+<!--									"mark4": "变形严重",-->
+<!--									"children": null-->
+<!--								}, {-->
+<!--									"evalItemId": 122,-->
+<!--									"evalItemName": "内饰板a",-->
+<!--									"parentItemId": 120,-->
+<!--									"levelId": 3,-->
+<!--									"newRate": 0.2,-->
+<!--									"value1": 0.2,-->
+<!--									"value2": 0.15,-->
+<!--									"value3": 0.1,-->
+<!--									"mark1": "状态良好",-->
+<!--									"mark2": "污染",-->
+<!--									"mark3": "变形裂纹",-->
+<!--									"children": null-->
+<!--								}],-->
+<!--								"salvageValue": 0.5,-->
+<!--								"salvageRate": 0-->
+<!--							}, {-->
+<!--								"evalItemId": 124,-->
+<!--								"evalItemName": "操纵台a",-->
+<!--								"parentItemId": 119,-->
+<!--								"levelId": 2,-->
+<!--								"newRate": 0,-->
+<!--								"value1": null,-->
+<!--								"value2": null,-->
+<!--								"value3": null,-->
+<!--								"value4": null,-->
+<!--								"value5": null,-->
+<!--								"mark1": null,-->
+<!--								"mark2": null,-->
+<!--								"mark3": null,-->
+<!--								"mark4": null,-->
+<!--								"mark5": null,-->
+<!--								"children": [{-->
+<!--									"evalItemId": 125,-->
+<!--									"evalItemName": "座椅a",-->
+<!--									"parentItemId": 124,-->
+<!--									"levelId": 3,-->
+<!--									"newRate": 0.6,-->
+<!--									"value1": 0.6,-->
+<!--									"value2": 0.5,-->
+<!--									"value3": 0.4,-->
+<!--									"value4": 0.05,-->
+<!--									"value5": 0.1,-->
+<!--									"mark1": "状态良好",-->
+<!--									"mark2": "污染严重",-->
+<!--									"mark3": "椅面破损",-->
+<!--									"mark4": "功能件缺失",-->
+<!--									"mark5": "手柄漏油",-->
+<!--									"children": null-->
+<!--								}, {-->
+<!--									"evalItemId": 126,-->
+<!--									"evalItemName": "左操纵台a",-->
+<!--									"parentItemId": 124,-->
+<!--									"levelId": 3,-->
+<!--									"newRate": 0.3,-->
+<!--									"value1": 0.3,-->
+<!--									"value2": 0.15,-->
+<!--									"value3": 0.1,-->
+<!--									"value4": 0.05,-->
+<!--									"value5": 0.1,-->
+<!--									"mark1": "状态良好",-->
+<!--									"mark2": "盖板破损",-->
+<!--									"mark3": "盖板缺失",-->
+<!--									"mark4": "功能 件缺失",-->
+<!--									"mark5": "手柄漏油",-->
+<!--									"children": null-->
+<!--								}],-->
+<!--								"salvageValue": 0.5,-->
+<!--								"salvageRate": 0-->
+<!--							}],-->
+<!--							"salvageValue": 0.7,-->
+<!--							"salvageRate": 0-->
+<!--						}-->
+<!--				);-->
+				trace(template.details2);
+
+
+				function traverseEvalItems(node) {
+					if (!node)
+						return;
+					evalItemMap[node.evalItemId] = node;
+					if (node.children && node.children.length)
+						for (var i = 0, j = node.children; i < j.length; ++i)
+							traverseEvalItems(j[i]);
+				}
+				$.each(template.details2, function() {
+					traverseEvalItems(this);
+				});
+
+
+				var html = '';
+				for (var i = 0, items = template.details2; i < items.length; i++) {
+					var item = items[i];
+					if (item.levelId == 1) {
+						html += '<li class="ui-li lvl-' + item.levelId + '" onclick="onClickEvalItem(' + item.evalItemId + ', this);">';
+						html += '<div class="ui-li-wrapper-a ui-txt-inner">';
+						html += '<span class="ui-li-txt">' + item.evalItemName + '</span></div></li>';
+					}
+				}
+				$('#eval_list').empty().append(html);
+				refreshScroll("#content", true, false);
+				hidePageLoading();
+			}
+			function onClickEvalItem(eid, el) {
+				var node = evalItemMap[eid];
+				trace(node);
+				if (node.levelId < 3) {
+					// 部位树
+					var wrapper = $(el).next();
+					if (!wrapper.hasClass("lvl-" + (node.levelId + 1))) {
+						wrapper = $("<ul class='ui-ul lvl-" + (node.levelId + 1) + "'></ul>");
+						var html = [];
+						$.each(node.children, function() {
+							html.push("<li class='ui-li lvl-" + this.levelId + "' " +
+									"onclick='onClickEvalItem(" + this.evalItemId + ", this)'>");
+							html.push('<div class="ui-li-wrapper-a ui-txt-inner"><span class="ui-li-txt">')
+							html.push(this.evalItemName);
+							if (this.levelId == 3) {
+								html.push(" 新机率", this.newRate.toFixed(2));
+								html.push(" <span class='salvage'>剩余率", (this.value || 0).toFixed(2), "</span>");
+							}
+							html.push("</span></div></li>");
+						});
+						wrapper.html(html.join("")).insertAfter($(el));
+					} else {
+						wrapper.show();
+					}
+				} else {
+					// 评分项
+					var wrapper = $(el).next();
+					if (!wrapper.hasClass("rank")) {
+						wrapper = $("<ul class='ui-li rank'></ul>");
+						var html = [];
+						for (var i = 1; i <= 5; ++i) {
+							var mark = node["mark" + i],
+									value = node["value" + i];
+							if (typeof mark == "string") {
+								html.push("<li onclick='onClickRank(" + node.evalItemId + ", " + i + ", this)'>");
+								html.push(mark, " ", value);
+								html.push("</li>");
+							} else {
+								break;
+							}
+						}
+						wrapper.html(html.join("")).insertAfter($(el));
+					} else {
+						wrapper.show();
+					}
+				}
+			}
+
+			function onClickRank(itemId, markId, el) {
+				var node = evalItemMap[itemId],
+						value = node["value" + markId];
+				trace(node);
+				node.value = value;
+
+				var wrapper = $(el).parent();
+				if (wrapper.hasClass("ui-ul"))
+					wrapper.prev().find(".salvage").html("剩余率" + node.value.toFixed(2));
+				calcSalvageValue();
+			}
+
+			function calcSalvageValue() {
+				var calc = function(node) {
+					if (node.levelId == 3) {
+						return node.value || 0;
+					}
+					else {
+						node.value = 0;
+						if (node.children) {
+							for (var i = 0; i < node.children.length; ++i) {
+								node.value += calc(node.children[i]);
+							}
+						}
+						return node.value;
+					}
+				};
+
+				evalTemplate.value = 0;
+				$.each(evalTemplate.details2, function() {
+					if (this.levelId == 1)
+						evalTemplate.value += calc(this);
+				});
+				trace(evalTemplate.value);
+			}
+
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="evallist">
+		<div class="ui-header ui-bar-t">
+        	<h1>评估打分</h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content scroll-wrapper" id="content" style="bottom: 0;">
+        	<ul id="eval_list"></ul>
+        </div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"/></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

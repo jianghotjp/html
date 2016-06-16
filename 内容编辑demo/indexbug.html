@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" charset="utf-8" src="/editor/ueditor/ueditor.config.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/editor/ueditor/ueditor.all.js"></script>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../editor/ueditor/themes/default/ueditor.css" />
+	</head>
+
+	<body>
+		<iframe id="control" name="control" src="/admini/neirong.html" width="100%" height="100px" style="display: none; margin: 0;padding: 0;border: 0 none;"></iframe>
+
+		<script type="text/plain" id="content" name="content" style="max-width:777px;_width:777px;margin: 0 auto;"></script>
+		<a href="javascript:void(0);" onclick="doneEdit();">编辑完成</a>
+		<script>
+			var docType='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+			var htmlHead='<html xmlns="http://www.w3.org/1999/xhtml">'
+			var repCode="<|@*@|>"//替换字符串
+			var editTagName=".help-body"//编辑区类名
+			var frameName="control"//iframe Name Id
+			window.onerror=function(){return true;} 
+			function doneEdit(){
+				editContent=ue.getContent();
+				fbackUpCode=backUpCode.replace(repCode,editContent)
+				finalCode=docType+htmlHead+fbackUpCode+"</html>";
+				console.log(finalCode);
+			}
+	
+				$("#"+frameName).load(function () {
+					document.onreadystatechange = function(){ 
+						if(document.readyState=="complete"){ 
+							var ue = new UE.ui.Editor();
+								ue.render("content");
+							editObj=$(window.frames[frameName].document);
+							sourceCode=editObj.find("html").html();//源代码
+							//console.log(sourceCode)
+							editCode=editObj.find(editTagName).html();//编辑区代码
+							backUpCode=sourceCode.replace(editCode,repCode);//替换编辑区内容
+							//console.log(editCode);
+							//console.log(backUpCode);
+							ue.addListener("ready", function () {
+					        ue.setContent(editCode);
+							});
+						} 
+					} 
+
+				})
+		</script>
+	</body>
+
+</html>

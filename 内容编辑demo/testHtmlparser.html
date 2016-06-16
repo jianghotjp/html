@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/htmlparser.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var source = this.getSourceText(),
+	            handler = new Tautologistics.NodeHtmlParser.HtmlBuilder(
+	                function(error, dom) {
+	                    if (error) {
+	                        trace(error);
+	                        alert("无法解析文档 : " + error);
+	                    }
+	                }, 
+	                { 
+	                    includeLocation : true, 
+	                    enforceEmptyTags : false  // 如果不设置enforceEmptyTags=false，会在解析标签时将空标签的属性加到上层标签 
+	                }),   
+	            parser = new Tautologistics.NodeHtmlParser.Parser(handler);
+	        parser.parseComplete(source);
+	        //trace(JSON.stringify(handler.dom, null, 2));
+	        //return handler.dom;
+	        console.log(handler.dom);
+		</script>
+	</body>
+</html>

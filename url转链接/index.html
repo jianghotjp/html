@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript">
+			window.onload=function(){
+			  var div = document.getElementById("container");
+			  var s=div.innerHTML;
+				var re = /(http:\/\/[\w.\/]+)(?![^<]+>)/gi;
+			  div.innerHTML=s.replace(re,"<a href='$1' target='_blank'>$1</a>");
+			
+			}
+		</script>
+	</head>
+	
+	<body>
+	<div id="container">
+		你好啊 http://www.baidu.com/e/a.html?list=1你好啊https://www.baidu.com爱上大声地
+	</div>
+        
+	</body>
+</html>

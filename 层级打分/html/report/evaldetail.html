@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+	<title>打分详细</title>
+	
+	<link type="text/css" rel="stylesheet" href="../../css/jquery.mobile-1.4.1.min.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/styles.css" />
+	<script type="text/javascript" src="../../js/cordova.js"></script>
+	<script type="text/javascript" src="../../js/db.js"></script>
+	<script type="text/javascript" src="../../js/jquery.js"></script>
+	<script type="text/javascript" src="../../js/jquery.mobile.js"></script>
+	<script type="text/javascript" src="../../js/main.js"></script>
+	<script type="text/javascript" src="../../js/app/report.js"></script>
+	<script type="text/javascript" src="../../js/app/report_calc.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+	<script type="text/javascript">
+		window._back = window.back;
+		window.back = function() {
+			// 返回之前计算并保存数据
+			// 计算lvl1剩余率合计
+			var details = [], detailLevel1Map = {};
+			$(template.details2).each(function() {
+				if (this.levelId == 1) {
+					detailLevel1Map[this.evalItemId] = this;
+					this.salvageValue = 0;
+				}
+			});
+			$(template.details2).each(function() {
+				if (this.levelId == 2) {
+					var lvl1Item = detailLevel1Map[this.parentItemId];
+					if (lvl1Item)
+						lvl1Item.salvageValue += this.salvageValue;
+				}
+			});
+			
+			saveCurrentTemplate(getCurrentTemplate());
+			_back();
+		}
+		
+		var list = '', level2Item = [], level3Item = [];
+		var itemId = parseInt(getStore("CURR_EVAL_TEMPLATE_ITEM_ID"), 10);
+        var item2Id = parseInt(getStore("CURR_EVAL_TEMPLATE_ITEM2_ID"), 10);
+		var template = getCurrentTemplate();
+		var itemMap = {};
+		
+		document.addEventListener('backbutton', back, false);
+		document.addEventListener('deviceready', function() {
+			$(function() {
+				if (!template) {
+					alert("请先选择评估模板");
+					return back();
+				}
+				if (!itemId) {
+					alert("请选择评估项目");
+					return back();
+				}
+				showPageLoading();
+				applyScroll("#content");
+				var item = null;
+				for (var i = 0, j = template.details2; i < j.length; ++i) {
+					if (j[i].evalItemId == item2Id) {
+						item = j[i];
+					}
+					itemMap[j[i].evalItemId] = j[i];
+				}
+				$("#header_title").html(item.evalItemName );
+				loadEvalDetailData();
+				hidePageLoading();
+			});
+		});
+		
+		function loadEvalDetailData() {
+			var level2Ids = {};
+			$(template.details2).each(function() {
+				if (this.levelId == 2 && this.parentItemId == itemId) {
+					level2Ids[this.evalItemId] = 1;
+					level2Item.push(this);
+				}
+			});
+			$(template.details2).each(function() {
+				if (this.levelId == 3 && this.parentItemId == item2Id)
+					level3Item.push(this);
+			});
+			initCollpasibleList(level2Item, level3Item);
+			refreshScroll("#content", true, false);
+		}
+		
+		function tryRefreshScroll(e) {
+			var target = e.srcElement || e.target;
+			refreshScroll("#content", true, false);
+		}
+
+		function initCollpasibleList(menuList, itemList) {
+			for (var i = 0; i < itemList.length; i++) {
+				var menu = menuList[i];
+                var item3 =itemList[i];
+				list += '<div class= "ui-collapsible-show-item" id="index_' + i + '" cst="1"  onclick="traggleCollapsible(this);tryRefreshScroll(event);">';
+				list += '	<div class="ui-collapsible-wrapper ui-txt-inner">';
+				list += '		<span class="ui-icon-carat-r">&nbsp;&nbsp;&nbsp;</span>';
+				list += '		<span style="margin-left: .5em;">' + item3.evalItemName + item3.newRate.toFixed(2) + '%</span>';
+                list += '		<span id="curr_' + item3.parentItemId + '_' + item3.evalItemId + '" class="ui-txt-right">' +
+                getCurrSlideText(0) +'</span>';
+				list += '	</div>';
+				list += '</div>';
+				list += '<div class="ui-collapsible-inner-item ui-hidden" >';
+				list += '	<table class="ui-slider-table ui-hidden" style="text-align:center;vertical-align:middle;"><tr>';
+				list += '		<td width="13%">';
+				list += '			<a href="#" ;return false" style="display:inline-block;width:24px;height:24px;">';
+				list += '			<span class="ui-icon ui-icon-minus">&nbsp;&nbsp;</span>';
+				list += '			</a>';
+				list += '		</td>';
+                list += '		<td class="full-width-slider">';
+                list += '			<input isslider="1" type="range" name="slider_' + item3.parentItemId + '_' + item3.evalItemId + '" ';
+                list += '				id="slider_' + item3.parentItemId + '_' + item3.evalItemId + '" itemId="' + item3.evalItemId +'" ';
+                list += '				 value="' + menu.salvageValue + '" />';
+                list += '		</td>';
+
+				list += '		<td width="13%">';
+				list += '			<a href="#" ;return false" style="display:inline-block;width:24px;height:24px;">';
+				list += '			<span class="ui-icon ui-icon-add">&nbsp;&nbsp;</span>';
+				list += '			</a>';
+				list += '		</td></tr>';
+				list += '	</table>';
+				list += '	<ul>';
+				for (var j = 0; j < itemList.length; j++) {
+					var item = itemList[j];
+					if (item.evalItemId == item3.evalItemId) {
+						list += '<li class="ui-li" style="padding-left: 3em; width: auto; display: block;" ' + 
+										'onclick="setValueRange(' + item.parentItemId + ', ' + item.evalItemId + ', ' + item.value1 + ',' + i + ' ,this);">';
+						list += '	<div class="ui-collapsible-wrapper ui-txt-inner" style="line-height: 2.5em; padding-left: 1.5em;">';
+						list += item.mark1;
+                        list += item.value1;
+                        list += '<li class="ui-li" style="padding-left: 3em; width: auto; display: block;" ' +
+                        'onclick="setValueRange(' + item.parentItemId + ', ' + item.evalItemId + ', ' + item.value2 + ',' + i + ' ,this);">';
+                        list += '	<div class="ui-collapsible-wrapper ui-txt-inner" style="line-height: 2.5em; padding-left: 1.5em;">';
+                        list += item.mark2;
+                        list += item.value2;
+                        list += '<li class="ui-li" style="padding-left: 3em; width: auto; display: block;" ' +
+                        'onclick="setValueRange(' + item.parentItemId + ', ' + item.evalItemId + ', ' +
+                        item.value3 + ', ' + i + ' ,this);">';
+                        list += '	<div class="ui-collapsible-wrapper ui-txt-inner" style="line-height: 2.5em; padding-left: 1.5em;">';
+                        list += item.mark3;
+                        list += item.value3;
+                        list += '<li class="ui-li" style="padding-left: 3em; width: auto; display: block;" ' +
+                        'onclick="setValueRange(' + item.parentItemId + ', ' + item.evalItemId + ', ' +
+                        item.value4 + ',' + i + ' ,this);">';
+                        list += '	<div class="ui-collapsible-wrapper ui-txt-inner" style="line-height: 2.5em; padding-left: 1.5em;">';
+                        list += item.mark4;
+                        list += item.value4;
+                        list += '<li class="ui-li" style="padding-left: 3em; width: auto; display: block;" ' +
+                        'onclick="setValueRange(' + item.parentItemId + ', ' + item.evalItemId + ', ' +
+                        item.value5 + ', ' + i + ' ,this);">';
+                        list += '	<div class="ui-collapsible-wrapper ui-txt-inner" style="line-height: 2.5em; padding-left: 1.5em;">';
+                        list += item.mark5;
+                        list += item.value5;
+						
+						list += '	</div>';
+						list += '</li>';
+					}
+				}
+				list += '	</ul>';
+				list += '</div>';
+			}
+			console.log(list);
+			var p = 0, seg = 4000;
+			while (p < list.length) {
+				console.log(p + ":" + (Math.min(list.length, p + seg)) + " : " + list.substring(p, Math.min(list.length, p + seg)));
+				p += seg;
+			}
+			var listDom = $(list);
+			$("#conent_detail").append(list);
+			$('#conent_detail').enhanceWithin();
+			
+		}
+                
+        function changeValue(itemId, newValue, showId) {
+				var menu = itemMap[itemId];
+				menu.salvageValue = newValue;
+                 var tpshowid = $("#" + showId).html();
+				$("#" + showId).html(getCurrSlideText(menu.salvageValue));
+               
+        }
+		
+		// 实时更新的页面显示数据
+		function getCurrSlideText(curr) {
+			return '<span style="color: #FC911E;">' + '剩余率' + '</span>=' + (curr).toFixed(2) + '%';
+		}
+		
+		// 设置取值范围  lvl1id, lvl2id, lvl3min, lvl3max
+		function setValueRange(eid, cid, value,idx,obj) {
+			var slider = $('#slider_' + eid + '_' + cid);
+            var index = $('#index_' + idx);
+
+            var nextIndex =$('#index_' + (idx + 1));
+			if (value !== null)
+                
+                index.attr("cst", 1);
+                index.attr("class","ui-collapsible-show-change-item");
+                index.find(".ui-icon-carat-d").removeClass("ui-icon-carat-d").addClass("ui-icon-carat-r");
+                $(obj).closest(".ui-collapsible-inner-item").addClass("ui-hidden");
+                
+                
+                var tpvalue = changeValue(eid,value,'curr_' + eid + '_'+ cid);
+                nextIndex.attr("cst", 0);
+                $(obj).find(".ui-icon-carat-r").removeClass("ui-icon-carat-r").addClass("ui-icon-carat-d");
+                nextIndex.next().removeClass("ui-hidden");
+		}
+		
+		// 验证范围
+		function validateRange(id, min, max) {
+			var curr = $("#" + id).slider("value");
+			return curr >= min && curr <= max;
+		}
+	</script>
+	<style type="text/css" id="full-width-slider">
+        /* Hide the number input */
+        .full-width-slider input {
+            display: none;
+        }
+        .full-width-slider .ui-slider-track {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+	<div class="ui-page" id="evaldetail">
+		<div class="ui-header ui-bar-t">
+			<h1 id="header_title"></h1>
+			<a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();"> 
+				<span class="ui-btn-inner"> 
+					<span class="ui-btn-txt">返回</span> 
+					<span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+				</span>
+			</a>
+		</div>
+		<div class="ui-content scroll-wrapper" id="content" style="bottom: 0;">
+			<div id="conent_detail">
+			</div>
+		</div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

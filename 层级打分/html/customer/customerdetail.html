@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>客户详细</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    <script type="text/javascript" src="../../js/app/customer.js"></script>
+    <script type="text/javascript">
+    	document.addEventListener("deviceready", function() {
+    		$(function() {
+    			var mode = getStore("CURR_IN_MODE");
+    			initTabs('#content', 'baseinfo', 0);
+    			if(!!mode && mode == 1) {
+    				$("#edit_link").hide();
+    				setTimeout(getCustomerDetail, 200);
+    			} else if(!!mode && mode == 0) {
+    				$("#edit_link").show();
+    				setTimeout(getCustomerDetailDraft, 200);
+    			}
+    			applyScroll("#content", false);
+    		});
+    	}, false);
+    	
+		//编辑联系人
+		function editContact() {
+			dismissPop();
+			insertStore("CURR_CUST_CONTACT_ID", window.contactId);
+			window.location.replace("customercontactadd.html");
+		}
+		
+		//编辑保有设备
+		function editMachine() {
+			dismissPop();
+			insertStore("CURR_CUST_MACHINE_ID", window.machId);
+			window.location.replace("customermachineadd.html");
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="customerdetail">
+    	<div class="ui-header ui-bar-t">
+        	<h1>客户详细</h1>
+            <a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">返回</span>
+                    <span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+            <a class="ui-btn ui-btn-right ui-btn-corner ui-btn-inner-border" id="edit_link" onclick="window.location.replace('customeradd.html');">
+            	<span class="ui-btn-inner">
+                    <span class="ui-btn-txt">编辑</span>
+                    <span class="ui-icon ui-icon-edit ui-btn-icon-left">&nbsp;</span>
+                </span>
+            </a>
+        </div>
+        <div class="ui-content" id="content">
+        	<div id="baseinfo" style="width: 100%; height: 100%;">
+            	<table border="0" cellpadding="0" cellspacing="0" class="ui-table">
+            		<tr>
+                        <td width="50%" align="left" class="ui-td">DooSIM编号</td>
+                        <td align="right" class="ui-td"><span id="miCustCd"></span></td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left" class="ui-td">客户名称</td>
+                        <td align="right" class="ui-td"><span id="custName"></span></td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left" class="ui-td">客户性质</td>
+                        <td align="right" class="ui-td"><span id="buyerTypeDesc"></span></td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left" class="ui-td">手机号</td>
+                        <td align="right" class="ui-td"><span id="handPhone"></span></td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left" class="ui-td">行业类型</td>
+                        <td align="right" class="ui-td"><span id="industryDesc"></span></td>
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left" class="ui-td">所属区域</td>
+                        <td align="right" class="ui-td"><span id="fullAreaName"></span></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="contactinfo">
+	        	<ul id="cust_contact_list"></ul>
+                <div class="pull-up ui-corners ui-btn-edit" onclick="window.location.href='customercontactadd.html'">
+                	<span id="addContact" style="font-weight: bold;">新建联系人</span>
+                </div>
+            </div>
+            <div id="machineinfo">
+            	<ul id="cust_machine_list"></ul>
+                <div class="pull-up ui-corners ui-btn-edit" onclick="window.location.href='customermachineadd.html'">
+                	<span id="addMachine" style="font-weight: bold;">新建保有设备</span>
+                </div>
+            </div>
+        </div>
+        <div class="ui-footer ui-bar-b" id="footer">
+        	<div class="ui-navbar">
+            	<div class="ui-navbar-group" id="navbar">
+            		<a class="ui-navbar-item-b" onclick="initTabs('#content', 'baseinfo', 0);">基本</a>
+                    <a class="ui-navbar-item-b" onclick="initTabs('#content', 'contactinfo', 1);">联系人</a>
+                    <a class="ui-navbar-item-b" onclick="initTabs('#content', 'machineinfo', 2);">保有设备</a>
+                </div>
+            </div>
+        </div>
+        <div id="contactDetailShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="contactDetailPop" class="ui-popup ui-hidden" style="padding: 0; height: 90%;">
+        	<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="dismissPop();"></a>
+            <p class="ui-pop-header">联系人信息</p>
+            <div style="margin-top: 1em; width: 100%; height: 70%; overflow-x: hidden; overflow-y: scroll;">
+	            <table border="0" cellpadding="0" cellspacing="0" class="ui-detail-popup-content">
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">联系人</td>
+	                    <td align="right" class="ui-td"><span id="contactName"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">手机号</td>
+	                    <td align="right" class="ui-td"><span id="contactHandPhone"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">是否主联系人</td>
+	                    <td align="right" class="ui-td"><span id="isMainContactor"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">与客户关系</td>
+	                    <td align="right" class="ui-td"><span id="bussinessName"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">身份证号</td>
+	                    <td align="right" class="ui-td"><span id="identityCard"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">性别</td>
+	                    <td align="right" class="ui-td"><span id="sex"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">邮编</td>
+	                    <td align="right" class="ui-td"><span id="postCode"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">出生日期</td>
+	                    <td align="right" class="ui-td"><span id="birthday"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">详细地址</td>
+	                    <td align="right" class="ui-td"><span id="postAddress"></span></td>
+	                </tr>
+	            </table>
+            </div>
+            <a id="edit_contact_link" class="ui-btn ui-btn-block ui-corners ui-btn-edit" onclick="editContact();">编辑联系人</a>
+        </div>
+        <div id="machineDetailShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="machineDetailPop" class="ui-popup ui-hidden" style="padding: 0; height: 90%;">
+            <a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="dismissPop();"></a>
+            <p class="ui-pop-header">保有设备信息</p>
+            <div style="margin-top: 1em; width: 100%; height: 70%; overflow-x: hidden; overflow-y: scroll;">
+	            <table border="0" cellpadding="0" cellspacing="0" class="ui-detail-popup-content">
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">品牌</td>
+	                    <td align="right" class="ui-td"><span id="brandName"></span></td>
+	                </tr>
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">产品</td>
+	                    <td align="right" class="ui-td"><span id="productName"></span></td>
+	                </tr>
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">机型</td>
+	                    <td align="right" class="ui-td"><span id="modelName"></span></td>
+	                </tr>
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">机号</td>
+	                    <td align="right" class="ui-td"><span id="serialNo"></span></td>
+	                </tr>
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">是否二手机</td>
+	                    <td align="right" class="ui-td"><span id="isSecondhand"></span></td>
+	                </tr>
+	                <tr>
+	                    <td width="60%" align="left" class="ui-td">是否已售</td>
+	                    <td align="right" class="ui-td"><span id="isSold"></span></td>
+	                </tr>
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">行业类型</td>
+	                    <td align="right" class="ui-td"><span id="machIndustryDesc"></span></td>
+	                </tr>
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">购买日期</td>
+	                    <td align="right" class="ui-td"><span id="purDate"></span></td>
+	                </tr>
+	            	<tr>
+	                    <td width="60%" align="left" class="ui-td">台量</td>
+	                    <td align="right" class="ui-td"><span id="purQty"></span>台</td>
+	                </tr>
+	            </table>
+            </div>
+            <a id="edit_mach_link" class="ui-btn ui-btn-block ui-corners ui-btn-edit" onclick="editMachine();">编辑保有设备</a>
+        </div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</body>
+</html>

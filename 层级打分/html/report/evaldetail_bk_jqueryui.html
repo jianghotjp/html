@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+	<title>打分详细</title>
+	
+	<link type="text/css" rel="stylesheet" href="../../css/styles.css" />
+	<script type="text/javascript" src="../../js/cordova.js"></script>
+	<script type="text/javascript" src="../../js/db.js"></script>
+	<script type="text/javascript" src="../../js/jquery.js"></script>
+	<script type="text/javascript" src="../../js/main.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../../js/app/report.js"></script>
+	<script type="text/javascript" src="../../js/app/report_calc.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+	<script type="text/javascript">
+		window._back = window.back;
+		window.back = function() {
+			// 返回之前计算并保存数据
+			// 计算lvl1剩余率合计
+			var details = [], detailLevel1Map = {};
+			$(template.details).each(function() {
+				if (this.levelId == 1) {
+					detailLevel1Map[this.evalItemId] = this;
+					this.salvageRate = 0;
+				}
+			});
+			$(template.details).each(function() {
+				if (this.levelId == 2) {
+					var lvl1Item = detailLevel1Map[this.parentItemId];
+					if (lvl1Item)
+						lvl1Item.salvageRate += this.salvageRate;
+				}
+			});
+			
+			saveCurrentTemplate(getCurrentTemplate());
+			_back();
+		}
+		
+		var list = '', level2Item = [], level3Item = [];
+		var itemId = parseInt(getStore("CURR_EVAL_TEMPLATE_ITEM_ID"), 10);
+		var template = getCurrentTemplate();
+		var itemMap = {};
+		
+		document.addEventListener('backbutton', back, false);
+		document.addEventListener('deviceready', function() {
+			$(function() {
+				if (!template) {
+					alert("请先选择评估模板");
+					return back();
+				}
+				if (!itemId) {
+					alert("请选择评估项目");
+					return back();
+				}
+				var item = null;
+				for (var i = 0, j = template.details; i < j.length; ++i) {
+					if (j[i].evalItemId == itemId) {
+						item = j[i];
+					}
+					itemMap[j[i].evalItemId] = j[i];
+				}
+				$("#header_title").html(item.evalItemName + '(' + item.newRate.toFixed(2) + '%)');
+				loadEvalDetailData();
+				applyScroll("#content");
+			});
+		});
+		
+		function loadEvalDetailData() {
+			var level2Ids = {};
+			$(template.details).each(function() {
+				if (this.levelId == 2 && this.parentItemId == itemId) {
+					level2Ids[this.evalItemId] = 1;
+					level2Item.push(this);
+				}
+			});
+			$(template.details).each(function() {
+				if (this.levelId == 3 && level2Ids[this.parentItemId])
+					level3Item.push(this);
+			});
+			initCollpasibleList(level2Item, level3Item);
+			refreshScroll("#content");
+		}
+		
+		function tryRefreshScroll(e) {
+			var target = e.srcElement || e.target;
+			console.log($(target).attr("class") + " / " + target.tagName + "/" + $(target).attr("id"));
+			refreshScroll("#content", true);
+		}
+		
+		function initCollpasibleList(menuList, itemList) {
+			for (var i = 0; i < menuList.length; i++) {
+				var menu = menuList[i];
+				list += '<div class="ui-collapsible-show-item" cst="1" onclick="traggleCollapsible(this);tryRefreshScroll(event);">';
+				list += '	<div class="ui-collapsible-wrapper ui-txt-inner">';
+				list += '		<span class="ui-icon-carat-r">&nbsp;&nbsp;&nbsp;</span>';
+				list += '		<span style="margin-left: .5em;">' + menu.evalItemName + menu.newRate.toFixed(2) + '%</span>';
+				list += '		<span id="curr_' + menu.parentItemId + '_' + menu.evalItemId + '" class="ui-txt-right">' + 
+								getCurrSlideText(menu.salvageValue, menu.newRate.toFixed(2)) + 
+								'</span>';
+				list += '	</div>';
+				list += '</div>';
+				list += '<div class="ui-collapsible-inner-item ui-hidden">';
+				list += '	<table class="ui-slider-table" style="text-align:center;vertical-align:middle;"><tr>';
+				list += '		<td width="13%">';
+				list += '			<span onclick="setRangeValue(' + menu.parentItemId + ', ' + menu.evalItemId + ', 0);" class="ui-icon ui-icon-minus">&nbsp;&nbsp;</span>';
+				list += '		</td>';
+				list += '		<td>';
+				list += '			<div id="slider_' + menu.parentItemId + '_' + menu.evalItemId + '" min="0" max="1" itemId="' + menu.evalItemId + '"></div>';
+				list += '		</td>';
+				list += '		<td width="13%">';
+				list += '			<span onclick="setRangeValue(' + menu.parentItemId + ', ' + menu.evalItemId + ', 1);" class="ui-icon ui-icon-add">&nbsp;&nbsp;</span>';
+				list += '		</td></tr>';
+				list += '	</table>';
+				list += '	<ul>';
+				for (var j = 0; j < itemList.length; j++) {
+					var item = itemList[j];
+					if (item.parentItemId == menu.evalItemId) {
+						list += '<li class="ui-li" style="padding-left: 3em; width: auto; display: block;" ' + 
+										'onclick="setValueRange(' + menu.parentItemId + ', ' + menu.evalItemId + ', ' + 
+											item.minValue + ', ' + item.maxValue + ');">';
+						list += '	<div class="ui-collapsible-wrapper ui-txt-inner" style="line-height: 2.5em; padding-left: 2.5em;">';
+						list += item.evalItemName;
+						if (item.minValue && item.maxValue && item.minValue != item.maxValue) {
+							list += '(' + item.minValue + '-' + item.maxValue + ')';
+						} else if (item.minValue == item.maxValue && item.minValue !== null && item.maxValue !== null) {
+							list += '(' + item.minValue + ')';
+						} 
+						/*else if (item.maxValue && !item.minValue) {
+							list += '(' + item.maxValue + ')';
+						}*/
+						list += '	</div>';
+						list += '</li>';
+					}
+				}
+				list += '	</ul>';
+				list += '</div>';
+			}
+			console.log(list);
+			$('#conent_detail').empty().append(list);
+			initSliders(menuList);
+		}
+	
+		function initSliders(menuList) {
+			for (var i = 0; i < menuList.length; i++) {
+				var menu = menuList[i];
+				$("#slider_" + menu.parentItemId + "_" + menu.evalItemId).slider({
+					orientation: "horizontal",
+					max: 1,
+					min: 0,
+					step: menu.stepValue || 0.05,
+					value: menu.salvageValue,
+					range: "min",
+					slide: function(event, ui) {
+						return;
+						var curr = $(event.target).slider("value");
+						var min = $(event.target).attr("min");
+						var max = $(event.target).attr("max");
+						var itemId = $(event.target).attr("itemId");
+						var showId = event.target.id.replace("slider", "curr");
+						if (validateRange(event.target.id, min, max)) {
+							var menu = itemMap[itemId];
+							trace("#slide " + curr);
+							trace("#"+JSON.stringify(menu));
+							menu.salvageValue = curr;
+							trace("#"+JSON.stringify(menu));
+							$("#" + showId).html(getCurrSlideText(curr, menu.newRate));
+						}
+					},
+					change: function(event, ui) {
+						var curr = ui.value;
+						var min = $(event.target).attr("min");
+						var max = $(event.target).attr("max");
+						var itemId = $(event.target).attr("itemId");
+						var showId = event.target.id.replace("slider", "curr");
+						if (validateRange(event.target.id, min, max)) {
+							var menu = itemMap[itemId];
+							menu.salvageValue = curr;
+							menu.salvageRate = menu.newRate * menu.salvageValue;
+							$("#" + showId).html(getCurrSlideText(menu.salvageValue, menu.newRate));
+						}
+					}
+				});
+			}
+		}
+		
+		// 实时更新的页面显示数据
+		function getCurrSlideText(curr, rate) {
+			return '*<span style="color: #FC911E;">' + curr.toFixed(2) + '</span>=' + (curr * rate).toFixed(2) + '%';
+		}
+		
+		// 加减按钮点击操作
+		function setRangeValue(eid, cid, opt) {
+			var sliderId = "#slider_" + eid + "_" + cid;
+			var curr = $(sliderId).slider("value");
+			var step = $(sliderId).slider("option", "step") || 0.1;
+			if (opt == 1) {
+				$(sliderId).slider("value", curr + step);
+			} else {
+				$(sliderId).slider("value", curr - step);
+			}
+		}
+		
+		// 设置取值范围  lvl1id, lvl2id, lvl3min, lvl3max
+		function setValueRange(eid, cid, min, max) {
+			var slider = $('#slider_' + eid + '_' + cid);
+			var curr = slider.slider("value");
+			var val = null;
+			if (max !== null)
+				val = max;
+			trace("setValueRange : curr = " + curr + ", min = " + min + ", max = " + max + ", val = " + val);
+			slider.attr("min", min || 0).attr("max", max || curr);
+			if (val !== null)
+				slider.slider("value", val);
+		}
+		
+		// 验证范围
+		function validateRange(id, min, max) {
+			var curr = $("#" + id).slider("value");
+			return curr >= min && curr <= max;
+		}
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="evaldetail">
+		<div class="ui-header ui-bar-t">
+			<h1 id="header_title"></h1>
+			<a class="ui-btn ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();"> 
+				<span class="ui-btn-inner"> 
+					<span class="ui-btn-txt">返回</span> 
+					<span class="ui-icon ui-icon-arrow-l ui-btn-icon-left">&nbsp;</span>
+				</span>
+			</a>
+		</div>
+		<div class="ui-content scroll-wrapper" id="content" style="bottom: 0;">
+			<div id="conent_detail">
+			</div>
+		</div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

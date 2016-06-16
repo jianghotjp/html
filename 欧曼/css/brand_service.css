@@ -1,0 +1,99 @@
+@charset "utf-8";
+.content .title ul{
+	height: 136px;
+	width: 1128px;
+	margin-top: 38px;
+	background: #f9f9f9;
+}
+.content .title ul li{
+	float: left;
+	height: 136px;
+	width: 161px;
+	line-height: 161px;
+	text-align: center;
+	size: 16px;
+	color: #323737;
+	
+}
+.content .title ul li i{	
+	width: 52px;
+	height: 52px;
+	line-height: 52px;
+	padding-top: 26px;
+	padding-left: 50px;
+	padding-bottom: 13px;
+	display: block;
+}
+.content .title ul li i.iconfont{
+	font-size: 40px;
+}
+.content .title ul li a{
+	display: block;
+	height: 136px;
+	width: 161px;
+	line-height: 161px;
+	text-align: center;
+}
+.content .title ul li a span{
+	color: #323737;
+	height: 16px;
+	line-height: 16px;
+	display: block;
+}
+.content .title ul li a.on span{
+		color: #fff;
+}
+.content .title ul li a.on{
+	color: #fff;
+	background: #0062A8;
+	
+}
+.content .title ul li a:hover span{
+		color: #fff;
+}
+.content .title ul li a:hover{
+	color: #fff;
+	background: #0062A8;
+}
+/**title--end--**/
+.content .content_list{
+	margin-bottom: 160px;
+}
+.content .content_list dl{
+	clear: both;
+	padding-top: 40px;
+}
+.content .content_list dl dt i{
+	width: 55px;
+	height: 65px;
+	float: left;
+	font-size: 65px;
+
+	line-height: 100%;
+}
+.content .content_list dl dt div{
+	margin-left: 22px;
+	float: left;
+}
+.content .content_list dl dt div p.title{
+	height: 38px;
+	line-height: 38px;
+	color: #323737;
+}
+.content .content_list dl dt div p.introduce{
+	height: 30px;
+	line-height: 30px;
+	color: #777777;
+}
+.content .content_list dl dd{
+	margin-left: 78px;
+	margin-top: 16px;
+	float: left;
+	display: block;
+	color: #777777;
+}
+
+.right_img{
+	margin-top: 47px;
+	margin-right: 5px;
+}

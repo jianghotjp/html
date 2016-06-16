@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>人员流动编辑</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="fonts/moving-icon.css">
+		<link rel="stylesheet" type="text/css" href="css/moving-editor.css"/>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jQueryui/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/moving-editor.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<script type="text/javascript">
+			loader();
+		</script>
+		<div class="dpo-block">
+			<div class="dpo-main">
+				<div class="dpo-img" id="map">
+					<img src="img/01.png"/>
+				</div>
+			</div>
+			<div class="dpo-slide">
+				<div class="slide-tools fl">
+					<div class="slide-content">
+						<ul class="clearfix">
+							<li><a class="tools-btn" href="javascript:void(0);" onclick="editor.sendData()">保存</a></li>
+							<li><a class="tools-btn" href="javascript:void(0);" onclick="editor.resetEl()">重置比例</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="slide-edit edit fl">
+					<div class="slide-content">
+						<ul class="clearfix">
+							<li class="clearfix human" data-info="{name:'111',sex:'222',age:'333',info:['正在做第一件事','正在做第二件事']}">
+								<a class="position fl" href="javascript:void(0);"><i class="moving">&#xe600;</i></a>
+								<p class="info1 fl" href="javascript:void(0);">&nbsp;拖拽左侧图钉进行定位&nbsp;</p>
+								<p class="info fl" href="javascript:void(0);">当前坐标  t:0,l:0</p>
+								
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

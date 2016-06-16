@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" /><!-- 取消浏览器自动识别拨号 -->
+    <title>申请新建</title>
+    
+    <link type="text/css" rel="stylesheet" href="../../css/styles.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/datepicker.css"/>
+    <script type="text/javascript" src="../../js/cordova.js"></script>
+    <script type="text/javascript" src="../../js/db.js"></script>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/main.js"></script>
+    <script type="text/javascript" src="../../js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="../../js/iscroll.js"></script>
+    <script type="text/javascript" src="../../js/app/applyadd.js"></script>
+    <script type="text/javascript">
+		var init;
+		document.addEventListener('deviceready', function() {
+		document.addEventListener('backbutton', back, false);		
+		$(function(){
+			init = 1;
+			initTabs('#theform', 'baseinfo', 0);
+			applyScroll("#content", false);
+			
+			$("#appDate").val(getCurrDate());
+			
+			//初始化日期控件
+			$('#appDate,#leaveDate,#expTradeDate').Zebra_DatePicker({
+				onSelect : function(a, ymd, c, target) {
+					var id = target.attr("id");
+					if (id == "appDate" || id == "leaveDate") {
+						var ad = parseDate($("#appDate").val());
+						var ld = parseDate($("#leaveDate").val());
+						if (ad && ld && ad < ld) {
+							alert("出厂日期不能晚于申请日期");
+						}
+					}
+					target.val(ymd);
+					target.trigger("change");
+				}
+			});
+			
+			//初始化置换机型下拉数据
+			loadProducts('initReProduct', true);
+			//初始化品牌数据
+			loadBrands();
+			//初始化基础代码数据
+			loadCodes();
+			//准备评估模板下拉数据
+			loadTemplate();
+			
+			//获取明细数据
+			var keyId = getStore("CURR_APPLY_ID");
+			var type = getStore("CURR_IN_MODE");
+			if(!!keyId){//说明来自明细页点击编辑，而非列表页点击新建
+				if(type == 0){//手机本地草稿
+					$("#header_title").html("编辑申请单");
+					ap.dbFindAll('Phone_Du_Eval_App',function(data){
+						var en = data.rows.item(0);
+						$.extend(en,{
+							wSalePrice:!!en.salePrice?en.salePrice/10000:en.salePrice,
+							wCustExpPrice:!!en.custExpPrice?en.custExpPrice/10000:en.custExpPrice,
+							wReMachinePrice:!!en.reMachinePrice?en.reMachinePrice/10000:en.reMachinePrice,
+							WCompPrice:!!en.compPrice?en.compPrice/10000:en.compPrice,
+							WCompNewPrice:!!en.compNewPrice?en.compNewPrice/10000:en.compNewPrice
+						});
+						stuffFormDatas(en);
+						
+						if (!en.brandId || en.brandId == "0")
+							manualInput("brand", true);
+						else if (!en.productId || en.productId == "0")
+							manualInput("product", true);
+						else if (!en.modelId || en.modelId == "0")
+							manualInput("model", true);
+						
+						chengeSourceType(en.sourceTypeId);
+						
+						$("#iwYear").val(Math.floor(en.workYear / 12));
+						$("#iwMonth").val(Math.floor(en.workYear % 12));
+						
+						initDropdown();
+						dealComboNCheckboxValue(en);
+						
+						preparePhoto(keyId, en.evalTemplateId);
+					},'*','_id='+keyId);
+				}
+			} else {
+				chengeSourceType(0);
+			}
+		});
+		});
+	</script>
+</head>
+
+<body>
+	<div class="ui-page" id="applyadd">
+		<div class="ui-header ui-bar-t">
+        	<h1 id="header_title">新建申请单</h1>
+            <a class="ui-btn2 ui-btn-left ui-btn-corner ui-btn-inner-border" onclick="back();">
+            	<span class="ui-icon ui-icon-arrow-l">&nbsp;</span>返回
+            </a>
+            <a class="ui-btn2 ui-btn-right ui-btn-corner ui-btn-inner-border" onclick="showSavePop();">
+                <span class="ui-icon ui-icon-check">&nbsp;</span>保存
+            </a>
+        </div>
+        <div class="ui-content scroll-wrapper" id="content">
+        	<div style="width:100%;position:absolute;">
+        	<form id="theform" action="used/eval/saveUsedEvalApp.action" method="post"> 
+        		<div id="baseinfo" style="width: 100%;">
+        			<div class="ui-field-contain">
+	                    <label for="custName" class="ui-input-text" style="display:block">客户名称</label>
+	                    <div class="ui-body" style="width: 80%; display: inline-block;" id="custName-validate">
+	                    	<input type="text" id="custName" name="custName" readonly="readonly"  onclick="getCustList(0);" placeholder="请选择客户姓名" class="ui-input-text ui-body"/>
+	                    </div>
+	                    <input type="hidden" id="custId" name="en.custId"/>
+	                    <a class="ui-icon ui-icon-add ui-corner-all" style="margin: .9em;" onclick="window.location.href='../customer/customeradd.html';">&nbsp;</a>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="handPhone" class="ui-input-text">客户电话</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="handPhone" name="handPhone" readonly="readonly" placeholder="请输入有效电话号码" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="areaName" class="ui-input-text">所属区域</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="areaName" readonly="readonly" name="areaName" placeholder="请选择区域" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="areaId" name="en.areaId"/>
+	                    </div>
+	                </div>
+        			<div class="ui-field-contain">
+	                    <label for="appDate" class="ui-input-text">申请日期<font color="red">*</font></label>
+	                    <div class="ui-body">
+	                    	<input type="text" required="required" id="appDate" readonly="readonly" name="en.appDate" placeholder="请填写申请日期" class="ui-input-text ui-body ui-check-error" onchange="calcLeaveDate()"/>
+	                    </div>
+	                </div>
+        		</div>
+        		<div id="usedinfo" style="width: 100%;">
+        			<div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">品牌<font color="red">*</font></label>
+	                    <div class="ui-select" id="brand-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('brand');" id="brand-validate">
+	                        	<span class="ui-select-txt" id="brand-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" name="brandId" id="brandId"/>
+	                    </div>
+	                    <div id="brand-input" style="display: none;">
+	                    	<div class="ui-body" style="display:inline-block;width:80%;" >
+		                    	<input type="text" id="brandName" name="brandName" placeholder="请输入品牌" class="ui-input-text ui-body"/>
+		                    </div>
+	                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;" 
+	                    		onclick="returnToSelect('brand')">&nbsp;</a>
+	                    </div>
+	                </div>
+	        		<div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">产品<font color="red">*</font></label>
+	                    <div class="ui-select" id="product-select">
+	                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);" id="product-validate">
+	                        	<span class="ui-select-txt" id="product-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="productId" name="productId" />
+	                    </div>
+	                    <div id="product-input" style="display: none;">
+		                    <div class="ui-body" style="display:inline-block;width:80%;" >
+		                    	<input type="text" id="productName" name="productName" placeholder="请输入产品" class="ui-input-text ui-body"/>
+		                    </div>
+	                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;" 
+	                    		 onclick="returnToSelect('product')">&nbsp;</a>
+	                    </div>
+	                </div>
+	        		<div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">机型<font color="red">*</font></label>
+	                    <div class="ui-select" id="model-select">
+	                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);" id="model-validate">
+	                        	<span class="ui-select-txt" id="model-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="modelId" name="modelId" />
+	                    </div>
+	                    <div id="model-input" style="display:none;">
+		                    <div class="ui-body" style="width:80%; display:inline-block;">
+		                    	<input type="text" id="modelName" name="modelName" placeholder="请输入机型" class="ui-input-text ui-body"/>
+		                    </div>
+	                    	<a class="ui-icon ui-icon-delete ui-corner-all" style="margin:.9em;"
+								 onclick="returnToSelect('model')">&nbsp;</a>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="serialNo" class="ui-input-text" style="display:block">机号<font color="red">*</font></label>
+	                    <div class="ui-body" style="width:80%;display:inline-block;" >
+	                    	<input type="text" id="serialNo" name="serialNo" required="required" placeholder="请输入机号" class="ui-input-text ui-body" onchange="updateMachInfo();" />
+	                    </div>
+                        <a class="ui-icon ui-icon-search ui-corner-all" style="margin:.9em;" onclick="queryDevice(0);">&nbsp;</a>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">一次销售价(万元)<font color="red">*</font></label>
+	                    <div class="ui-body">
+	                    	<input type="number" required="required" id="wSalePrice" name="en.wSalePrice" placeholder="请填写一次销售价格" class="ui-input-text ui-body"/>
+	                 		<input type="hidden" id="salePrice" name="en.salePrice"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="leaveDate" class="ui-input-text">出厂日期<font color="red">*</font></label>
+	                    <div class="ui-body">
+	                    	<input type="text" required="required" readonly="readonly" id="leaveDate" name="en.leaveDate" placeholder="请填写出厂时间" class="ui-input-text ui-body" onchange="calcLeaveDate()"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">年限<font color="red">*</font></label>
+                        <div class="ui-body" style="border: none; background:none;">
+                            <input type="number" id="iwYear" name="iwYear" style="width: 35%;height:25px;line-height:25px;padding:2px 0;border:solid .1em #aaa;border-radius:4px"  onchange="calculatTotalMonth();" />&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;
+                            <input type="number" id="iwMonth" name="iwMonth" style="width: 35%;height:25px;line-height:25px;padding:2px 0;border:solid .1em #aaa;border-radius:4px" onchange="calculatTotalMonth();" />&nbsp;&nbsp; 月
+                            <input type="hidden" id="workYear" name="en.workYear"/>
+                        </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="workHour" class="ui-input-text">小时</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="workHour" name="en.workHour" placeholder="请填写工作小时数" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="machineAddress" class="ui-input-text">设备位置</label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="machineAddress" name="en.machineAddress" placeholder="请填写设备位置" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                	<div class="ui-body ui-checkbox-body">
+	                    	<input type="checkbox" id="hasInvoice" name="en.hasInvoice" class="ui-checkbox" value="true"/>
+	                    	<label for="hasInvoice" class="ui-input-text"><span style="color: #f00;">*</span>是否有发票</label>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                	<div class="ui-body ui-checkbox-body">
+	                    	<input type="checkbox" id="hasContract" name="en.hasContract" class="ui-checkbox" value="true"/>
+	                    	<label for="hasContract" class="ui-input-text"><span style="color: #f00;">*</span>是否有合同</label>
+	                    </div>
+	                </div>
+                    <div class="ui-field-contain">
+                        <div class="ui-body ui-checkbox-body">
+                            <input type="checkbox" id="hasCert" name="en.hasCert" class="ui-checkbox" value="true"/>
+                            <label for="hasCert" class="ui-input-text"><span style="color: #f00;">*</span>是否有合格证</label>
+                        </div>
+                    </div>
+                    <div class="ui-field-contain">
+                        <div class="ui-body ui-checkbox-body">
+                            <input type="checkbox" id="isOrigpain" name="en.isOrigpain" class="ui-checkbox" value="true"/>
+                            <label for="isOrigpain" class="ui-input-text"><span style="color: #f00;">*</span>是否原厂漆</label>
+                        </div>
+                    </div>
+                    <div class="ui-field-contain">
+                        <div class="ui-body ui-checkbox-body">
+                            <input type="checkbox" id="isStandpart" name="en.isStandpart" class="ui-checkbox" value="true"/>
+                            <label for="isStandpart" class="ui-input-text"><span style="color: #f00;">*</span>是否纯正部品</label>
+                        </div>
+                    </div>
+	                <div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">工况</label>
+	                    <div class="ui-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('machCondition');">
+	                        	<span class="ui-select-txt" id="machCondition-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="machConditionId" name="en.machConditionId"/>
+	                        <input type="hidden" id="machConditionName" name="en.machConditionName"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">设备来源<font color="red">*</font></label>
+	                    <div class="ui-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('sourceType');"  id="sourceType-validate">
+	                        	<span class="ui-select-txt" id="sourceType-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="sourceTypeId" name="en.sourceTypeId"/>
+	                        <input type="hidden" id="sourceTypeName" name="en.sourceTypeName"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">评估模板<font color="red">*</font></label>
+	                    <div class="ui-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('evalTemplate');"  id="evalTemplate-validate">
+	                        	<span class="ui-select-txt" id="evalTemplate-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="evalTemplateId" name="en.evalTemplateId"/>
+	                        <input type="hidden" id="evalTemplateName" name="en.evalTemplateName"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="faultDesc" class="ui-input-text">故障</label>
+	                    <div class="ui-body">
+	                    	<textarea id="faultDesc" name="en.faultDesc" class="ui-textarea ui-body" placeholder="请填写故障信息"></textarea>
+	                    </div>
+	                </div>
+        		</div>
+        		<div id="dealinfo" style="width: 100%;">
+        			<div class="ui-field-contain">
+	                    <label for="expTradeDate" class="ui-input-text">预计回购日期<font color="red">*</font></label>
+	                    <div class="ui-body">
+	                    	<input type="text" id="expTradeDate" name="en.expTradeDate" required="required" placeholder="请填写预计回购日期" class="ui-input-text ui-body"/>
+	                    </div>
+	                </div>
+	                <div class="ui-field-contain">
+	                    <label for="" class="ui-input-text">客户期望价(万元)</label>
+	                    <div class="ui-body">
+	                    	<input type="number"  id="wCustExpPrice" name="en.wCustExpPrice" placeholder="请填写客户期望价" class="ui-input-text ui-body"/>
+	                   		<input type="hidden" id="custExpPrice" name="en.custExpPrice"/>
+	                    </div>
+	                </div>
+	                <div id="divReProduct" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">置换新机产品<font color="red">*</font></label>
+	                    <div class="ui-select" id="reProduct-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('reProduct');">
+	                        	<span class="ui-select-txt" id="reProduct-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="reProductId" name="en.reProductId"/>
+	                        <input type="hidden" id="reProductName" name="reProductName"/>
+	                    </div>
+	                </div>
+	                <div id="divReModel" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">置换新机机型<font color="red">*</font></label>
+	                    <div class="ui-select" id="reModel-select">
+	                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+	                        	<span class="ui-select-txt" id="reModel-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="reModelId" name="en.reModelId"/>
+	                        <input type="hidden" id="reModelName" name="reModelName"/>
+	                    </div>
+	                </div>
+        			<div id="divNewPrice" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">置换新机报价(万元)</label>
+	                    <div class="ui-body" id="reMachinePrice-validate">
+	                    	<input type="number" id="wReMachinePrice" name="en.wReMachinePrice" placeholder="请填写置换新机报价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="reMachinePrice" name="en.reMachinePrice"/>
+	                    </div>
+	                </div>
+	        		<div id="divCompBrand" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">竞对品牌</label>
+	                    <div class="ui-select" id="compBrand-select">
+	                        <a class="ui-btn ui-select-a" onclick="openSelectList('compBrand');">
+	                        	<span class="ui-select-txt" id="compBrand-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="compBrandId" name="en.compBrandId"/>
+	                        <input type="hidden" id="compBrandName" name="compBrandName"/>
+	                    </div>
+	                </div>
+	        		<div id="divCompProduct" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">竞对产品</label>
+	                    <div class="ui-select" id="compProduct-select">
+	                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+	                        	<span class="ui-select-txt" id="compProduct-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="compProductId" name="en.compProductId"/>
+	                        <input type="hidden" id="compProductName" name="compProductName"/>
+	                    </div>
+	                </div>
+	        		<div id="divCompModel" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">竞对机型</label>
+	                    <div class="ui-select" id="compModel-select">
+	                        <a class="ui-btn ui-select-a ui-input-disabled" onclick="void(0);">
+	                        	<span class="ui-select-txt" id="compModel-list-selected">---请选择---</span>
+	                            <span class="ui-icon ui-icon-arrow-d ui-corner-all ui-btn-icon-right">&nbsp;</span>
+	                        </a>
+	                        <input type="hidden" id="compModelId" name="en.compModelId"/>
+	                        <input type="hidden" id="compModelName" name="compModelName"/>
+	                    </div>
+	                </div>
+	                <div id="divCompEvalPrice" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">竞对品牌评估价(万元)</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="WCompPrice" name="en.WCompPrice" placeholder="请填写竞对品牌评估价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="compPrice" name="en.compPrice"/>
+	                    </div>
+	                </div>
+	                <div id="divCompNewPrice" class="ui-field-contain">
+	                    <label for="" class="ui-input-text">竞对品牌新机价(万元)</label>
+	                    <div class="ui-body">
+	                    	<input type="number" id="WCompNewPrice" name="en.WCompNewPrice" placeholder="请填写竞对品牌新机价" class="ui-input-text ui-body"/>
+	                    	<input type="hidden" id="compNewPrice" name="en.compNewPrice"/>
+	                    </div>
+	                </div>
+        		</div>
+        		<div id="photoinfo" style="width: 90%; padding: 5%;"></div>
+        		<!-- 
+        		<input type="hidden" name="en.applyId" id="applyId"/>
+        		<input type="hidden" name="en.custId" id="custId"/>
+        		<input type="hidden" name="en.machId" id="machId"/>
+        		 -->
+        	</form>
+        	</div>
+        </div>
+        <div class="ui-footer ui-bar-b">
+        	<div class="ui-navbar">
+            	<div class="ui-navbar-group" id="navbar">
+                	<a id="abase" href="#" class="ui-navbar-item-c" onclick="initTabs('#theform', 'baseinfo', 0);refreshScroll('#content', false, true);return false">基本</a>
+                    <a id="aused" href="#" class="ui-navbar-item-c" onclick="initTabs('#theform', 'usedinfo', 1);refreshScroll('#content', false, true);return false">旧机</a>
+                    <a id="adeal" href="#" class="ui-navbar-item-c" onclick="initTabs('#theform', 'dealinfo', 2);refreshScroll('#content', false, true);return false">交易</a>
+                    <a id="aphoto" href="#" class="ui-navbar-item-c" onclick="initTabs('#theform', 'photoinfo', 3);refreshScroll('#content', false, true);return false">照片</a>
+                </div>
+            </div>
+        </div>
+        <!-- 客户查询POP START -->
+        <div id="dataListShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="dataListPop" class="ui-popup ui-hidden" style="padding: 0; overflow:hidden; height: 90%;">
+        	<div class="ui-pop-header">
+        		<p></p>
+        		<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="closePop();"></a>
+        	</div>
+        	<div style="width: 100%; heigth: 92%;">
+        		<div id="search_bar" style="height: 10%;">
+					<input type="text" id="cust_keyword" class="search_input" placeholder="请输入关键字" />
+					<img src="../../img/magnifier.png" class="search_img" onclick="getCustList(1);"/>
+				</div>
+	        	<div class="ui-pop-data-wrapper scroll-wrapper">
+		        	<ul id="data_list" class="ui-pop-ul"></ul>
+	        	</div>
+				<div class="ui-pop-page-wrapper">
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-home" onclick="getCustList(-100);"><span>首 页</span></div>  
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-prev" onclick="getCustList(-1);"><span>上一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-next" onclick="getCustList(1);"><span>下一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-flush" onclick="getCustList(0);"><span>刷 新</span></div>
+				</div>
+        	</div>
+        </div>
+        <!-- 客户查询POP END -->
+        <!-- 设备查询POP START -->
+        <div id="deviceListShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="deviceListPop" class="ui-popup ui-hidden" style="padding: 0; overflow: hidden; height: 90%;">
+        	<div class="ui-pop-header">
+        		<p></p>
+        		<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="closeDevicePop();"></a>
+        	</div>
+        	<div style="width: 100%; heigth: 92%;">
+        		<div id="search_bar" style="height: 10%;">
+					<input type="text" id="device_keyword" class="search_input" placeholder="请输入关键字" />
+					<img src="../../img/magnifier.png" class="search_img" onclick="queryDevice(1);"/>
+				</div>
+	        	<div class="ui-pop-data-wrapper scroll-wrapper">
+		        	<ul id="device_list" class="ui-pop-ul"></ul>
+	        	</div>
+				<div class="ui-pop-page-wrapper">
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-home" onclick="queryDevice(-100);"><span>首 页</span></div>  
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-prev" onclick="queryDevice(-1);"><span>上一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-next" onclick="queryDevice(1);"><span>下一页</span></div>
+					<div class="ui-pop-tab-btn-common ui-pop-tab-btn-flush" onclicks="queryDevice(0);"><span>刷 新</span></div>
+				</div>
+        	</div>
+        </div>
+        <!-- 设备查询POP END -->
+        <!-- 评估模板选择弹出 -->
+        <div id="evalTemplate-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="evalTemplate-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="brand-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="brand-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="product-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="product-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="model-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="model-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="sourceType-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="sourceType-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="machCondition-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="machCondition-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="reProduct-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="reProduct-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="reModel-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="reModel-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="compBrand-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="compBrand-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="compProduct-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="compProduct-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="compModel-shadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="compModel-list" class="ui-select-container ui-hidden"></div>
+        
+        <div id="saveDataShadow" class="ui-hidden ui-popup-shadow"></div>
+        <div id="saveDataPop" class="ui-popup-savedata ui-hidden">
+			<a id="submit" class="ui-btn ui-corners ui-btn-block ui-btn-save-server" onclick="submitServer();">保存并提交</a> 
+			<a id="draft" class="ui-btn ui-corners ui-btn-block ui-btn-save-draft" onclick="saveDraft();">保存本地草稿</a> 
+			<a class="ui-btn ui-corners ui-btn-block ui-btn-save-cancel" onclick="dismissSavePop();">取消</a>
+		</div>
+        <div id="loadingPop" class="ui-loading-popup ui-hidden">
+			<a href="#" class="ui-btn ui-btn-right ui-btn-up-right ui-icon ui-icon-delete" style="top: 0.5em; left: 92%;" onclick="hidePageLoading();"></a>
+			<table class="loading-pop-table" id="loadingTable">
+				<tr>
+					<td><img src="../../img/loading.gif"/></td>
+					<td><span style="color: #fff; font-weight: bold;">正在加载...</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
+

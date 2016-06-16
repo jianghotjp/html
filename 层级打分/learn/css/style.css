@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+body{
+	font-size: 12px;
+	font-family: "宋体";
+	background: #fff;
+}
+.fl{
+	float: left;
+	_display:inline;
+}
+.fr{
+	float: right;
+	_display:inline;
+}
+.header .header_nr .logo{
+	width: 616px;
+	height: 72px;
+}
+.header .header_nr .search input{
+	height: 50px;
+	box-sizing:border-box;
+}
+.header .header_nr .search input[type=text]{
+	border: solid 1px #333;
+	background: #000 url(../images/pro_bg.png) right top no-repeat;
+	
+	color: #fff;
+}
+.main{
+	width: 30px;
+	height: 30px;
+	clear: both;
+	background: url(../images/icons_8b5b2ea9.png) -45px -215px no-repeat;
+	background:#222 ;
+}
+.footer{
+
+	height: 1000px;
+	clear: both;
+
+	
+}
+.main div{
+	box-sizing: border-box;
+	
+}
+.box1{
+	width: 50%;
+	height: 100px;
+	background: #00ccff;
+	border: solid 10px #000;
+	padding: 20px;
+}
+.box2{
+	width: 50%;
+	height: 100px;
+	background: #ffcc00;
+}

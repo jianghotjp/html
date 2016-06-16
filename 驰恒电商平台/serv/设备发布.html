@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <title>设备发布</title>
+	    <script type="text/javascript" src="../resources/js/muiInit_server.js"></script>
+	</head>
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav trans">
+			<a class="mui-pull-left c-fff" href="user_msg.html"><i class="iconfont icon-left c-fff fs-20"></i></a>
+			<h1 class="mui-title c-fff">设备发布</h1>
+			<a class="mui-pull-right c-fff" href="user_msg.html"><span class="fs-10 c-fff">保存</span></a>
+		</header>
+		<div class="machine-content">
+			<ul class="mui-table-view fs-13">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="#">设备类型（必选）</a>
+				</li><li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="#">设备品牌</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="#">设备规格</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="#">设备型号</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="#">整机编号</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="#">设备数量<span class="mui-pull-right c-3b97f1">1</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="#">
+						跨区作业
+						<div class="mui-switch mui-switch-mini">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view fs-13" style="margin-top: 8px;">
+				<li class="mui-table-view-cell edit">
+					<span class="js-name">联系人（必填）</span>
+					<span class="js-value mui-navigate-right fr c-3b97f1" style="margin-right: 15px;">王俊凯</span>
+				</li>
+				<li class="mui-table-view-cell edit">
+					<span class="js-name">联系电话（必填）</span>
+					<span class="js-value mui-navigate-right fr c-3b97f1" style="margin-right: 15px;">1xxxxxxxxx</span>
+				</li>
+				<li class="mui-table-view-cell edit">
+					<span class="js-name">所在位置（必填）</span>
+					<span class="js-value mui-navigate-right fr c-3b97f1" style="margin-right: 15px;">山东省烟台市莱山区同和路26号</span>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			$(".edit").click(function () {
+				var name = $(this).find(".js-name").html();
+				var btnArray = ['取消', '确定'];
+				var value = $(this).find(".js-value")
+				mui.prompt("请输入"+name+"：", name, "填写信息", btnArray, function(e) {
+					if (e.index == 1 && !e.value=="") {
+						value.html(e.value);
+					}
+				})
+			})
+		</script>
+	</body>
+</html>

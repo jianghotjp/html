@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css">
+		<link rel="stylesheet" type="text/css" href="css/login.css">
+		<script src="js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-content">
+				<a class="fl" href="#">
+					<img src="img/login_logo.jpg"/>
+				</a>
+				<a class="index-link fr" href="#" target="_blank">
+					官方网站
+				</a>
+			</div>
+		</div>
+		<form id="form" action="" method="post" autocomplete="off">
+		<!--登录部分开始-->
+			<div class="start">
+				<div class="login-logo"></div>
+				<div class="login">
+					<div class="denglu-box clearfix">
+						<h2 class="clearfix">登录<span>&nbsp;PLEASE LOGIN</span></h2>
+						<div class="username clearfix"><input name="userNo" id="userNo" tabindex="1" class="account" autocomplete="off"></div>
+						
+						<div class="userpw clearfix"><input type="password" name="pwd" tabindex="2" class="passw" autocomplete="off"></div>
+						
+						<input class="denglu" type="submit" value="登 录" tabindex="3">
+						<span color="#FF0000" class="alert-info" style="color: #ff0000;"></span>
+					</div>
+				</div>			
+			</div>
+			<!--二维码-->
+			<div class="bottom-box">
+				<p>[鲁ICP备11013701号]Coprright©山东捷瑞数字科技股份有限公司&nbsp;0535-6727722</p>
+			</div>
+		</form>
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+		</style>
+		<script type="text/javascript">
+			$(function(){
+					var footerH = $(".bottom-box").height();
+					var minHeight = 450;
+					var bodyH = document.body.clientHeight;
+					$(window).bind("resize load",function(){
+						bodyH = document.body.clientHeight;
+						if(minHeight < bodyH){
+							$(".start").height(bodyH - footerH + "px");
+						}
+					});
+				});
+		</script>
+	</body>
+</html>

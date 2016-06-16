@@ -1,0 +1,155 @@
+@charset "utf-8";
+
+.used-car-seller .recommend ul li h3{
+	color: #0062a8;
+}
+.used-car-seller .recommend ul li p{
+	height: 90px;
+	line-height: 20px!important;
+	overflow: inherit!important;
+}
+
+.find-seller{
+	width: 1127px;
+	height: 40px;
+	background: #f4f4f4;
+}
+.find-seller select,.find-seller input{
+	display: block;
+	margin: 5px;
+}
+.find-seller select.auman-ipt-slt-large{
+	height: 31px;
+}
+.find-seller input.auman-ipt-sub{
+	width: 66px;
+	height: 30px;
+	color: #fff;
+	background: #0062A8;
+	border: 0 none;
+}
+.find-seller input.auman-ipt-sub:hover{
+	background: #0092CE;
+}
+.search-result{
+	width: 1127px;
+	border-top: solid 1px #f4f4f4;
+}
+.search-result ul{
+	width: 1200px;
+}
+.search-result ul li{
+	float: left;
+	width: 360px;
+	height: 86px;
+	margin:17px 40px 25px 0;
+	overflow: hidden;
+}
+.search-result ul li img{
+	width: 117px;
+	height: 86px;
+}
+.search-result ul li .result-info{
+	width: 225px;
+	height: 86px;
+}
+.search-result ul li .result-info h3{
+	color: #0062A8;
+	line-height: 40px;
+}
+.search-result ul li .result-info p{
+	width: 225px;
+	height: 36px;
+	overflow: hidden;
+	color: #555;
+}
+/*地图*/
+.map-search{
+	width: 1127px;
+	height: 600px;
+}
+.map-search .map-list{
+	width: 224px;
+	height: 600px;
+	overflow: hidden;
+	background: #323737;
+	-moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+.map-search .map-list span{
+	cursor: pointer;
+	display: block;
+	color: #fff;
+	height: 46px;
+	line-height: 46px;
+	font-size: 20px;
+	text-align: center;
+	background: #0062a8;
+	border-bottom: groove 2px #323737;
+}
+.map-search .map-list .pos{
+	width: 224px;
+}
+.map-search .map-list .pos .pos-list{
+	display: none;
+	height: 457px;
+	overflow: hidden;
+}
+.map-search .map-list .pos .pos-list ul{
+	padding: 15px 0;
+	
+}
+.map-search .map-list .pos .pos-list ul li{
+	cursor: pointer;
+	color: #fff;
+	height: 36px;
+	line-height: 36px;
+	text-indent: 27px;
+	font-size: 14px;
+	background:none;
+}
+.map-search .map-list .pos .pos-list ul li:hover{
+	background: #4d4e4e;
+}
+.map-search .map-list .provice .left-part{
+	float: left;
+	_display:inline;
+	margin-left: 10px;
+	width: 100px;
+	border-right: solid 1px #323737;
+}
+
+.map-search .map-list .provice .right-part{
+	margin-right: 10px;
+	float: right;
+	_display:inline;
+	width: 100px;
+
+}
+.map-search .map-list .provice .left-part li,.map-search .map-list .provice .right-part li{
+	width: 100px;
+	height: 26px!important;
+	line-height: 26px!important;
+	text-align: center;
+	text-indent: 0!important;
+}
+.map-search .map-list .city li{
+	text-align: center;
+	text-indent: 0!important;
+}
+
+.pos-list #bd{
+	height: 457px;
+	width: 200px;
+}
+
+
+.map-search .map-content{
+	width: 883px;
+	height: 600px;
+}

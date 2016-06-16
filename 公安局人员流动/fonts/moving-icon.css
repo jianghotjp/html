@@ -1,0 +1,18 @@
+
+@font-face {font-family: "moving";
+  src: url('moving-icon.eot?t=1462937901'); /* IE9*/
+  src: url('moving-icon.eot?t=1462937901#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('moving-icon.woff?t=1462937901') format('woff'), /* chrome, firefox */
+  url('moving-icon.ttf?t=1462937901') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('moving-icon.svg?t=1462937901#moving') format('svg'); /* iOS 4.1- */
+}
+
+.moving {
+  font-family:"moving" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.moving-suoding:before { content: "\e600"; }

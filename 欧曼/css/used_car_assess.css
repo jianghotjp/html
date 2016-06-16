@@ -1,0 +1,137 @@
+@charset "utf-8";
+/*二手车评估*/
+
+/*系统评估标题*/
+.content  h1.title{
+	width:1127px;
+	height: 50px;
+	line-height: 50px;
+	margin-top: 6px;
+	text-indent: 299px;
+}
+/*评估--左侧标题*/
+.content .assess_title{
+	width: 299px;
+	height: auto;
+	
+}
+.content .assess_title .assess_item{
+	margin-top: 3px;
+	width: 250px;
+	height: 150px;
+}
+.content .assess_title .assess_item ul li{
+		display: block;
+		width: 240px;
+		height: 68px;
+		line-height: 68px;
+}
+.content .assess_title .assess_item a{
+	width: 240px;
+	height: 68px;
+	line-height: 68px;
+	text-align: center;
+	color: #FFF;
+	background: url(../images/black_bg.jpg) left center no-repeat;
+}
+.content .assess_title .assess_item li.on a,.content .assess_title .assess_item a:hover{
+	background: url(../images/youzhixiang.jpg) left center no-repeat;
+
+}
+
+/*评估--右侧内容*/
+.content .assess_content{
+	width: 828px;
+	min-height: 451px;
+	background: #f8f8f8;	
+}
+.content .assess_content .assess_wh{
+	margin-left: 264px;
+	margin-top: 38px;
+	width: 330px;
+	height: 351px;
+}
+.content .assess_content .content_title{
+	height: 61px;
+	line-height: 61px;
+	width: 330px;	
+}
+
+.content .assess_content .content_title ul li{
+	width: 110px;
+	height: 35px;
+	float: left;
+	font-size: 16px;
+	line-height: 35px;
+	text-align: center;
+	padding-bottom: 5px;
+}
+.content .assess_content .content_title ul li:hover{
+	cursor: pointer;
+}
+.content .assess_content .content_title ul li.on{
+	cursor: pointer;
+	color: #0062a8;
+	background: url(../images/used_assess_li_bg.gif) center bottom no-repeat;
+}
+.content .assess_content .content_info  dl{
+	margin:7px 0;
+}
+.content .assess_content .content_info dl dt{
+	width: 82px;
+	color: #323737;
+	height: 35px;
+	line-height: 35px;
+	text-align: right;
+	vertical-align: middle;
+}
+
+
+.content .assess_content .content_info  dl dd.border{
+	width: 200px;
+	height: 29px;
+	line-height: 29px;
+	border: solid 1px #A9A9A9; 
+	background: #FFF;
+}
+
+.content .assess_content .content_info  dl dd input{
+	width: 150px;
+	height: 26px;
+	line-height: 26px;
+	border: 0;
+	text-indent: 8px;
+}
+.content .assess_content .content_info  dl dd select{
+	width: 202px;
+	height: 31px;
+	color: #777;
+	text-indent: 8px;
+	display: block;
+	line-height: 29px;
+	padding: 5px;
+	
+}
+.content_info .submit-form{
+	width: 275px;
+	height: 42px;
+	color: #FFF;
+	border: 0;
+	line-height: 42px;
+	background: #0062A8;
+	margin: 20px 0 20px 10px;
+}
+.content_info .submit-form:hover{
+	background: #0092CE;
+}
+.content_info p{
+	font-size: 16px;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+.content_info p i{
+	font-size: 26px;
+	font-weight: bold;
+	color: #c90202;
+}

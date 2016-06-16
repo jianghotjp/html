@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>增加收货地址</title>
+    <script type="text/javascript" src="../resources/js/muiInit.js"></script>
+    <script type='text/javascript' src='../resources/js/jquery/jquery/jquery-1.10.2.min.js'></script>
+    <link href="../resources/css/mui/mui.picker.css" rel="stylesheet" />
+	<link href="../resources/css/mui/mui.poppicker.css" rel="stylesheet" />
+	<script src="../resources/js/mui/mui.picker.js"></script>
+	<script src="../resources/js/mui/mui.poppicker.js"></script>
+	<script src="../resources/js/mui/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="js/user_address_edit.js"></script>
+</head>
+<body class="user-address-add">
+	<header id="header" class="mui-bar mui-bar-nav trans">
+		<a class="mui-pull-left c-fff" href="user_address.html"><i class="iconfont icon-left c-fff"></i><span class="fs-10 c-fff"></span></a>
+		<h1 class="mui-title c-fff fs-17">增加收货地址</h1>
+		
+	</header>
+	<div class="user-address-addform appfrom" style="height: 100%;margin-top: 0;">
+		<form action="" method="post">
+			<dl class="mui-input-row">
+				<dt>收货人</dt>
+				<dd><input class="user-ipt mui-input-clear" type="text" name="" id="" value="" placeholder="收货人姓名"/></dd>
+			</dl>
+			<dl class="mui-input-row">
+				<dt>手机号码</dt>
+				<dd><input class="user-ipt mui-input-clear" type="tel" name="" id="" value="" placeholder="常用手机号码"/></dd>
+			</dl>
+			<dl class="mui-input-row">
+				<dt>邮政编码</dt>
+				<dd><input class="user-ipt mui-input-clear" type="number" name="" id="" value="" placeholder="如不确认可输入000000"/></dd>
+			</dl>
+			<dl class="mui-input-row">
+				<dt>所在地区</dt>
+				<dd id="showCityPicker3"><input class="user-ipt mui-input-clear" id="cityResult3" type="text" name="" id="" value="" placeholder="省、市、区县"/>
+				</dd>
+			</dl>
+			<dl class="mui-input-row">
+				<dt>街道</dt>
+				<dd><input class="user-ipt mui-input-clear" type="text" name="" id="" value="" placeholder="街道名称"/></dd>
+			</dl>
+			<dl class="mui-input-row">
+				<dt>详细地址</dt>
+				<dd><input class="user-ipt mui-input-clear" type="text" name="" id="" value="" placeholder="精确到门牌号"/></dd>
+			</dl>
+			<div class="user-protocol">
+				<div class="mui-checkbox mui-left">
+					<input id="chk" name="checkbox" value="Item 1" type="checkbox" >
+					<label for="chk"class="c-777 fs-12">设为默认地址</label>
+					
+				</div>
+			</div>
+			<div class="sub-form">
+				<input class="user-sub" type="submit" value="保存并使用"/>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		(function($, doc) {
+			$.init();
+			$.ready(function() {
+				//					//级联示例
+				var cityPicker3 = new $.PopPicker({
+					layer: 3
+				});
+				cityPicker3.setData(cityData3);
+				var showCityPickerButton = doc.getElementById('showCityPicker3');
+				var cityResult3 = doc.getElementById('cityResult3');
+				showCityPickerButton.addEventListener('tap', function(event) {
+					cityPicker3.show(function(items) {
+						cityResult3.value = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+						//返回 false 可以阻止选择框的关闭
+						//return false;
+					});
+				}, false);
+			});
+		})(mui, document);
+	</script>
+</body>
+</html>

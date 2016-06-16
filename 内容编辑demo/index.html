@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" charset="utf-8" src="/editor/ueditor/ueditor.config.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/editor/ueditor/ueditor.all.js"></script>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/htmlparser.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/Template_modification.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../editor/ueditor/themes/default/ueditor.css" />
+		<style>
+			.control {
+				width: 777px;
+				height: 35px;
+				margin: 0 auto;
+			}
+			.control a {
+				display: block;
+				float: left;
+				padding: 5px 10px;
+				margin: 5px;
+				line-height: 15px;
+				font-size: 12px;
+				background: #13c77e;
+				color: #fff;
+				text-decoration: none;
+				transition: .3s all;
+				border-radius: 4px;
+			}
+			.control a:hover {
+				background: #0db26f;
+				box-shadow: 0 0 5px 0px #ccc;
+			}
+			.control a.closeW {
+				margin-left: 0;
+				background: #fe7f17;
+			}
+			.control a.closeW:hover {
+				background: #df6b0b;
+			}
+			.control a.tips {
+				color: #666;
+				background: none;
+				cursor: default;
+			}
+			.control a.tips:hover {
+				color: #333;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="control">
+			<a class="closeW" href="javascript:window.opener=null;window.close();">关闭窗口</a>
+			<a id="editDone" href="javascript:void(0);">编辑完成</a>
+			<a class="tips" href="javascript:void(0);">提示：编辑完成请点击左侧编辑完成按钮，请勿直接关闭页面。</a>
+		</div>
+
+		<script type="text/plain" id="content" name="content" style="max-width:777px;_width:777px;margin: 0 auto;"></script>
+
+		<script type="text/javascript">
+			window.onbeforeunload = function() { 
+			　　return "确定执行此操作？未保存的内容将丢失。"; 
+			}
+			var ue = new UE.ui.Editor();
+			$.ajax({
+				url: "/admini/neirong.html",
+				async: true,
+				type: 'GET',
+				success: function(result) {
+					if (result) {
+						ue.render("content");
+						
+						ue.addListener(
+							'ready', 
+							function() {
+								var editCode = extractTemplateContent(result, function(i) {
+											if (i.data == 'div class="help-body"'){
+												return i;
+											}
+										});
+								ue.setContent(editCode.body);
+								$("#editDone").click(function () {
+									editContent=ue.getContent();
+						 			finalCode=editCode.head+editContent+editCode.tail;
+						 			return finalCode;
+								});
+							});
+					} else {
+						alert("模板文件为空,请刷新页面重试。")
+					}
+				}
+			});
+		</script>
+
+	</body>
+
+</html>
